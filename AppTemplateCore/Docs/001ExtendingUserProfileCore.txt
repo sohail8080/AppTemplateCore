@@ -1,0 +1,10 @@
+﻿Review Middleware & Middle Services in Starup.cs
+Add Areas\Identity\Models\ApplicationUser.cs, Add Profile Data
+Extend DBContext with the ApplicationUser as template
+Call base clss OneModelCreating() in ApplicationDBContext
+Add-Migratin, Update-Database
+Rename IdentityUser ==> ApplicationUser in whole project exception in Migratins
+Rename also inclue View.cshtml files
+AddMarkup in Register.cshtml
+Add properties in InputModel
+Add Profile Data while Register user in OnPost()
