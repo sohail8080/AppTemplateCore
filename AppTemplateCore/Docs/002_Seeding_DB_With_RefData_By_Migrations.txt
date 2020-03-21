@@ -1,0 +1,4 @@
+﻿Areas\Identity\Models\ApplicationRole.cs
+Add ApplicationRoleConfigurations.cs within the Domain Model Class
+Hookup that Class in ApplicationDbContext in OnModel Creating
+Create Migrations, Update Database, Done

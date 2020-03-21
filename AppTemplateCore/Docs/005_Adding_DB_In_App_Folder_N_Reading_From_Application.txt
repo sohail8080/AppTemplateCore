@@ -1,0 +1,29 @@
+﻿Connection String
+"DefaultConnection": "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=%CONTENTROOTPATH%\\App_Data\\AppTemplateCore.mdf;Integrated Security=True;Connect Timeout=30",
+
+Starup.cs file Constructor
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        {
+            Configuration = configuration;
+            _contentRootPath = env.ContentRootPath;
+        }
+
+Starup.cs file in ConfigureSerivce()
+
+            string DefaultConnection = Configuration.GetConnectionString("DefaultConnection");
+            if (DefaultConnection.Contains("%CONTENTROOTPATH%"))
+            {
+                DefaultConnection = DefaultConnection.Replace("%CONTENTROOTPATH%", _contentRootPath);
+            }
+
+            // Add UOW Service to DI Container & Configure its Settings
+            // This Service is now available throughout application Pages/Controllers
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                // Hooking UOW to the SQL Server
+                // Configures UOW to connect to a Microsoft SQL Server database.
+                // Set Connection String of the SQL Server we want to hook
+                options.UseSqlServer(DefaultConnection);
+            });
+

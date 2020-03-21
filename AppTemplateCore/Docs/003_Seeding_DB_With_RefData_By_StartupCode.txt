@@ -1,0 +1,7 @@
+﻿Areas\Movies\Models\Movie.cs
+
+Add MoviesTableSeedData.cs within the Domain Model Class
+
+Hookup that Class in Startup.cs in OnModelCreating()
+
+Run the Application, Done

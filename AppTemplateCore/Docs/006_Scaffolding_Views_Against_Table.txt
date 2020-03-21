@@ -1,0 +1,20 @@
+﻿Domain Models for Movies Bounded Context
+Areas\Movies\Models\
+
+==========================================
+Razor Pages for Movies Bounded Context
+Views, ViewModels, Controllers for Movies Bounded Context
+Areas\Movies\Pages\XXXX.cshtml
+
+Generated Scaffold by clicking the pages folder
+
+Copy Past ViewStart and ViewImport in the Views Folder
+
+Hook Index to the Page Navigation Menu
+
+Pages does not comes in the URL
+https://localhost:44347/movies
+https://localhost:44347/Movies/Create
+https://localhost:44347/Movies/Edit?id=1
+https://localhost:44347/Movies/Details?id=1
+https://localhost:44347/Movies/Delete?id=1
