@@ -1,0 +1,21 @@
+﻿@page
+@model LockoutModel
+@{
+    ViewData["Title"] = "Locked out";
+}
+
+@*
+    WE COME TO THIS VIEW WHEN LOGIN THE SYSTEM USRING 3 OPTIONS
+    1. USERNAME PASSWORD LOGIN
+    2. LOGIN WITH 2FA
+    3. LOING WITH RECOVERY CODES
+
+        AccountLockoutConfirmation.cshtml
+        LockoutConfirmation.cshtml
+
+*@
+
+<header>
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <p class="text-danger">This account has been locked out, please try again later.</p>
+</header>
