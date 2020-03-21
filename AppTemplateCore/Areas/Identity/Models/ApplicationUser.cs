@@ -9,10 +9,14 @@ namespace AppTemplateCore.Areas.Identity.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        [PersonalData]
         [Required]
         [StringLength(15)]
         public string FirstName { get; set; }
 
+        // Personal Data Atrributs are included while 
+        // Profile Data is Downloaded.
+        [PersonalData]
         [Required]
         [StringLength(15)]
         public string LastName { get; set; }

@@ -4,14 +4,16 @@ using AppTemplateCore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AppTemplateCore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200321114023_Add_RoleTable_ReferenceData")]
+    partial class Add_RoleTable_ReferenceData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,34 +80,6 @@ namespace AppTemplateCore.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("AppTemplateCore.Areas.Movies.Models.Movie", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasMaxLength(30);
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<string>("Rating")
-                        .IsRequired()
-                        .HasMaxLength(5);
-
-                    b.Property<DateTime>("ReleaseDate");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(60);
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Movies");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -132,14 +106,14 @@ namespace AppTemplateCore.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "265548f0-6a70-46b4-bd67-6c651d0e1557",
-                            ConcurrencyStamp = "8c874755-120e-41b4-a8db-5c01ec096527",
+                            Id = "4c6e94c2-e03b-4c65-ace7-69b258d4f30a",
+                            ConcurrencyStamp = "2f857335-be5a-4554-bf3a-c8f6d5e96506",
                             Name = "AdminUser"
                         },
                         new
                         {
-                            Id = "82c0b6fe-35c6-450d-976f-12ee961b26a8",
-                            ConcurrencyStamp = "52d577b3-73d1-4f8a-8c5b-ffe66fb9fe16",
+                            Id = "f2c27802-a2ab-49f1-844e-592ed77c9e4b",
+                            ConcurrencyStamp = "9d8879c2-8030-46e2-a31b-ab7efa1781c7",
                             Name = "DeptFooUser"
                         });
                 });

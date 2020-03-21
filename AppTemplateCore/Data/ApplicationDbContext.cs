@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.Movies.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +20,17 @@ namespace AppTemplateCore.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
 
+        public DbSet<Movie> Movies { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new ApplicationRoleConfigurations());
+        }
 
     }
 }

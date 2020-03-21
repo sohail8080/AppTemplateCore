@@ -11,6 +11,8 @@
     <Compile Remove="Data\Migrations\20200321064533_AddDrivingLicenseNPhoneColumnsToUserTable.Designer.cs" />
     <Compile Remove="Data\Migrations\20200321081307_AddDrivingLicNPhoneColumnsToUserTable.cs" />
     <Compile Remove="Data\Migrations\20200321081307_AddDrivingLicNPhoneColumnsToUserTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200321113725_AddMovieTableToDatabase.cs" />
+    <Compile Remove="Data\Migrations\20200321113725_AddMovieTableToDatabase.Designer.cs" />
   </ItemGroup>
 
 
@@ -23,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Movies\Pages\" />
   </ItemGroup>
 
 </Project>
