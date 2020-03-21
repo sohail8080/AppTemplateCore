@@ -28,6 +28,9 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             _emailSender = emailSender;
         }
 
+
+
+
         public string Username { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -47,6 +50,21 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+
+            ////////////////////////////////////////            
+            [Required]
+            [Display(Name = "First Name")]
+            [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            public string LastName { get; set; }
+            ////////////////////////////////////////   
+
+
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -66,7 +84,9 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 Email = email,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = user.FirstName,/////////
+                LastName = user.LastName//////////
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -108,6 +128,12 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
+
+            ///////////////////////////////////////////////
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+            var result = await _userManager.UpdateAsync(user);
+            //////////////////////////////////////////////////
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
