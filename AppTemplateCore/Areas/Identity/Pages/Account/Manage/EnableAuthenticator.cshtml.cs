@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 
 namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
 {

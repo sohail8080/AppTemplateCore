@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppTemplateCore.Areas.Identity.Models
+namespace AppTemplateCore.Areas.AccessControl.Models
 {
     public class ApplicationUser : IdentityUser
     {

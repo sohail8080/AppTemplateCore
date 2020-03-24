@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

@@ -12,9 +12,9 @@ namespace AppTemplateCore.Areas.Movies.Pages
 {
     public class DeleteModel : PageModel
     {
-        private readonly AppTemplateCore.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DeleteModel(AppTemplateCore.Data.ApplicationDbContext context)
+        public DeleteModel(ApplicationDbContext context)
         {
             _context = context;
         }

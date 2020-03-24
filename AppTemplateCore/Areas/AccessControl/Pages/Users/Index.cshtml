@@ -1,0 +1,108 @@
+﻿@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Users List";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    @*Show Page by calling OnGet() both page at same level *@
+    <a asp-page="Create">Add User</a>
+</p>
+
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersWithRoles[0].UserName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UsersWithRoles)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @*Show Page by calling OnGet() both page at same level *@
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<table id="roles" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Users</th>
+            <th>Details</th>
+            <th>Roles</th>
+            <th>Edit</th>
+            <th>Edit2</th>
+            <th>Delete by Get</th>
+            <th>Delete by Post</th>
+            <th>2 Step Delete</th>
+            <th>Add Roles</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var user in Model.UsersWithRoles)
+        {
+            <tr>
+                <td>  @user.UserName</td>
+                <td> @Html.ActionLink("Details", "Details", "Users", routeValues: new { id = user.Id }, htmlAttributes: new { id = "userDetailsLink", @class = "btn btn-primary" }) </td>
+                <td>
+                    @if (user.RolesList != null && user.RolesList.Count >= 1)
+                    {
+                        //var userRoleIds = user.Roles;
+                        string rolelist = string.Empty;
+                        foreach (var role in user.RolesList)
+                        {
+                            //var role = new ApplicationDbContext().Roles.FirstOrDefault(r => r.Id == userRoleId.RoleId);
+                            rolelist = rolelist + role + ", ";
+                        }
+
+                        @Html.ActionLink(rolelist, "Details", "Users", routeValues: new { area = "AccessControl", id = user.Id }, htmlAttributes: new { id = "userDetailsLink" })
+                    }
+                </td>
+
+                <td>@Html.ActionLink("Edit", "Edit", "Users", routeValues: new { area = "AccessControl", id = user.Id }, htmlAttributes: new { id = "userEditLink", @class = "btn btn-primary" })</td>
+                <td>@Html.ActionLink("Edit2", "Edit2", "Users", routeValues: new { area = "AccessControl", id = user.Id }, htmlAttributes: new { id = "userEditLink", @class = "btn btn-primary" })</td>
+                <td>@Html.ActionLink("Delete", "Delete", "Users", routeValues: new { area = "AccessControl", id = user.Id }, htmlAttributes: new { id = "userDeleteLink", @class = "btn btn-danger" })</td>
+                <td>
+                    <form method="post">
+
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+
+                        <span id="confirmDeleteSpan_@user.Id" style="display:none">
+                            <span>Are you sure you want to delete?</span>
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                            <a href="#" class="btn btn-primary" onclick="confirmDelete('@user.Id', false)">No</a>
+                        </span>
+
+                        <span id="deleteSpan_@user.Id">
+                            <a href="#" class="btn btn-danger" onclick="confirmDelete('@user.Id', true)">Delete</a>
+                        </span>
+                    </form>
+                </td>
+                <td>@Html.ActionLink("Delete", "Delete2", "Users", routeValues: new { id = user.Id }, htmlAttributes: new { id = "userDeleteLink", @class = "btn btn-danger" })</td>
+                <td>@Html.ActionLink("Add Roles", "List", "UsersRoles", routeValues: new { userid = user.Id }, htmlAttributes: new { id = "userDeleteLink", @class = "btn btn-primary" })</td>
+
+            </tr>
+
+        }
+
+    </tbody>
+</table>

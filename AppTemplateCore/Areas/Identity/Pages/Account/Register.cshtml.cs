@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -36,10 +36,15 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             _emailSender = emailSender;
         }
 
+        // FormData or PostBack Data 
         [BindProperty]
         public InputModel Input { get; set; }
 
         // Used in the Post Operation
+        // OnGet() will preserve it Action paramter inside this varaible
+        // Form will hold this in Form Tage as Route Parameter
+        // OnPost() will again get this as ActionParameter.
+        // This is not FormData, but it is RouteData stored in Local Variable
         public string ReturnUrl { get; set; }
 
         // This Model need to be Validated on POST
@@ -88,6 +93,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
         //
         public void OnGet(string returnUrl = null)
         {
+            // Perserved RouteData as it is needed in OnPost()
             ReturnUrl = returnUrl;
         }
 

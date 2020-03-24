@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -26,12 +26,16 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             _logger = logger;
         }
 
+        // All Bindable properties are grouped under on Property
         [BindProperty]
         public InputModel Input { get; set; }
 
+        // This public property is needed in View but not bindable
+        // When from is posted.
         [TempData]
         public string StatusMessage { get; set; }
 
+        // Group all Bindable Properties under one class
         public class InputModel
         {
             [Required]
@@ -98,9 +102,12 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
+
+            // DB state change, log this change.
             _logger.LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
 
+            // Redirects to the current page with Status 302 Found
             return RedirectToPage();
         }
     }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 
 namespace AppTemplateCore.Areas.Identity.Pages.Account
 {
@@ -28,13 +28,17 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        // Non-Post Back info needed on page
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
+        // Non-Post Back info needed on page
         public string ReturnUrl { get; set; }
 
+        // Non-Post Back info needed on page
         [TempData]
         public string ErrorMessage { get; set; }
 
+        // Post Back info needed on page
         public class InputModel
         {
             [Required]
@@ -59,14 +63,14 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
 
             // If returnURL is null, set it to root.
             // After success full login redirect to that return url
-            // View Model holt that Prperty.
+            // View Model hold that Prperty.
             returnUrl = returnUrl ?? Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            //     Gets a collection of AuthenticationSchemes
-            //     for the known external login providers.
+            // Gets a collection of AuthenticationSchemes
+            // for the known external login providers.
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;

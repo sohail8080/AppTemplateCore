@@ -12,9 +12,9 @@ namespace AppTemplateCore.Areas.Movies.Pages
 {
     public class DetailsModel : PageModel
     {
-        private readonly AppTemplateCore.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DetailsModel(AppTemplateCore.Data.ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context)
         {
             _context = context;
         }

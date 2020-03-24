@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppTemplateCore.Areas.Identity.Models
+namespace AppTemplateCore.Areas.AccessControl.Models
 {
+    [Table("AspNetRoles")]
     public class ApplicationRole : IdentityRole
     {
 
@@ -21,17 +23,17 @@ namespace AppTemplateCore.Areas.Identity.Models
     // This Class is hooked to OnModelCreating() of the UOW, and this 
     // method is executed when Migrations are run. This method is not 
     // executed when Application is run.
-    public class ApplicationRoleConfigurations : IEntityTypeConfiguration<IdentityRole>
+    public class ApplicationRoleConfigurations : IEntityTypeConfiguration<ApplicationRole>
     {
-        public void Configure(EntityTypeBuilder<IdentityRole> builder)
+        public void Configure(EntityTypeBuilder<ApplicationRole> builder)
         {
 
             builder.HasData(
-                new IdentityRole
+                new ApplicationRole
                 {                    
                     Name = "AdminUser",                    
                 },
-                new IdentityRole
+                new ApplicationRole
                 {
                     Name = "DeptFooUser",
                 }

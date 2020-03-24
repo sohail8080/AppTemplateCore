@@ -13,9 +13,9 @@ namespace AppTemplateCore.Areas.Movies.Pages
 {
     public class EditModel : PageModel
     {
-        private readonly AppTemplateCore.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public EditModel(AppTemplateCore.Data.ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context)
         {
             _context = context;
         }

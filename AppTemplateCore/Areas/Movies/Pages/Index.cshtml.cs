@@ -12,9 +12,9 @@ namespace AppTemplateCore.Areas.Movies.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly AppTemplateCore.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(AppTemplateCore.Data.ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context)
         {
             _context = context;
         }

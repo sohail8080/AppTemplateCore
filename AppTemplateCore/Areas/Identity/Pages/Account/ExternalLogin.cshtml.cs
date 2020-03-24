@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,13 +33,19 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        // Info needed on UI Rendering
+        // This info is lost when page is post back
+        // If you need this back, after failed OnPost()
+        // you need to refill it in the OnPost()
         public string LoginProvider { get; set; }
 
+        // Info Needed in Razor Page
         public string ReturnUrl { get; set; }
 
         [TempData]
         public string ErrorMessage { get; set; }
 
+        // One Property Class
         public class InputModel
         {
             [Required]
@@ -47,10 +53,13 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             public string Email { get; set; }
         }
 
+
         public IActionResult OnGetAsync()
         {
+            // Like Calling another page OnGet()
             return RedirectToPage("./Login");
         }
+
 
         public IActionResult OnPost(string provider, string returnUrl = null)
         {
@@ -60,28 +69,34 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             return new ChallengeResult(provider, properties);
         }
 
+
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             if (remoteError != null)
             {
+                // Where this ErrorMessage will be shown, as we re redirecting
                 ErrorMessage = $"Error from external provider: {remoteError}";
                 return RedirectToPage("./Login", new {ReturnUrl = returnUrl });
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
+                // Where this ErrorMessage will be shown, as we are redirecting
                 ErrorMessage = "Error loading external login information.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
+
+
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
+
             if (result.IsLockedOut)
             {
                 return RedirectToPage("./Lockout");
@@ -133,8 +148,14 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
                 }
             }
 
+            // filling the non post back variable as we are showing the same page again
+            // Page(); is called when we want to show the same page with users
+            // previously filled PostBack data.
+            // Redirect() is called when we want to show the Current page fresh
+            // No Post back data
             LoginProvider = info.LoginProvider;
             ReturnUrl = returnUrl;
+
             return Page();
         }
     }

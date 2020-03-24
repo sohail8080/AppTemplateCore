@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,14 +23,23 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
+        // Info to show on the page, not the part of Page Post Back Data
+        // Not the part of Control Rendering
+        // Not the part of Auto Model Binding
         public IList<UserLoginInfo> CurrentLogins { get; set; }
 
+        // Info to show on the page, not the part of Page Post Back Data
+        // Not the part of Control Rendering
+        // Not the part of Auto Model Binding
         public IList<AuthenticationScheme> OtherLogins { get; set; }
 
+        // Condtional Rendering of UI Flag
         public bool ShowRemoveButton { get; set; }
 
+        // Show info in page
         [TempData]
         public string StatusMessage { get; set; }
+
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -47,6 +56,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             ShowRemoveButton = user.PasswordHash != null || CurrentLogins.Count > 1;
             return Page();
         }
+
 
         public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey)
         {

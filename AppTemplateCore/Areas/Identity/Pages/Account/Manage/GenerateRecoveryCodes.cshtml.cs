@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -82,7 +82,10 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
             RecoveryCodes = recoveryCodes.ToArray();
 
+            // Log important User Actions or DB State Changing Operations
             _logger.LogInformation("User with ID '{UserId}' has generated new 2FA recovery codes.", userId);
+
+            // Set the status message to show on the Page
             StatusMessage = "You have generated new recovery codes.";
 
             // Page ShowRecoveryCodes does not exist, create it yourself

@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using AppTemplateCore.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 
 namespace AppTemplateCore
 {
@@ -67,7 +67,7 @@ namespace AppTemplateCore
 
 
             // Add Services & Configure their Settings needed by Identity Middleware
-            services.AddDefaultIdentity<ApplicationUser>(options =>
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;

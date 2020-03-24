@@ -25,6 +25,11 @@
 
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\foo\Controllers\" />
+    <Folder Include="Areas\foo\Data\" />
+    <Folder Include="Areas\foo\Models\" />
+    <Folder Include="Areas\foo\Views\" />
+    <Folder Include="Areas\Identity\Models\" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +27,11 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        // Property coming from previous page, preserved in variable
+        // neeeded during post back, OnPost() capturing it as Action Parameter
         public bool RememberMe { get; set; }
 
+        // neeeded during post back, OnPost() capturing it as Action Parameter
         public string ReturnUrl { get; set; }
 
         public class InputModel

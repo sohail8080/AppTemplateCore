@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,8 +29,12 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
 
         // Middle Variable that HOLD value when the form is rendered in GET operation
         // this Value is neeeded during th Post Operation when form is submitted.
+        // Preserring Action parameter in variable, needed during post back
+        // neeeded during post back, OnPost() capturing it as Action Parameter
         public string ReturnUrl { get; set; }
 
+        // Only info related to Controls that is posted back is 
+        // caputured in input model
         public class InputModel
         {
             [BindProperty]

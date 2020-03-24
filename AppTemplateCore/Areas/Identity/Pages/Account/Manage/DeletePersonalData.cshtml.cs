@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -35,9 +35,11 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             public string Password { get; set; }
         }
 
+        // Variable for Conditional Rendering of Page
+        // Not related to UI Controls or Model posted back for Post()
         public bool RequirePassword { get; set; }
 
-        // Show this screen that user want to delete his account with the site
+        // Show blank screen that either user want to delete his account with the site
         public async Task<IActionResult> OnGet()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -91,7 +93,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
                 throw new InvalidOperationException($"Unexpected error occurred deleteing user with ID '{userId}'.");
             }
 
-            //     Signs the current user out of the application.
+            // Signs the current user out of the application.
             await _signInManager.SignOutAsync();
 
             _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);

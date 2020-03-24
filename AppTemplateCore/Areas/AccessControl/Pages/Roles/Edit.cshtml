@@ -1,0 +1,73 @@
+﻿@page
+@model EditModel
+
+@{
+    ViewData["Title"] = "Edit Role";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <form method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="Input.Id" />
+
+            <div class="form-group">
+                <label asp-for="Input.Name" class="control-label"></label>
+                <input asp-for="Input.Name" class="form-control" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+
+            @if (Model.Input.UserList.Count <= 0)
+            {
+                <hr />
+                <p>No Users found in this Role.</p>
+                <hr />
+            }
+            else
+            {
+                <table class="table table-bordered table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Users in Role</th>
+                        </tr>
+                    </thead>
+
+                    @foreach (var item in Model.Input.UserList)
+                    {
+                        <tr>
+                            <td>
+                                @item.UserName
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+
+
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" /> |
+                <a asp-page="./Index">Back to List</a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

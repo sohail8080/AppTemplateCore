@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTemplateCore", "AppTemplateCore\AppTemplateCore.csproj", "{0E53D01C-4A85-4B28-AE44-01305E659216}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTemplateCore", "AppTemplateCore\AppTemplateCore.csproj", "{0E53D01C-4A85-4B28-AE44-01305E659216}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

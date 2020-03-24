@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AppTemplateCore.Areas.Identity.Models;
+using AppTemplateCore.Areas.AccessControl.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -28,17 +28,23 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             _logger = logger;
         }
 
+        // UI Conditional Rendering Flag
         public bool HasAuthenticator { get; set; }
 
+        // Info to show in Page
         public int RecoveryCodesLeft { get; set; }
 
+        // Only one Property needed when page Post Back
         [BindProperty]
         public bool Is2faEnabled { get; set; }
 
+        // UI conditional Rendering Flag
         public bool IsMachineRemembered { get; set; }
 
+        // Temp Data
         [TempData]
         public string StatusMessage { get; set; }
+
 
         public async Task<IActionResult> OnGet()
         {
@@ -69,6 +75,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
+
         // User's browser will forget about the Users 2FA Code
         // Next time he will be prompted for 2FA Code.
         public async Task<IActionResult> OnPost()
@@ -82,6 +89,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             //     Clears the "Remember this browser flag" from the current browser
             await _signInManager.ForgetTwoFactorClientAsync();
             StatusMessage = "The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code.";
+
+            // Same page redirect, it is like calling OnGet()
             return RedirectToPage();
         }
     }

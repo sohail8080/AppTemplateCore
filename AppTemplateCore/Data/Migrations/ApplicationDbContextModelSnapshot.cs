@@ -19,6 +19,44 @@ namespace AppTemplateCore.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("AppTemplateCore.Areas.Identity.Models.ApplicationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c3e489df-35a4-44bc-9591-978a219eb947",
+                            ConcurrencyStamp = "bb153a6a-ed34-4eec-8960-c64f96b672de",
+                            Name = "AdminUser"
+                        },
+                        new
+                        {
+                            Id = "5347cc3b-44bf-4ecb-84f4-1be9fbc8949f",
+                            ConcurrencyStamp = "20d97b72-a764-4ea5-8717-db11a60a929b",
+                            Name = "DeptFooUser"
+                        });
+                });
+
             modelBuilder.Entity("AppTemplateCore.Areas.Identity.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -104,44 +142,6 @@ namespace AppTemplateCore.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Movies");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "265548f0-6a70-46b4-bd67-6c651d0e1557",
-                            ConcurrencyStamp = "8c874755-120e-41b4-a8db-5c01ec096527",
-                            Name = "AdminUser"
-                        },
-                        new
-                        {
-                            Id = "82c0b6fe-35c6-450d-976f-12ee961b26a8",
-                            ConcurrencyStamp = "52d577b3-73d1-4f8a-8c5b-ffe66fb9fe16",
-                            Name = "DeptFooUser"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -236,7 +236,7 @@ namespace AppTemplateCore.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("AppTemplateCore.Areas.Identity.Models.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -260,7 +260,7 @@ namespace AppTemplateCore.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("AppTemplateCore.Areas.Identity.Models.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);

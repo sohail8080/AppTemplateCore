@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AppTemplateCore.Areas.Identity.Pages.Account
 {
+    // static page
     public class AccessDeniedModel : PageModel
     {
         public void OnGet()
