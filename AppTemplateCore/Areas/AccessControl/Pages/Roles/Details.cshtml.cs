@@ -37,24 +37,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         }
 
 
-        [BindProperty]
         public InputModel Input { get; set; }
 
 
-        public class InputModel
+        public class InputModel : ApplicationRole
         {
-            public string Id { get; set; }
-
-            [Required(AllowEmptyStrings = false)]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-            [Display(Name = "Role Name")]
-            public string Name { get; set; }
-
             // Get the list of Users in this Role
-            public List<ApplicationUser> UserList { get; set; }
-
-
-
+            public IList<ApplicationUser> SelectedUserList { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync(string id)
@@ -74,14 +63,14 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
                 Name = role.Name
             };
 
-            Input.UserList = new List<ApplicationUser>();
+            Input.SelectedUserList = new List<ApplicationUser>();
 
             // Get the list of Users in this Role
             foreach (var user in UserManager.Users.ToList())
             {
                 if (await UserManager.IsInRoleAsync(user, role.Name))
                 {
-                    Input.UserList.Add(user);
+                    Input.SelectedUserList.Add(user);
                 }
             }
 

@@ -51,6 +51,34 @@
 
     </dl>
 </div>
+
+
+@if (Model.Input.RolesList.Count() == 0)
+{
+    <hr />
+    <p>No roles found for this user.</p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+
+        <thead>
+            <tr>
+                <th>Roles of User</th>
+            </tr>
+        </thead>
+
+        @foreach (var role in Model.Input.RolesList)
+        {
+            <tr>
+                <td>
+                    @role
+                </td>
+            </tr>
+        }
+    </table>
+}
+
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Input.Id">Edit</a> |
     <a asp-page="./Index">Back to List</a>

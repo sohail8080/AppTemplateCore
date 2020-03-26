@@ -9,40 +9,21 @@
 
 <p>
     @*Show Page by calling OnGet() both page at same level *@
-    <a asp-page="Create">Add User</a>
+    <a asp-page="Create" class="btn btn-primary">Add User</a>
+    <a asp-page="Create2" class="btn btn-primary">Add User</a>
 </p>
 
-
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UsersWithRoles[0].UserName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.UsersWithRoles)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @*Show Page by calling OnGet() both page at same level *@
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@{
+    if (Model.Input.Count() <= 0)
+    {
+        <p>No User Found</p>
+        return;
+    }
+}
 
 
 
-<table id="roles" class="table table-bordered table-hover">
+<table id="users" class="table table-bordered table-hover">
     <thead>
         <tr>
             <th>Users</th>
@@ -52,18 +33,29 @@
             <th>Edit2</th>
             <th>Delete by Get</th>
             <th>Delete by Post</th>
+            <th>Delete by Post</th>
             <th>2 Step Delete</th>
             <th>Add Roles</th>
         </tr>
     </thead>
     <tbody>
 
-        @foreach (var user in Model.UsersWithRoles)
+        @foreach (var user in Model.Input)
         {
             <tr>
-                <td>  @user.UserName</td>
-                <td> @Html.ActionLink("Details", "Details", "Users", routeValues: new { id = user.Id }, htmlAttributes: new { id = "userDetailsLink", @class = "btn btn-primary" }) </td>
+
                 <td>
+                    @*UserName lable*@
+                    <a asp-page="./Details" asp-route-id="@user.Id">@user.UserName</a>
+                </td>
+
+                <td>
+                    @*Details Lable*@
+                    <a asp-page="./Details" asp-route-id="@user.Id" class="btn btn-primary">Details</a>
+                </td>
+
+                <td>
+                    @*Roles List*@
                     @if (user.RolesList != null && user.RolesList.Count >= 1)
                     {
                         //var userRoleIds = user.Roles;
@@ -74,30 +66,70 @@
                             rolelist = rolelist + role + ", ";
                         }
 
-                        @Html.ActionLink(rolelist, "Details", "Users", routeValues: new { area = "AccessControl", id = user.Id }, htmlAttributes: new { id = "userDetailsLink" })
+                        @rolelist
+
+                    }
+                    else
+                    {
+                        <p>No role assigned</p>
                     }
                 </td>
 
-                <td>@Html.ActionLink("Edit", "Edit", "Users", routeValues: new { area = "AccessControl", id = user.Id }, htmlAttributes: new { id = "userEditLink", @class = "btn btn-primary" })</td>
-                <td>@Html.ActionLink("Edit2", "Edit2", "Users", routeValues: new { area = "AccessControl", id = user.Id }, htmlAttributes: new { id = "userEditLink", @class = "btn btn-primary" })</td>
-                <td>@Html.ActionLink("Delete", "Delete", "Users", routeValues: new { area = "AccessControl", id = user.Id }, htmlAttributes: new { id = "userDeleteLink", @class = "btn btn-danger" })</td>
                 <td>
-                    <form method="post">
+                    @*Edit with list of strings for roles*@
+                    <a asp-page="./Edit" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
+                </td>
+
+                <td>
+                    @*Edit with list of objects for roles*@
+                    <a asp-page="./Edit2" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
+                </td>
+
+                <td>
+                    @*Delete with get operation*@
+                    <a asp-page-handler="Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
+                </td>
+
+
+                <td>
+                    @*Delete with post operation, inline confirmation  *@
+                    <form method="post" asp-route-id="@user.Id">
 
                         <input type="submit" value="Delete" class="btn btn-danger" />
 
+                    </form>
+                </td>
+
+
+                <td>
+                    @*Two step delete with Dialog Box*@
+                    <form method="post" asp-route-id="@user.Id">
+
                         <span id="confirmDeleteSpan_@user.Id" style="display:none">
+
                             <span>Are you sure you want to delete?</span>
+
                             <button type="submit" class="btn btn-danger">Yes</button>
+
                             <a href="#" class="btn btn-primary" onclick="confirmDelete('@user.Id', false)">No</a>
+
                         </span>
 
                         <span id="deleteSpan_@user.Id">
-                            <a href="#" class="btn btn-danger" onclick="confirmDelete('@user.Id', true)">Delete</a>
+                            <a href="#" class="btn btn-danger"
+                               onclick="confirmDelete('@user.Id', true)">Delete</a>
                         </span>
+
                     </form>
                 </td>
-                <td>@Html.ActionLink("Delete", "Delete2", "Users", routeValues: new { id = user.Id }, htmlAttributes: new { id = "userDeleteLink", @class = "btn btn-danger" })</td>
+
+
+                <td>
+                    @*Two step with seperate Delete Page*@
+                    <a asp-page="./Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
+                </td>
+
+
                 <td>@Html.ActionLink("Add Roles", "List", "UsersRoles", routeValues: new { userid = user.Id }, htmlAttributes: new { id = "userDeleteLink", @class = "btn btn-primary" })</td>
 
             </tr>
@@ -106,3 +138,7 @@
 
     </tbody>
 </table>
+
+@section Scripts {
+    <script src="~/js/ConfirmDelete.js"></script>
+}

@@ -47,7 +47,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         [BindProperty]
         public InputModel Input { get; set; }
 
-
+        // Fit to purpose ViewModel should be used in case of Add/Edit
         public class InputModel
         {
             [Required(AllowEmptyStrings = false)]
@@ -60,6 +60,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
             // Get the list of Users in this Role
             public List<ApplicationUser> UserList { get; set; }
+            public List<ApplicationUser> SelectedUserList { get; set; }
 
         }
 
@@ -85,6 +86,18 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
 
             Input.UserList = UserManager.Users.ToList();
+            Input.SelectedUserList = new List<ApplicationUser>();
+
+            // Get the list of Users in this Role
+            foreach (var user in UserManager.Users.ToList())
+            {
+                if (await UserManager.IsInRoleAsync(user, role.Name))
+                {
+                    Input.SelectedUserList.Add(user);
+                }
+            }
+
+
 
             // Get the list of Users in this Role
             //foreach (var user in UserManager.Users.ToList())

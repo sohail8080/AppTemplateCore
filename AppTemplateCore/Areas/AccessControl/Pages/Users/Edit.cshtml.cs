@@ -38,14 +38,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             Logger = logger;
         }
 
-        // Render the UI but not invovled in Post() 
-        // We only want to show this field on form
-        // But we do not want to Post Back this field
-        // We do not want to get this field in OnPost()
-        // We do not want Model Binding to happen on this
-        [Display(Name = "User Name")]
-        public string Username { get; set; }
-
 
         // View Model Properties available in View
         // OnGet() we fill this property and show Page();
@@ -58,6 +50,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         [BindProperty]
         public InputModel Input { get; set; }
 
+        // Render the UI but not invovled in Post() 
+        // We only want to show this field on form
+        // But we do not want to Post Back this field
+        // We do not want to get this field in OnPost()
+        // We do not want Model Binding to happen on this
+        [Display(Name = "User Name")]
+        public string Username { get; set; }
 
         // This Model need to be Validated on POST
         // This Model is used to Render the View on GET

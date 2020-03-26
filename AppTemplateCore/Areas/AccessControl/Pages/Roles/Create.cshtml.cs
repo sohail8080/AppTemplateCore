@@ -46,19 +46,30 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         [BindProperty]
         public InputModel Input { get; set; }
 
+        // Fit to purpose ViewModel should be used in case of Add/Edit
         public class InputModel
         {
             [Required(AllowEmptyStrings = false)]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
             [Display(Name = "Role Name")]
             public string Name { get; set; }
+
+            // Get the list of Users in this Role
+            public List<ApplicationUser> UserList { get; set; }
+            public List<ApplicationUser> SelectedUserList { get; set; }
+
+
         }
 
 
         // Just show the blank page
         // ViewModel Properties are used to render View
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
+            Input = new InputModel();
+            Input.UserList = UserManager.Users.ToList();
+            Input.SelectedUserList = new List<ApplicationUser>();
+
             return Page();
         }
 

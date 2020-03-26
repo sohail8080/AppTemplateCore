@@ -41,10 +41,10 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         // Domain Model Classes are OK for Display purpose if they are fit to scena
         //public IList<ApplicationUser> ApplicationUser { get; set; }
 
-        public IList<UserWithRoles> UsersWithRoles { get; set; }
+        public IList<InputModel> Input { get; set; }
 
 
-        public class UserWithRoles : ApplicationUser
+        public class InputModel : ApplicationUser
         {
             // Get the list of Users in this Role
             public IList<string> RolesList { get; set; }
@@ -59,11 +59,11 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             var users = await UserManager.Users.ToListAsync();
 
-            UsersWithRoles = new List<UserWithRoles>();
+            Input = new List<InputModel>();
 
             foreach (var user in users)
             {
-                var userWithRoles = new UserWithRoles();
+                var userWithRoles = new InputModel();
                 userWithRoles.Id = user.Id;
                 userWithRoles.UserName = user.UserName;
                 userWithRoles.Email = user.Email;
@@ -74,11 +74,74 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 userWithRoles.RolesList = await UserManager.GetRolesAsync(user);
 
-                UsersWithRoles.Add(userWithRoles);
+                Input.Add(userWithRoles);
             }
 
 
         }
+
+
+        public async Task<IActionResult> OnPostAsync(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            { return NotFound(); }
+
+            var user = await UserManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+                //ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";                
+            }
+
+            IdentityResult result = await UserManager.DeleteAsync(user);
+
+            if (!result.Succeeded)
+            {
+                //ViewBag.Message = "Error occurred while deleting Record(s)";
+                foreach (var error in result.Errors)
+                { ModelState.AddModelError("", error.Description); }
+                return Page();
+            }
+
+            //ViewBag.Message = "Record(s) deleted successfully.";
+            Logger.LogInformation($"Role {user.UserName} is deleted successfully.");
+
+            return RedirectToPage("./Index");
+
+        }
+
+
+        public async Task<IActionResult> OnGetDeleteAsync(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            { return NotFound(); }
+
+            var user = await UserManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+                //ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";                
+            }
+
+            IdentityResult result = await UserManager.DeleteAsync(user);
+
+            if (!result.Succeeded)
+            {
+                //ViewBag.Message = "Error occurred while deleting Record(s)";
+                foreach (var error in result.Errors)
+                { ModelState.AddModelError("", error.Description); }
+                return Page();
+            }
+
+            //ViewBag.Message = "Record(s) deleted successfully.";
+            Logger.LogInformation($"Role {user.UserName} is deleted successfully.");
+
+            return RedirectToPage("./Index");
+
+        }
+
 
 
     }

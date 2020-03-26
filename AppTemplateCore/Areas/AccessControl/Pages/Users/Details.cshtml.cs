@@ -36,61 +36,44 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             Logger = logger;
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
-
 
         // This Model need to be Validated on POST
         // This Model is used to Render the View on GET
-        public class InputModel
+        public InputModel Input { get; set; }
+
+
+        public class InputModel : ApplicationUser
         {
-            [Required]
-            public string Id { get; set; }
-
-            [Required]
-            [Display(Name = "First Name")]
-            [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            public string FirstName { get; set; }
-
-            [Required]
-            [Display(Name = "Last Name")]
-            [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            public string LastName { get; set; }
-
-
-            [Display(Name = "User Name")]
-            public string UserName { get; set; }
-
-
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
-
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
-            public string Password { get; set; }
-
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
-
+            // Get the list of Users in this Role
+            public IList<string> RolesList { get; set; }
         }
+
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
             { return NotFound(); }
 
-            var user = await Context.Users.FirstOrDefaultAsync(m => m.Id == id);
+            var user = await UserManager.FindByIdAsync(id);
 
             if (user == null)
             { return NotFound();}
 
+            Input = new InputModel()
+            {
+                Id = user.Id,
+                UserName = user.UserName
+            };
+
+            Input.RolesList = await UserManager.GetRolesAsync(user);
+
             return Page();
         }
+
+
+
+
+
+
     }
 }

@@ -51,7 +51,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             public string Name { get; set; }
 
             // Get the list of Users in this Role
-            public List<ApplicationUser> UserList { get; set; }
+            public List<ApplicationUser> SelectedUserList { get; set; }
         }
 
 
@@ -74,14 +74,14 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             };
 
 
-            Input.UserList = new List<ApplicationUser>();
+            Input.SelectedUserList = new List<ApplicationUser>();
 
             // Get the list of Users in this Role
             foreach (var user in UserManager.Users.ToList())
             {
                 if (await UserManager.IsInRoleAsync(user, role.Name))
                 {
-                    Input.UserList.Add(user);
+                    Input.SelectedUserList.Add(user);
                 }
             }
 

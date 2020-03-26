@@ -25,34 +25,44 @@
     </dl>
 </div>
 
-@if (Model.Input.UserList.Count <= 0)
+
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Input.Id" class="btn btn-primary">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+
+<hr />
+<a asp-page="" class="btn btn-primary">Add Users</a>
+
+
+@if (Model.Input.SelectedUserList.Count <= 0)
 {
     <hr />
     <p>No Users found in this Role.</p>
+    <hr />
 }
 else
 {
-<table class="table table-bordered table-hover">
+    //ToDo:  List of Users with Add Remove in the row
+    <table class="table table-bordered table-hover">
 
-    <thead>
-        <tr>
-            <th>Users in Role</th>
-        </tr>
-    </thead>
+        <thead>
+            <tr>
+                <th>Users in Role</th>
+            </tr>
+        </thead>
 
-    @foreach (var item in Model.Input.UserList)
-    {
-        <tr>
-            <td>
-                @item.UserName
-            </td>
-        </tr>
-    }
-</table>
+        @foreach (var item in Model.Input.SelectedUserList)
+        {
+            <tr>
+                <td>
+                    @item.UserName
+                </td>
+            </tr>
+        }
+    </table>
 }
 
 
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Input.Id" class="btn btn-primary"  >Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+
