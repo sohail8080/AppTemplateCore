@@ -1,5 +1,5 @@
 ﻿@page
-@model EditModel
+@model EditModel3
 
 @{
     ViewData["Title"] = "Edit User";
@@ -58,7 +58,7 @@
 
             <div class="form-group">
                 <label> Select User Roles</label>
-                @if (Model.Input.AllRolesList.Count<UserRole>() > 0)
+                @if (Model.Input.AllRolesList.Count<SelectListItem>() > 0)
                 {
                     for (int i = 0; i < Model.Input.AllRolesList.Count; i++)
                     {
@@ -67,13 +67,13 @@
                     @Html.CheckBoxFor(m => m.Input.AllRolesList[i].IsSelected, new { @class = "form-check-input" })
                     <label>  @Model.Input.AllRolesList[i].RoleName </label>*@
 
-                        <input hidden asp-for="@Model.Input.AllRolesList[i].RoleId" />
-                        <input hidden asp-for="@Model.Input.AllRolesList[i].RoleName" />
+                        <input hidden asp-for="@Model.Input.AllRolesList[i].Value" />
+                        <input hidden asp-for="@Model.Input.AllRolesList[i].Text" />
 
                         <span class="checkbox">
                             <label>
-                                <input asp-for="@Model.Input.AllRolesList[i].IsSelected" />
-                                @Model.Input.AllRolesList[i].RoleName
+                                <input asp-for="@Model.Input.AllRolesList[i].Selected" />
+                                @Model.Input.AllRolesList[i].Text
                             </label>
                         </span>
 
@@ -89,7 +89,7 @@
             <div class="form-group">
                 <label> Select User Claims</label>
                 @*@if (Model.AllClaimsList.Count() > 0)*@
-                @if (Model.Input.AllClaimsList.Count<UserClaim>() > 0)
+                @if (Model.Input.AllClaimsList.Count<SelectListItem>() > 0)
                 {
                     for (int i = 0; i < Model.Input.AllClaimsList.Count; i++)
                     {
@@ -98,13 +98,13 @@
                     @Html.CheckBoxFor(m => m.Input.AllClaimsList[i].IsSelected, new { @class = "form-check-input" })
                     <label>  @Model.Input.AllClaimsList[i].ClaimType </label>*@
 
-                        <input hidden asp-for="@Model.Input.AllClaimsList[i].ClaimType" />
-                        <input hidden asp-for="@Model.Input.AllClaimsList[i].ClaimValue" />
+                        <input hidden asp-for="@Model.Input.AllClaimsList[i].Text" />
+                        <input hidden asp-for="@Model.Input.AllClaimsList[i].Value" />
 
                         <span class="checkbox">
                             <label>
-                                <input asp-for="@Model.Input.AllClaimsList[i].IsSelected" />
-                                @Model.Input.AllClaimsList[i].ClaimType
+                                <input asp-for="@Model.Input.AllClaimsList[i].Selected" />
+                                @Model.Input.AllClaimsList[i].Text
                             </label>
                         </span>
 

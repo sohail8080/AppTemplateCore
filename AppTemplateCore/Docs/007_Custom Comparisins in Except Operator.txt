@@ -1,0 +1,25 @@
+﻿string[] fruits = { "apple", "banana", "cherry", "strawberry" };
+string[] fruitsWithLongNames = { "strawberry" };
+
+var stringLengthComparer = new StringLengthEqualityComparer();
+IEnumerable<string> fruitsWithShortNames = fruits
+    .Except(fruitsWithLongNames, stringLengthComparer);
+
+Console.WriteLine("Using our custom equality comparer:");
+foreach (string fruit in fruitsWithShortNames)
+{
+    Console.WriteLine(" - {0}", fruit);
+}
+
+class StringLengthEqualityComparer : IEqualityComparer<string>
+{
+    public bool Equals(string x, string y)
+    {
+        return x.Length == y.Length;
+    }
+
+    public int GetHashCode(string obj)
+    {
+        return obj.Length;
+    }
+}

@@ -50,8 +50,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         {
             if (string.IsNullOrEmpty(id))
             { return NotFound(); }
-
-            //var role = await Context.Roles.FirstOrDefaultAsync(m => m.Id == id);
+            
             var role = await RoleManager.FindByIdAsync(id);
 
             if (role == null)

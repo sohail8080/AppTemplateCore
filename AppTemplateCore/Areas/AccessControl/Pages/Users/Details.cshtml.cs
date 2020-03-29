@@ -62,7 +62,10 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             Input = new InputModel()
             {
                 Id = user.Id,
-                UserName = user.UserName
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+               
             };
 
             Input.RolesList = await UserManager.GetRolesAsync(user);

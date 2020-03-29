@@ -16,6 +16,26 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
+
+    // Difference b/w Create & Create2
+    // In Create2
+    // 1. Input Model is not used in Rendering the Roles/Claims Checkboxes in Create2, seperate variable are used
+    // 2. Input Model is not used in Capturing the Roles n Claims Data on post back, Action Parameters are used
+    // 3. For Rendering Checkboxes, seperate Lists are used in Create2
+    // 4. For Capturing Action parameters are used in Create2
+    // 5. Wodering how Selected Roles & Claims Checkboxes are mapped to Action Parameters in Create2
+    // 6 Check Box Rendering is different in Creat & Creat2
+    // 7. Applying Validation on Checkbox is hard in Create2
+
+    // In Create
+    // 1. Input Model Lists are used in Rendering the Roles/Claims Checkboxes in Create
+    // 2. Input Model Lists are used in Capturing the Roles/Claims Data on post back, Action Parameters are used
+    // 3. For Rendering Checkboxes, seperate Lists are used in Create2
+    // 4. For Capturing Action parameters are used in Create2
+    // 5. Wodering how Selected Roles & Claims Checkboxes are mapped to Action Parameters in Create2
+    // 6 Check Box Rendering is different in Creat & Creat2
+    // 7. Applying Validation on Checkbox is hard in Create2
+
     public class CreateModel2 : PageModel
     {
         // Controller dependencies
@@ -49,7 +69,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         [BindProperty]
         public InputModel Input { get; set; }
 
-
+        public IList<ApplicationRole> AllRolesList { get; set; }
+        public IList<Claim> AllClaimsList { get; set; }
 
 
         // This Model need to be Validated on POST
@@ -82,59 +103,31 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             public string LastName { get; set; }
 
-            //public SelectList AllRolesSelectList { get; set; }
-            //public SelectList AllClaimsSelectList { get; set; }
-
-            public List<UserRole> AllRolesList { get; set; }
-            public List<UserClaim> AllClaimsList { get; set; }
-
-            //public string[] SelectedRoles { get; set; }
         }
+
 
 
         // Just show the blank page
         // ViewModel Properties are used to render View
         public async Task<IActionResult> OnGetAsync()
         {
-            Input = new InputModel();
-
-            Input.AllRolesList = RoleManager.Roles.ToList().Select(x => new UserRole()
-            {
-                IsSelected = false,
-                RoleId = x.Id,
-                RoleName = x.Name
-            }).ToList();
-
-
-            Input.AllClaimsList = ClaimsStore.AllClaims.Select(x => new UserClaim()
-            {
-                IsSelected = false,
-                ClaimType = x.Type,
-                ClaimValue = x.Value,
-            }).ToList();
-
-            //AllRolesSelectList = new SelectList(
-            //        items: await RoleManager.Roles.ToListAsync(),
-            //        dataValueField: "Name",
-            //        dataTextField: "Name");
-
-            //AllClaimsSelectList = new SelectList(
-            //        items: ClaimsStore.AllClaims,
-            //        dataValueField: "value",
-            //        dataTextField: "type");
-
-
+            await Load_Form_Reference_Data();
             return Page();
+
         }
 
 
         // OnPost(), ViewModel Properties filled and available
         // No need to catch then in Controller Action paramters
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string[] SelectedRoles, string[] SelectedClaims)
         {
+
             // Model is VM Prperties
             if (!ModelState.IsValid)
             {
+                // If Clien side JS is diablied, form will be postedback
+                // and we need following two lines               
+                await Load_Form_Reference_Data();
                 return Page();
             }
 
@@ -153,96 +146,42 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (!result.Succeeded)
             {
                 // Error occures while Adding New User                                            
-                foreach (var error in result.Errors)
-                { ModelState.AddModelError("", error.Description); }
-
-                Input = new InputModel();
-
-                Input.AllRolesList = RoleManager.Roles.ToList().Select(x => new UserRole()
-                {
-                    IsSelected = false,
-                    RoleId = x.Id,
-                    RoleName = x.Name
-                }).ToList();
-
-                Input.AllClaimsList = ClaimsStore.AllClaims.Select(x => new UserClaim()
-                {
-                    IsSelected = false,
-                    ClaimType = x.Type,
-                    ClaimValue = x.Value,
-                }).ToList();
-
+                Add_Model_Errors(result);
+                await Load_Form_Reference_Data();
                 return Page();
             }
 
 
             // New User Added Successfully now add it roles
-            if (IsAnyRoleSelected() == true)
+            if (SelectedRoles != null && SelectedRoles.Length > 0)
             {
                 // If some roles are selected for New User, Add those roles
-                result = await UserManager.AddToRolesAsync(user, GetSelectedRoles());
-
+                result = await UserManager.AddToRolesAsync(user, SelectedRoles);
 
                 if (!result.Succeeded)
                 {
                     // Error occurs while adding roles
-                    foreach (var error in result.Errors)
-                    { ModelState.AddModelError("", error.Description); }
-
-                    Input = new InputModel();
-
-                    Input.AllRolesList = RoleManager.Roles.ToList().Select(x => new UserRole()
-                    {
-                        IsSelected = false,
-                        RoleId = x.Id,
-                        RoleName = x.Name
-                    }).ToList();
-
-                    Input.AllClaimsList = ClaimsStore.AllClaims.Select(x => new UserClaim()
-                    {
-                        IsSelected = false,
-                        ClaimType = x.Type,
-                        ClaimValue = x.Value,
-                    }).ToList();
-
-
+                    Add_Model_Errors(result);
+                    await Load_Form_Reference_Data();
                     return Page();
                 }
             }
 
 
-            if (IsAnyClaimSelected() == true)
+            if (SelectedClaims != null && SelectedClaims.Length > 0)
             {
-
-                //List<Claim> selectedClaimsOnForm = ClaimsStore.AllClaims.Where(c => SelectedClaims.Contains(c.Value)).ToList();
-                List<Claim> selectedClaimsOnForm = GetSelectedClaims();
+                List<Claim> selectedClaimsOnForm = ClaimsStore.AllClaims
+                    .Where(claim => SelectedClaims.Contains(claim.Value)).ToList();
 
                 // Adding Claim Array
                 foreach (var claim in selectedClaimsOnForm)
                 { result = await UserManager.AddClaimAsync(user, claim); }
 
                 if (!result.Succeeded)
-                {   // Error occurs while adding claims                                                     
-                    foreach (var error in result.Errors)
-                    { ModelState.AddModelError("", error.Description); }
-
-                    Input = new InputModel();
-
-                    Input.AllRolesList = RoleManager.Roles.ToList().Select(x => new UserRole()
-                    {
-                        IsSelected = false,
-                        RoleId = x.Id,
-                        RoleName = x.Name
-                    }).ToList();
-
-                    Input.AllClaimsList = ClaimsStore.AllClaims.Select(x => new UserClaim()
-                    {
-                        IsSelected = false,
-                        ClaimType = x.Type,
-                        ClaimValue = x.Value,
-                    }).ToList();
-
-
+                {
+                    // Error occurs while adding claims                                                                     
+                    Add_Model_Errors(result);
+                    await Load_Form_Reference_Data();
                     return Page();
                 }
             }
@@ -250,30 +189,21 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             //ViewBag.Message = "Record(s) addded successfully.";
             // Show List Page
             return RedirectToPage("./Index");
-
         }
 
 
-
-        public string[] GetSelectedRoles()
+        private async Task<bool> Load_Form_Reference_Data()
         {
-            return Input.AllRolesList.Where<UserRole>(r => r.IsSelected == true).Select(s => s.RoleName).ToList().ToArray();
+            AllRolesList = await RoleManager.Roles.ToListAsync();
+            AllClaimsList = ClaimsStore.AllClaims;
+            return true;
+
         }
 
-        public List<Claim> GetSelectedClaims()
+        private void Add_Model_Errors(IdentityResult result)
         {
-            return Input.AllClaimsList.Where<UserClaim>(c => c.IsSelected == true).Select(s => new Claim(s.ClaimType, s.ClaimType)).ToList();
-        }
-
-
-        public bool IsAnyRoleSelected()
-        {
-            return Input.AllRolesList.Any<UserRole>(r => r.IsSelected == true);
-        }
-
-        public bool IsAnyClaimSelected()
-        {
-            return Input.AllClaimsList.Any<UserClaim>(c => c.IsSelected == true);
+            foreach (var error in result.Errors)
+            { ModelState.AddModelError("", error.Description); }
         }
 
 

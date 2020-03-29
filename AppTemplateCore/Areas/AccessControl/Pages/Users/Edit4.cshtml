@@ -1,13 +1,14 @@
 ﻿@page
-@model CreateModel2
+@model EditModel4
 
 @{
-    ViewData["Title"] = "Add User";
+    ViewData["Title"] = "Edit User";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <hr />
+
 <div class="row">
 
     <div class="col-md-4">
@@ -16,10 +17,17 @@
 
             <div asp-validation-summary="All" class="text-danger"></div>
 
+            <input type="hidden" asp-for="Input.Id" />
+
+            <div class="form-group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="form-control" disabled />
+            </div>
+
             <div class="form-group">
                 <label asp-for="Input.FirstName"></label>
-                <input asp-for="Input.FirstName" class="form-control">
-                <span asp-validation-for="Input.FirstName" class="text-danger"> </span>
+                <input asp-for="Input.FirstName" class="form-control" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -37,28 +45,31 @@
 
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
+                <input asp-for="Input.Password" value="Abc@123" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <input asp-for="Input.ConfirmPassword" value="Abc@123" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
 
+
             <div class="form-group">
                 <label> Select User Roles</label>
-                @if (Model.AllRolesList.Count<ApplicationRole>() > 0)
+                @if (Model.AllRolesList.Count<SelectListItem>() > 0)
                 {
-                    @foreach (var role in Model.AllRolesList)
-                    {                                            
+                    for (int i = 0; i < Model.AllRolesList.Count(); i++)
+                    {
+
                         <span class="checkbox">
                             <label>
-                                <input type="checkbox" name="SelectedRoles" value="@role.Name" class="checkbox-inline" />
-                                @role.Name
+                                <input type="checkbox" name="SelectedRoles" value="@Model.AllRolesList[i].Text" checked="@Model.AllRolesList[i].Selected" />
+                                @Model.AllRolesList[i].Text
                             </label>
                         </span>
+
                     }
                 }
                 else
@@ -70,16 +81,18 @@
 
             <div class="form-group">
                 <label> Select User Claims</label>
-                @if (Model.AllClaimsList.Count<Claim>() > 0)
+                @*@if (Model.AllClaimsList.Count() > 0)*@
+                @if (Model.AllClaimsList.Count<SelectListItem>() > 0)
                 {
-                    @foreach (var claim in Model.AllClaimsList)
+                    for (int i = 0; i < Model.AllClaimsList.Count; i++)
                     {
                         <span class="checkbox">
-                            <label>                                
-                                <input type="checkbox" name="SelectedClaims" value="@claim.Value" />
-                                @claim.Value
+                            <label>
+                                <input type="checkbox" name="SelectedClaims" value="@Model.AllClaimsList[i].Text" checked="@Model.AllClaimsList[i].Selected" />
+                                @Model.AllClaimsList[i].Text
                             </label>
                         </span>
+
                     }
                 }
                 else
@@ -91,12 +104,13 @@
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" /> |
-                <a asp-page="Index">Back to List</a>
+                <a asp-page="./Index">Back to List</a>
             </div>
 
         </form>
 
     </div>
+
 </div>
 
 

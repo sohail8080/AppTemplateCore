@@ -16,7 +16,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
     public class CreateModel : PageModel
     {
         // Controller dependencies
-        // Controller dependencies
         private readonly ApplicationDbContext Context;
         private readonly UserManager<ApplicationUser> UserManager;
         private readonly RoleManager<ApplicationRole> RoleManager;
@@ -64,7 +63,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
         // Just show the blank page
         // ViewModel Properties are used to render View
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGetAsync()
         {
             Input = new InputModel();
             Input.UserList = UserManager.Users.ToList();

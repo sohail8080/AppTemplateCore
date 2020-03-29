@@ -1,0 +1,32 @@
+﻿        private IList<Claim> Difference_Of_Claims_Lists
+            (IList<Claim> Source_List, IList<Claim> Target_List)
+        {
+
+            // Ist difference Code Working
+            return Source_List.Where(source =>
+                    !Target_List.Any(target => target.Type == source.Type &&
+                    target.Value == source.Value)).ToList();
+
+            // 2nd difference Code Working
+            //return Source_List.Where(source =>
+            //Target_List.All(target => target.Type != source.Type || target.Value != source.Value)).ToList();
+
+            // 3rd difference Code Working
+            //List<Claim> difference = new List<Claim>();
+
+            //foreach (var source in Source_List)
+            //{
+            //    bool matched = false;
+
+            //    foreach (var target in Target_List)
+            //    {
+            //        if (source.Type == target.Type && source.Value == target.Value)
+            //            matched = true;
+            //    }
+
+            //    if (!matched)
+            //    { difference.Add(source); }
+            //}
+
+            //return difference;
+        }

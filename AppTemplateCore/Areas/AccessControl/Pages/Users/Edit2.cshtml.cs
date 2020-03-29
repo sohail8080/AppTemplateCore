@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
-    public class EditModel : PageModel
+    public class EditModel2 : PageModel
     {
         // Controller dependencies : UOW
         // Controller dependencies
@@ -25,7 +25,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         private readonly ILogger<EditModel> Logger;
 
         // DI Container injects UOW inside controller constructor
-        public EditModel(
+        public EditModel2(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
@@ -58,6 +58,10 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         // We do not want Model Binding to happen on this
         [Display(Name = "User Name")]
         public string Username { get; set; }
+
+        public List<UserRole> AllRolesList { get; set; }
+        public List<UserClaim> AllClaimsList { get; set; }
+
 
         // This Model need to be Validated on POST
         // This Model is used to Render the View on GET
@@ -92,8 +96,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            public List<UserRole> AllRolesList { get; set; }
-            public List<UserClaim> AllClaimsList { get; set; }
+
 
         }
 
@@ -119,7 +122,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         // OnPost(), ViewModel Properties filled and available
         // No need to catch then in Controller Action paramters
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string[] SelectedRoles, string[] SelectedClaims)
         {
             if (string.IsNullOrEmpty(Input.Id))
             { return NotFound(); }
@@ -153,13 +156,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 return Page();
             }
 
-            var Is_Any_Role_Selected = Input.AllRolesList.Any(r => r.IsSelected == true);
+            var Is_Any_Role_Selected = (SelectedRoles != null && SelectedRoles.Length > 0);
 
             // New User Added Successfully now add it roles
             if (Is_Any_Role_Selected)
             {
                 var Existing_Roles = await UserManager.GetRolesAsync(user);
-                var Selected_Roles = Input.AllRolesList.Where(r => r.IsSelected == true).Select(s => s.RoleName).ToList().ToArray();
+                var Selected_Roles = SelectedRoles; // AllRolesList.Where(r => r.IsSelected == true).Select(s => s.RoleName).ToList().ToArray();
                 var Newly_Selected_Roles = Selected_Roles.Except(Existing_Roles).ToArray<string>();
                 var Un_Selected_Roles = Existing_Roles.Except(Selected_Roles).ToArray<string>();
 
@@ -196,12 +199,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             }
             // here check for the case when all roles are un checked while edit
 
-            var Is_Any_Claim_Selected = Input.AllClaimsList.Any(c => c.IsSelected == true);
+            var Is_Any_Claim_Selected = (SelectedClaims != null && SelectedClaims.Length > 0);
 
             if (Is_Any_Claim_Selected)
             {
                 var Existing_Claims = await UserManager.GetClaimsAsync(user);
-                var Selected_Claims = Input.AllClaimsList.Where(c => c.IsSelected == true).Select(s => new Claim(s.ClaimType, s.ClaimValue)).ToList();                
+                var Selected_Claims = ClaimsStore.AllClaims.Where(c => SelectedClaims.Contains(c.Value)).ToList(); //AllClaimsList.Where(c => c.IsSelected == true).Select(s => new Claim(s.ClaimType, s.ClaimValue)).ToList();                
                 var Newly_Selected_Claims = Difference_Of_Claims_Lists(Selected_Claims, Existing_Claims);                
                 var Un_Selected_Claims = Difference_Of_Claims_Lists(Existing_Claims, Selected_Claims);                
 
@@ -295,20 +298,21 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 LastName = user.LastName,
                 Email = user.Email,
 
-                AllRolesList = RoleManager.Roles.ToList().Select(role => new UserRole()
-                {
-                    IsSelected = userRoles.Contains(role.Name),
-                    RoleId = role.Id,
-                    RoleName = role.Name
-                }).ToList(),
-
-                AllClaimsList = ClaimsStore.AllClaims.Select(claim => new UserClaim()
-                {
-                    IsSelected = userClaims.Any(uc => uc.Value == claim.Value),
-                    ClaimType = claim.Type,
-                    ClaimValue = claim.Value,
-                }).ToList()
             };
+
+            AllRolesList = RoleManager.Roles.ToList().Select(role => new UserRole()
+            {
+                IsSelected = userRoles.Contains(role.Name),
+                RoleId = role.Id,
+                RoleName = role.Name
+            }).ToList();
+
+            AllClaimsList = ClaimsStore.AllClaims.Select(claim => new UserClaim()
+            {
+                IsSelected = userClaims.Any(uc => uc.Value == claim.Value),
+                ClaimType = claim.Type,
+                ClaimValue = claim.Value,
+            }).ToList();
 
 
             return true;

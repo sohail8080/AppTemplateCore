@@ -68,16 +68,58 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
-            {return NotFound();}
+            { return NotFound(); }
 
-            // ViewModel Property filling
-            //var role = await Context.Roles.FirstOrDefaultAsync(m => m.Id == id);
             var role = await RoleManager.FindByIdAsync(id);
 
             if (role == null)
-            {return NotFound();}
+            { return NotFound(); }
+
+            await Load_Form_Reference_Data(role);
+            return Page();
+        }
 
 
+        // OnPost(), ViewModel Properties filled and available
+        // No need to catch then in Controller Action paramters
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (string.IsNullOrEmpty(Input.Id))
+            { return NotFound(); }
+
+            var role = await RoleManager.FindByIdAsync(Input.Id);
+
+            if (role == null)
+            { return NotFound(); }
+
+            // Here Model means all Properties of this class
+            if (!ModelState.IsValid)
+            {
+                await Load_Form_Reference_Data(role);
+                return Page();
+            }
+
+            role.Name = Input.Name;
+
+            IdentityResult result = await RoleManager.UpdateAsync(role);
+
+            if (!result.Succeeded)
+            {
+                //ViewBag.Message = "Error occurred while updating Record(s)";
+                Add_Model_Errors(result);
+                await Load_Form_Reference_Data(role);
+                return Page();
+            }
+
+            //ViewBag.Message = "Record(s) updated successfully.");
+            Logger.LogInformation($"Role {Input.Name} is updated successfully.");
+            // Show List Page
+            return RedirectToPage("./Index");
+        }
+
+
+        private async Task<bool> Load_Form_Reference_Data(ApplicationRole role)
+        {
             Input = new InputModel()
             {
                 Id = role.Id,
@@ -97,63 +139,14 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
                 }
             }
 
+            return true;
 
-
-            // Get the list of Users in this Role
-            //foreach (var user in UserManager.Users.ToList())
-            //{
-            //    if (await UserManager.IsInRoleAsync(user, role.Name))
-            //    {
-            //        Input.UserList.Add(user);
-            //    }
-            //}
-
-
-            // Show Page
-            return Page();
         }
 
-
-        // OnPost(), ViewModel Properties filled and available
-        // No need to catch then in Controller Action paramters
-        public async Task<IActionResult> OnPostAsync()
+        private void Add_Model_Errors(IdentityResult result)
         {
-            // Here Model means all Properties of this class
-            if (!ModelState.IsValid)
-            {
-                // VM Properties already filled, show page again
-                return Page();
-            }
-
-            //var roleInDB = _context.Roles.FirstOrDefault(r => r.Id == viewModel.Id);
-            var role = await RoleManager.FindByIdAsync(Input.Id);
-
-            if (role == null)
-            {
-                ModelState.AddModelError("", $"Role {Input.Name} cannot be found");
-                return Page();
-                //return HttpNotFound();
-                //return NotFound();
-            }
-
-            role.Name = Input.Name;
-
-            IdentityResult result = await RoleManager.UpdateAsync(role);
-
-            if (result.Succeeded)
-            {
-                //ViewBag.Message = "Record(s) updated successfully.");
-                Logger.LogInformation($"Role {Input.Name} is updated successfully.");
-                // Show List Page
-                return RedirectToPage("./Index");
-            }
-            else
-            {
-                //ViewBag.Message = "Error occurred while updating Record(s)";
-                foreach (var error in result.Errors)
-                { ModelState.AddModelError("", error.Description); }
-                return Page();
-            }
+            foreach (var error in result.Errors)
+            { ModelState.AddModelError("", error.Description); }
         }
 
 
