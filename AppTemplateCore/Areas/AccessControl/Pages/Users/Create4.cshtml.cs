@@ -49,9 +49,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public List<SelectListItem> AllRolesList { get; set; }
-        public List<SelectListItem> AllClaimsList { get; set; }
-
 
         // This Model need to be Validated on POST
         // This Model is used to Render the View on GET
@@ -84,6 +81,9 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             public string LastName { get; set; }
 
         }
+
+        public List<SelectListItem> AllRolesList { get; set; }
+        public List<SelectListItem> AllClaimsList { get; set; }
 
 
         // Just show the blank page

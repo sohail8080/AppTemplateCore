@@ -52,14 +52,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         [BindProperty]
         public InputModel Input { get; set; }
 
-        // Render the UI but not invovled in Post() 
-        // We only want to show this field on form
-        // But we do not want to Post Back this field
-        // We do not want to get this field in OnPost()
-        // We do not want Model Binding to happen on this
-        [Display(Name = "User Name")]
-        public string Username { get; set; }
-
         // This Model need to be Validated on POST
         // This Model is used to Render the View on GET
         public class InputModel
@@ -99,6 +91,17 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         }
 
+        // Render the UI but not invovled in Post() 
+        // We only want to show this field on form
+        // But we do not want to Post Back this field
+        // We do not want to get this field in OnPost()
+        // We do not want Model Binding to happen on this
+        // As Username never changed, so this field not kept 
+        //inside postback class
+        // So we need to set this field, if postback failed
+        [Display(Name = "User Name")]
+        public string Username { get; set; }
+
 
         // OnGet(), fill ViewModel Propertis and show Page();
         public async Task<IActionResult> OnGetAsync(string id)
@@ -134,7 +137,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             // Here Model means all Properties of this class
             // VM Properties already filled, show page again
             if (!ModelState.IsValid)
-            {                
+            { 
+                await Load_Form_Reference_Data_OnPost_Failed(user);
                 return Page();
             }
 
@@ -149,7 +153,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (!result.Succeeded)
             {
                 //ViewBag.Message = "Error occurred while updating Record(s)";
-                Add_Model_Errors(result);               
+                Add_Model_Errors(result);
+                await Load_Form_Reference_Data_OnPost_Failed(user);
                 return Page();
             }
 
@@ -170,7 +175,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 {
                     // Error occurs while adding roles
                     //ViewBag.Message = "Error occurred while adding Record(s)";
-                    Add_Model_Errors(result);                    
+                    Add_Model_Errors(result);
+                    await Load_Form_Reference_Data_OnPost_Failed(user);
                     return Page();
                 }
                 else
@@ -182,7 +188,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     if (!result.Succeeded)
                     {
                         //ViewBag.Message = "Error occurred while updating Record(s)";
-                        Add_Model_Errors(result);                        
+                        Add_Model_Errors(result);
+                        await Load_Form_Reference_Data_OnPost_Failed(user);
                         return Page();
                     }
                 }
@@ -190,7 +197,15 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             else
             {
                 // remove all existing roles
-                await UserManager.RemoveFromRolesAsync(user, await UserManager.GetRolesAsync(user));
+                result = await UserManager.RemoveFromRolesAsync(user, await UserManager.GetRolesAsync(user));
+
+                if (!result.Succeeded)
+                {
+                    //ViewBag.Message = "Error occurred while updating Record(s)";
+                    Add_Model_Errors(result);
+                    await Load_Form_Reference_Data_OnPost_Failed(user);
+                    return Page();
+                }
             }
             // here check for the case when all roles are un checked while edit
 
@@ -209,6 +224,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 if (!result.Succeeded)
                 {   // Error occurs while adding claims                                                     
                     Add_Model_Errors(result);
+                    await Load_Form_Reference_Data_OnPost_Failed(user);
                     return Page();
                 }
                 else
@@ -221,6 +237,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     {
                         //ViewBag.Message = "Error occurred while updating Record(s)";
                         Add_Model_Errors(result);
+                        await Load_Form_Reference_Data_OnPost_Failed(user);
                         return Page();
                     }
                 }
@@ -228,7 +245,15 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             else
             {
                 // remove all existing user claims
-                await UserManager.RemoveClaimsAsync(user, await UserManager.GetClaimsAsync(user));
+                result = await UserManager.RemoveClaimsAsync(user, await UserManager.GetClaimsAsync(user));
+
+                if (!result.Succeeded)
+                {
+                    //ViewBag.Message = "Error occurred while updating Record(s)";
+                    Add_Model_Errors(result);
+                    await Load_Form_Reference_Data_OnPost_Failed(user);
+                    return Page();
+                }
             }
 
 
@@ -271,6 +296,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 Value = claim.Value,
             }).ToList();
 
+            return true;
+        }
+
+        private async Task<bool> Load_Form_Reference_Data_OnPost_Failed(ApplicationUser user)
+        {
+            Username = user.UserName;
             return true;
         }
 

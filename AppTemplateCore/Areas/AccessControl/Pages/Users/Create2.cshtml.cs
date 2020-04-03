@@ -49,9 +49,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public List<UserRole> AllRolesList { get; set; }
-        public List<UserClaim> AllClaimsList { get; set; }
-
 
         // This Model need to be Validated on POST
         // This Model is used to Render the View on GET
@@ -85,6 +82,24 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         }
 
+        public List<UserHasRoles> AllRolesList { get; set; }
+        public List<UserHasClaims> AllClaimsList { get; set; }
+
+        public class UserHasRoles
+        {
+            public string RoleId { get; set; }
+            public string RoleName { get; set; }
+            public bool IsSelected { get; set; }
+
+        }
+
+        public class UserHasClaims
+        {
+            public string ClaimType { get; set; }
+            public string ClaimValue { get; set; }
+            public bool IsSelected { get; set; }
+
+        }
 
         // Just show the blank page
         // ViewModel Properties are used to render View
@@ -175,14 +190,14 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             var All_Roles = await RoleManager.Roles.ToListAsync();
 
-            AllRolesList = All_Roles.Select(x => new UserRole()
+            AllRolesList = All_Roles.Select(x => new UserHasRoles()
             {
                 IsSelected = false,
                 RoleId = x.Id,
                 RoleName = x.Name
             }).ToList();
 
-            AllClaimsList = ClaimsStore.AllClaims.Select(x => new UserClaim()
+            AllClaimsList = ClaimsStore.AllClaims.Select(x => new UserHasClaims()
             {
                 IsSelected = false,
                 ClaimType = x.Type,
@@ -200,14 +215,14 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             
             var All_Roles = await RoleManager.Roles.ToListAsync();
 
-            AllRolesList = All_Roles.Select(role => new UserRole()
+            AllRolesList = All_Roles.Select(role => new UserHasRoles()
             {
                 IsSelected = SelectedRoles.Contains(role.Name),
                 RoleId = role.Id,
                 RoleName = role.Name
             }).ToList();
 
-            AllClaimsList = ClaimsStore.AllClaims.Select(claim => new UserClaim()
+            AllClaimsList = ClaimsStore.AllClaims.Select(claim => new UserHasClaims()
             {
                 IsSelected = SelectedClaims.Contains(claim.Value),
                 ClaimType = claim.Type,

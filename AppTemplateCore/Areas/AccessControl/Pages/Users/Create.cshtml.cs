@@ -80,11 +80,26 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             public string LastName { get; set; }
 
-            public List<UserRole> AllRolesList { get; set; }
-            public List<UserClaim> AllClaimsList { get; set; }
+            public List<UserHasRoles> AllRolesList { get; set; }
+            public List<UserHasClaims> AllClaimsList { get; set; }
 
         }
 
+        public class UserHasRoles
+        {
+            public string RoleId { get; set; }
+            public string RoleName { get; set; }
+            public bool IsSelected { get; set; }
+
+        }
+
+        public class UserHasClaims
+        {
+            public string ClaimType { get; set; }
+            public string ClaimValue { get; set; }
+            public bool IsSelected { get; set; }
+
+        }
 
         // Just show the blank page
         // ViewModel Properties are used to render View
@@ -171,14 +186,14 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             var All_Roles = await RoleManager.Roles.ToListAsync();
 
-            Input.AllRolesList = All_Roles.Select(x => new UserRole()
+            Input.AllRolesList = All_Roles.Select(x => new UserHasRoles()
             {
                 IsSelected = false,
                 RoleId = x.Id,
                 RoleName = x.Name
             }).ToList();
 
-            Input.AllClaimsList = ClaimsStore.AllClaims.Select(x => new UserClaim()
+            Input.AllClaimsList = ClaimsStore.AllClaims.Select(x => new UserHasClaims()
             {
                 IsSelected = false,
                 ClaimType = x.Type,

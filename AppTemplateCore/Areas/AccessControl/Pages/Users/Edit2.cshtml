@@ -58,7 +58,7 @@
 
             <div class="form-group">
                 <label> Select User Roles</label>
-                @if (Model.AllRolesList.Count<UserRole>() > 0)
+                @if (Model.AllRolesList.Count() > 0)
                 {
                     for (int i = 0; i < Model.AllRolesList.Count(); i++)
                     {
@@ -82,7 +82,7 @@
             <div class="form-group">
                 <label> Select User Claims</label>
                 @*@if (Model.AllClaimsList.Count() > 0)*@
-                @if (Model.AllClaimsList.Count<UserClaim>() > 0)
+                @if (Model.AllClaimsList.Count() > 0)
                 {
                     for (int i = 0; i < Model.AllClaimsList.Count; i++)
                     {

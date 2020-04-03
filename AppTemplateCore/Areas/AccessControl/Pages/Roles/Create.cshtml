@@ -32,7 +32,44 @@
 
         <hr />
         <a asp-page="" class="btn btn-primary">Add Users</a>
-       
+
+
+        @if (Model.Input.UserList.Count <= 0)
+        {
+            <hr />
+            <p>No User exist.</p>
+            <hr />
+            return;
+        }
+
+        @if (Model.Input.SelectedUserList.Count <= 0)
+        {
+            <hr />
+            <p>No Users found in this Role.</p>
+            <hr />
+        }
+        else
+        {
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>Users in Role</th>
+                    </tr>
+                </thead>
+
+                @foreach (var item in Model.Input.SelectedUserList)
+                {
+                    <tr>
+                        <td>
+                            @item.UserName
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+
+
     </div>
 </div>
 
@@ -40,6 +77,6 @@
    
 </div>
 
-@section Scripts {
+@*@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+}*@
