@@ -96,8 +96,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-
-
         }
 
 
@@ -136,7 +134,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             // VM Properties already filled, show page again
             if (!ModelState.IsValid)
             {
-                await Load_Form_Reference_Data(user);
+                await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                 return Page();
             }
 
@@ -152,7 +150,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             {
                 //ViewBag.Message = "Error occurred while updating Record(s)";
                 Add_Model_Errors(result);
-                await Load_Form_Reference_Data(user);
+                await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                 return Page();
             }
 
@@ -174,7 +172,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     // Error occurs while adding roles
                     //ViewBag.Message = "Error occurred while adding Record(s)";
                     Add_Model_Errors(result);
-                    await Load_Form_Reference_Data(user);
+                    await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
                 }
                 else
@@ -187,7 +185,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     {
                         //ViewBag.Message = "Error occurred while updating Record(s)";
                         Add_Model_Errors(result);
-                        await Load_Form_Reference_Data(user);
+                        await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                         return Page();
                     }
                 }
@@ -204,7 +202,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (Is_Any_Claim_Selected)
             {
                 var Existing_Claims = await UserManager.GetClaimsAsync(user);
-                var Selected_Claims = ClaimsStore.AllClaims.Where(c => SelectedClaims.Contains(c.Value)).ToList(); //AllClaimsList.Where(c => c.IsSelected == true).Select(s => new Claim(s.ClaimType, s.ClaimValue)).ToList();                
+                var Selected_Claims = ClaimsStore.AllClaims.Where(c => SelectedClaims.Contains(c.Value)).ToList(); 
                 var Newly_Selected_Claims = Difference_Of_Claims_Lists(Selected_Claims, Existing_Claims);                
                 var Un_Selected_Claims = Difference_Of_Claims_Lists(Existing_Claims, Selected_Claims);                
 
@@ -213,7 +211,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 if (!result.Succeeded)
                 {   // Error occurs while adding claims                                                     
                     Add_Model_Errors(result);
-                    await Load_Form_Reference_Data(user);
+                    await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
                 }
                 else
@@ -226,7 +224,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     {
                         //ViewBag.Message = "Error occurred while updating Record(s)";
                         Add_Model_Errors(result);
-                        await Load_Form_Reference_Data(user);
+                        await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                         return Page();
                     }
                 }
@@ -245,6 +243,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         }
 
+        // approaches to find differences
         private IList<Claim> Difference_Of_Claims_Lists
             (IList<Claim> Source_List, IList<Claim> Target_List)
         {
@@ -287,10 +286,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         private async Task<bool> Load_Form_Reference_Data(ApplicationUser user)
         {
             Username = user.UserName;
-
-            var userRoles = await UserManager.GetRolesAsync(user);
-            var userClaims = await UserManager.GetClaimsAsync(user);
-
+          
             Input = new InputModel
             {
                 Id = user.Id,
@@ -300,7 +296,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             };
 
-            AllRolesList = RoleManager.Roles.ToList().Select(role => new UserRole()
+            var userRoles = await UserManager.GetRolesAsync(user);
+            var userClaims = await UserManager.GetClaimsAsync(user);
+
+            var All_Roles = await RoleManager.Roles.ToListAsync();
+
+            AllRolesList = All_Roles.Select(role => new UserRole()
             {
                 IsSelected = userRoles.Contains(role.Name),
                 RoleId = role.Id,
@@ -318,28 +319,36 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             return true;
         }
 
+        private async Task<bool> Load_Form_Reference_Data_OnPost_Failed(ApplicationUser user, string[] SelectedRoles, string[] SelectedClaims)
+        {
+            Username = user.UserName;
+
+            var All_Roles = await RoleManager.Roles.ToListAsync();
+
+            AllRolesList = All_Roles.Select(role => new UserRole()
+            {
+                IsSelected = SelectedRoles.Contains(role.Name),
+                RoleId = role.Id,
+                RoleName = role.Name
+            }).ToList();
+
+            AllClaimsList = ClaimsStore.AllClaims.Select(claim => new UserClaim()
+            {
+                IsSelected = SelectedClaims.Contains(claim.Value),
+                ClaimType = claim.Type,
+                ClaimValue = claim.Value,
+            }).ToList();
+
+
+            return true;
+        }
+
 
         private void Add_Model_Errors(IdentityResult result)
         {
             foreach (var error in result.Errors)
             { ModelState.AddModelError("", error.Description); }
         }
-
-        //public string[] GetSelectedRoles()
-        //{
-        //    return Input.AllRolesList.Where(r => r.IsSelected == true).Select(s => s.RoleName).ToList().ToArray();
-        //}
-
-        //public List<Claim> GetSelectedClaims()
-        //{
-        //    return Input.AllClaimsList.Where(c => c.IsSelected == true).Select(s => new Claim(s.ClaimType, s.ClaimType)).ToList();
-        //}
-
-
-        //public bool IsAnyRoleSelected()
-        //{
-        //    return Input.AllRolesList.Any(r => r.IsSelected == true);
-        //}
 
 
 

@@ -92,7 +92,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         {
             await Load_Form_Reference_Data();
             return Page();
-
         }
 
 
@@ -102,8 +101,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         {
             // Model is VM Prperties
             if (!ModelState.IsValid)
-            {
-                await Load_Form_Reference_Data();
+            {                
                 return Page();
             }
 
@@ -118,46 +116,43 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             // Use UserManager Service Class for storing User
             var result = await UserManager.CreateAsync(user, Input.Password);
 
-
             if (!result.Succeeded)
             {
                 // Error occures while Adding New User                                            
-                Add_Model_Errors(result);
-                await Load_Form_Reference_Data();
+                Add_Model_Errors(result);               
                 return Page();
             }
 
+            var Is_Any_Role_Selected = Input.AllRolesList.Any(r => r.IsSelected == true);
 
             // New User Added Successfully now add it roles
-            if (IsAnyRoleSelected())
+            if (Is_Any_Role_Selected)
             {
-                // If some roles are selected for New User, Add those roles
-                result = await UserManager.AddToRolesAsync(user, GetSelectedRoles());
+                var Selected_Roles = Input.AllRolesList.Where(r => r.IsSelected == true).Select(s => s.RoleName).ToList().ToArray();                
 
+                // If some roles are selected for New User, Add those roles
+                result = await UserManager.AddToRolesAsync(user, Selected_Roles);
 
                 if (!result.Succeeded)
                 {
                     // Error occurs while adding roles
-                    Add_Model_Errors(result);
-                    await Load_Form_Reference_Data();
+                    Add_Model_Errors(result);                   
                     return Page();
                 }
             }
 
-
-            if (IsAnyClaimSelected())
+            var Is_Any_Claim_Selected = Input.AllClaimsList.Any(c => c.IsSelected == true);
+            
+            if (Is_Any_Claim_Selected)
             {
-                
-                List<Claim> selectedClaimsOnForm = GetSelectedClaims();
 
-                // Adding Claim Array
-                foreach (var claim in selectedClaimsOnForm)
-                { result = await UserManager.AddClaimAsync(user, claim); }
+                var Selected_Claims = Input.AllClaimsList.Where(c => c.IsSelected == true).Select(s => new Claim(s.ClaimType, s.ClaimValue)).ToList();
+
+                result = await UserManager.AddClaimsAsync(user, Selected_Claims);
 
                 if (!result.Succeeded)
                 {   // Error occurs while adding claims                                                     
-                    Add_Model_Errors(result);
-                    await Load_Form_Reference_Data();
+                    Add_Model_Errors(result);                   
                     return Page();
                 }
             }
@@ -174,7 +169,9 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         {
             Input = new InputModel();
 
-            Input.AllRolesList = RoleManager.Roles.ToList().Select(x => new UserRole()
+            var All_Roles = await RoleManager.Roles.ToListAsync();
+
+            Input.AllRolesList = All_Roles.Select(x => new UserRole()
             {
                 IsSelected = false,
                 RoleId = x.Id,
@@ -190,16 +187,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             return true;
 
-            //AllRolesSelectList = new SelectList(
-            //        items: await RoleManager.Roles.ToListAsync(),
-            //        dataValueField: "Name",
-            //        dataTextField: "Name");
-
-            //AllClaimsSelectList = new SelectList(
-            //        items: ClaimsStore.AllClaims,
-            //        dataValueField: "value",
-            //        dataTextField: "type");
-
         }
 
         private void Add_Model_Errors(IdentityResult result)
@@ -208,29 +195,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             { ModelState.AddModelError("", error.Description); }
         }
 
-        public string[] GetSelectedRoles()
-        {
-            return Input.AllRolesList.Where<UserRole>(r => r.IsSelected == true).Select(s => s.RoleName).ToList().ToArray();
-        }
-
-        public List<Claim> GetSelectedClaims()
-        {
-            return Input.AllClaimsList.Where<UserClaim>(c => c.IsSelected == true).Select(s => new Claim(s.ClaimType, s.ClaimType)).ToList();
-        }
-
-
-        public bool IsAnyRoleSelected()
-        {
-            return Input.AllRolesList.Any<UserRole>(r => r.IsSelected == true);
-        }
-
-        public bool IsAnyClaimSelected()
-        {
-            return Input.AllClaimsList.Any<UserClaim>(c => c.IsSelected == true);
-        }
-
-
-
-
+       
     }
 }

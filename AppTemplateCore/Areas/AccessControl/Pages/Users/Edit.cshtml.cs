@@ -288,6 +288,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             var userRoles = await UserManager.GetRolesAsync(user);
             var userClaims = await UserManager.GetClaimsAsync(user);
 
+            var All_Roles = await RoleManager.Roles.ToListAsync();
+
             Input = new InputModel
             {
                 Id = user.Id,
@@ -295,15 +297,16 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 LastName = user.LastName,
                 Email = user.Email,
 
-                AllRolesList = RoleManager.Roles.ToList().Select(role => new UserRole()
+                AllRolesList = All_Roles.Select(role => new UserRole()
                 {
+                    //IsSelected = userRoles.Any(ur => ur == role.Name),
                     IsSelected = userRoles.Contains(role.Name),
                     RoleId = role.Id,
                     RoleName = role.Name
                 }).ToList(),
 
                 AllClaimsList = ClaimsStore.AllClaims.Select(claim => new UserClaim()
-                {
+                {                    
                     IsSelected = userClaims.Any(uc => uc.Value == claim.Value),
                     ClaimType = claim.Type,
                     ClaimValue = claim.Value,
@@ -320,23 +323,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             foreach (var error in result.Errors)
             { ModelState.AddModelError("", error.Description); }
         }
-
-        //public string[] GetSelectedRoles()
-        //{
-        //    return Input.AllRolesList.Where(r => r.IsSelected == true).Select(s => s.RoleName).ToList().ToArray();
-        //}
-
-        //public List<Claim> GetSelectedClaims()
-        //{
-        //    return Input.AllClaimsList.Where(c => c.IsSelected == true).Select(s => new Claim(s.ClaimType, s.ClaimType)).ToList();
-        //}
-
-
-        //public bool IsAnyRoleSelected()
-        //{
-        //    return Input.AllRolesList.Any(r => r.IsSelected == true);
-        //}
-
 
 
     }

@@ -9,8 +9,10 @@
 
 <p>
     @*Show Page by calling OnGet() both page at same level *@
-    <a asp-page="Create" class="btn btn-primary">Add User</a>
-    <a asp-page="Create2" class="btn btn-primary">Add User</a>
+    <a asp-page="Create" class="btn btn-primary">Add User 1</a>
+    <a asp-page="Create2" class="btn btn-primary">Add User 2</a>
+    <a asp-page="Create3" class="btn btn-primary">Add User 3</a>
+    <a asp-page="Create4" class="btn btn-primary">Add User 4</a>
 </p>
 
 @{
@@ -31,6 +33,8 @@
             <th>Roles</th>
             <th>Edit</th>
             <th>Edit2</th>
+            <th>Edit3</th>
+            <th>Edit4</th>
             <th>Delete by Get</th>
             <th>Delete by Post</th>
             <th>Delete by Post</th>
@@ -42,97 +46,109 @@
 
         @foreach (var user in Model.Input)
         {
-            <tr>
+        <tr>
 
-                <td>
-                    @*UserName lable*@
-                    <a asp-page="./Details" asp-route-id="@user.Id">@user.UserName</a>
-                </td>
+            <td>
+                @*UserName lable*@
+                <a asp-page="./Details" asp-route-id="@user.Id">@user.UserName</a>
+            </td>
 
-                <td>
-                    @*Details Lable*@
-                    <a asp-page="./Details" asp-route-id="@user.Id" class="btn btn-primary">Details</a>
-                </td>
+            <td>
+                @*Details Lable*@
+                <a asp-page="./Details" asp-route-id="@user.Id" class="btn btn-primary">Details</a>
+            </td>
 
-                <td>
-                    @*Roles List*@
-                    @if (user.RolesList != null && user.RolesList.Count >= 1)
+            <td>
+                @*Roles List*@
+                @if (user.RolesList != null && user.RolesList.Count >= 1)
+                {
+                    //var userRoleIds = user.Roles;
+                    string rolelist = string.Empty;
+                    foreach (var role in user.RolesList)
                     {
-                        //var userRoleIds = user.Roles;
-                        string rolelist = string.Empty;
-                        foreach (var role in user.RolesList)
-                        {
-                            //var role = new ApplicationDbContext().Roles.FirstOrDefault(r => r.Id == userRoleId.RoleId);
-                            rolelist = rolelist + role + ", ";
-                        }
-
-                        @rolelist
-
+                        //var role = new ApplicationDbContext().Roles.FirstOrDefault(r => r.Id == userRoleId.RoleId);
+                        rolelist = rolelist + role + ", ";
                     }
-                    else
-                    {
-                        <p>No role assigned</p>
-                    }
-                </td>
 
-                <td>
-                    @*Edit with list of strings for roles*@
-                    <a asp-page="./Edit" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
-                </td>
+                    @rolelist
 
-                <td>
-                    @*Edit with list of objects for roles*@
-                    <a asp-page="./Edit2" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
-                </td>
+                }
+                else
+                {
+                    <p>No role assigned</p>
+                }
+            </td>
 
-                <td>
-                    @*Delete with get operation*@
-                    <a asp-page-handler="Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
-                </td>
+            <td>
+                @*Edit with list of strings for roles*@
+                <a asp-page="./Edit" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
+            </td>
 
+            <td>
+                @*Edit with list of objects for roles*@
+                <a asp-page="./Edit2" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
+            </td>
 
-                <td>
-                    @*Delete with post operation, inline confirmation  *@
-                    <form method="post" asp-route-id="@user.Id">
-
-                        <input type="submit" value="Delete" class="btn btn-danger" />
-
-                    </form>
-                </td>
+            <td>
+                @*Edit with list of objects for roles*@
+                <a asp-page="./Edit3" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
+            </td>
 
 
-                <td>
-                    @*Two step delete with Dialog Box*@
-                    <form method="post" asp-route-id="@user.Id">
-
-                        <span id="confirmDeleteSpan_@user.Id" style="display:none">
-
-                            <span>Are you sure you want to delete?</span>
-
-                            <button type="submit" class="btn btn-danger">Yes</button>
-
-                            <a href="#" class="btn btn-primary" onclick="confirmDelete('@user.Id', false)">No</a>
-
-                        </span>
-
-                        <span id="deleteSpan_@user.Id">
-                            <a href="#" class="btn btn-danger"
-                               onclick="confirmDelete('@user.Id', true)">Delete</a>
-                        </span>
-
-                    </form>
-                </td>
+            <td>
+                @*Edit with list of objects for roles*@
+                <a asp-page="./Edit4" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
+            </td>
 
 
-                <td>
-                    @*Two step with seperate Delete Page*@
-                    <a asp-page="./Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
-                </td>
+            <td>
+                @*Delete with get operation*@
+                <a asp-page-handler="Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
+            </td>
 
 
-                <td>@Html.ActionLink("Add Roles", "List", "UsersRoles", routeValues: new { userid = user.Id }, htmlAttributes: new { id = "userDeleteLink", @class = "btn btn-primary" })</td>
+            <td>
+                @*Delete with post operation, inline confirmation  *@
+                <form method="post" asp-route-id="@user.Id">
 
-            </tr>
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+
+                </form>
+            </td>
+
+
+            <td>
+                @*Two step delete with Dialog Box*@
+                <form method="post" asp-route-id="@user.Id">
+
+                    <span id="confirmDeleteSpan_@user.Id" style="display:none">
+
+                        <span>Are you sure you want to delete?</span>
+
+                        <button type="submit" class="btn btn-danger">Yes</button>
+
+                        <a href="#" class="btn btn-primary" onclick="confirmDelete('@user.Id', false)">No</a>
+
+                    </span>
+
+                    <span id="deleteSpan_@user.Id">
+                        <a href="#" class="btn btn-danger"
+                           onclick="confirmDelete('@user.Id', true)">Delete</a>
+                    </span>
+
+                </form>
+            </td>
+
+
+            <td>
+                @*Two step with seperate Delete Page*@
+                <a asp-page="./Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
+            </td>
+
+
+            <td>@Html.ActionLink("Add Roles", "List", "UsersRoles", routeValues: new { userid = user.Id }, htmlAttributes: new { id = "userDeleteLink", @class = "btn btn-primary" })</td>
+
+        </tr>
 
         }
 

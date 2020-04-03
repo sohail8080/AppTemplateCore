@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
-    public class CreateModel2 : PageModel
+    public class CreateModel4 : PageModel
     {
         // Controller dependencies
         private readonly ApplicationDbContext Context;
@@ -28,7 +28,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         // Controller Contructor initializing Controller dependencies by 
         //DI Container
 
-        public CreateModel2(
+        public CreateModel4(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
@@ -49,8 +49,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public List<UserRole> AllRolesList { get; set; }
-        public List<UserClaim> AllClaimsList { get; set; }
+        public List<SelectListItem> AllRolesList { get; set; }
+        public List<SelectListItem> AllClaimsList { get; set; }
 
 
         // This Model need to be Validated on POST
@@ -175,18 +175,18 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             var All_Roles = await RoleManager.Roles.ToListAsync();
 
-            AllRolesList = All_Roles.Select(x => new UserRole()
+            AllRolesList = All_Roles.Select(role => new SelectListItem()
             {
-                IsSelected = false,
-                RoleId = x.Id,
-                RoleName = x.Name
+                Selected = false,
+                Value = role.Id,
+                Text = role.Name
             }).ToList();
 
-            AllClaimsList = ClaimsStore.AllClaims.Select(x => new UserClaim()
+            AllClaimsList = ClaimsStore.AllClaims.Select(claim => new SelectListItem()
             {
-                IsSelected = false,
-                ClaimType = x.Type,
-                ClaimValue = x.Value,
+                Selected = false,
+                Text = claim.Type,
+                Value = claim.Value,
             }).ToList();
 
             return true;
@@ -200,18 +200,18 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             
             var All_Roles = await RoleManager.Roles.ToListAsync();
 
-            AllRolesList = All_Roles.Select(role => new UserRole()
+            AllRolesList = All_Roles.Select(role => new SelectListItem()
             {
-                IsSelected = SelectedRoles.Contains(role.Name),
-                RoleId = role.Id,
-                RoleName = role.Name
+                Selected = SelectedRoles.Contains(role.Name),
+                Value = role.Id,
+                Text = role.Name
             }).ToList();
 
-            AllClaimsList = ClaimsStore.AllClaims.Select(claim => new UserClaim()
+            AllClaimsList = ClaimsStore.AllClaims.Select(claim => new SelectListItem()
             {
-                IsSelected = SelectedClaims.Contains(claim.Value),
-                ClaimType = claim.Type,
-                ClaimValue = claim.Value,
+                Selected = SelectedClaims.Contains(claim.Value),
+                Text = claim.Type,
+                Value = claim.Value,
             }).ToList();
 
             return true;

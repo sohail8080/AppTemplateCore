@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
-    public class CreateModel2 : PageModel
+    public class CreateModel3 : PageModel
     {
         // Controller dependencies
         private readonly ApplicationDbContext Context;
@@ -28,7 +28,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         // Controller Contructor initializing Controller dependencies by 
         //DI Container
 
-        public CreateModel2(
+        public CreateModel3(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
@@ -48,10 +48,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         // During OnPost() it will be filled by automatic model binding
         [BindProperty]
         public InputModel Input { get; set; }
-
-        public List<UserRole> AllRolesList { get; set; }
-        public List<UserClaim> AllClaimsList { get; set; }
-
+               
 
         // This Model need to be Validated on POST
         // This Model is used to Render the View on GET
@@ -83,6 +80,9 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             public string LastName { get; set; }
 
+            public List<SelectListItem> AllRolesList { get; set; }
+            public List<SelectListItem> AllClaimsList { get; set; }
+
         }
 
 
@@ -97,12 +97,11 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         // OnPost(), ViewModel Properties filled and available
         // No need to catch then in Controller Action paramters
-        public async Task<IActionResult> OnPostAsync(string[] SelectedRoles, string[] SelectedClaims)
+        public async Task<IActionResult> OnPostAsync()
         {
             // Model is VM Prperties
             if (!ModelState.IsValid)
-            {
-                await Load_Form_Reference_Data_OnPost_Failed(SelectedRoles, SelectedClaims);
+            {                
                 return Page();
             }
 
@@ -120,43 +119,40 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (!result.Succeeded)
             {
                 // Error occures while Adding New User                                            
-                Add_Model_Errors(result);
-                await Load_Form_Reference_Data_OnPost_Failed(SelectedRoles, SelectedClaims);
+                Add_Model_Errors(result);               
                 return Page();
             }
 
-            var Is_Any_Role_Selected = SelectedRoles != null && SelectedRoles.Length > 0;
+            var Is_Any_Role_Selected = Input.AllRolesList.Any(r => r.Selected == true);
 
             // New User Added Successfully now add it roles
             if (Is_Any_Role_Selected)
-            {                
+            {
+                var Selected_Roles = Input.AllRolesList.Where(r => r.Selected == true).Select(s => s.Text).ToList().ToArray();                
 
                 // If some roles are selected for New User, Add those roles
-                result = await UserManager.AddToRolesAsync(user, SelectedRoles);
+                result = await UserManager.AddToRolesAsync(user, Selected_Roles);
 
                 if (!result.Succeeded)
                 {
                     // Error occurs while adding roles
-                    Add_Model_Errors(result);
-                    await Load_Form_Reference_Data_OnPost_Failed(SelectedRoles, SelectedClaims);
+                    Add_Model_Errors(result);                   
                     return Page();
                 }
             }
 
-            var Is_Any_Claim_Selected = SelectedClaims != null && SelectedClaims.Length > 0;
-
+            var Is_Any_Claim_Selected = Input.AllClaimsList.Any(c => c.Selected == true);
+            
             if (Is_Any_Claim_Selected)
             {
 
-                List<Claim> Selected_Claims = ClaimsStore.AllClaims
-                   .Where(claim => SelectedClaims.Contains(claim.Value)).ToList();
+                var Selected_Claims = Input.AllClaimsList.Where(c => c.Selected == true).Select(s => new Claim(s.Text, s.Value)).ToList();
 
                 result = await UserManager.AddClaimsAsync(user, Selected_Claims);
 
                 if (!result.Succeeded)
                 {   // Error occurs while adding claims                                                     
-                    Add_Model_Errors(result);
-                    await Load_Form_Reference_Data_OnPost_Failed(SelectedRoles, SelectedClaims);
+                    Add_Model_Errors(result);                   
                     return Page();
                 }
             }
@@ -175,50 +171,25 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             var All_Roles = await RoleManager.Roles.ToListAsync();
 
-            AllRolesList = All_Roles.Select(x => new UserRole()
+
+            Input.AllRolesList = All_Roles.Select(role => new SelectListItem()
             {
-                IsSelected = false,
-                RoleId = x.Id,
-                RoleName = x.Name
+                Selected = false,
+                Value = role.Id,
+                Text = role.Name
             }).ToList();
 
-            AllClaimsList = ClaimsStore.AllClaims.Select(x => new UserClaim()
+            Input.AllClaimsList = ClaimsStore.AllClaims.Select(claim => new SelectListItem()
             {
-                IsSelected = false,
-                ClaimType = x.Type,
-                ClaimValue = x.Value,
+                Selected = false,
+                Text = claim.Type,
+                Value = claim.Value,
             }).ToList();
+
 
             return true;
 
         }
-
-
-
-        private async Task<bool> Load_Form_Reference_Data_OnPost_Failed(string[] SelectedRoles, string[] SelectedClaims)
-        {
-            
-            var All_Roles = await RoleManager.Roles.ToListAsync();
-
-            AllRolesList = All_Roles.Select(role => new UserRole()
-            {
-                IsSelected = SelectedRoles.Contains(role.Name),
-                RoleId = role.Id,
-                RoleName = role.Name
-            }).ToList();
-
-            AllClaimsList = ClaimsStore.AllClaims.Select(claim => new UserClaim()
-            {
-                IsSelected = SelectedClaims.Contains(claim.Value),
-                ClaimType = claim.Type,
-                ClaimValue = claim.Value,
-            }).ToList();
-
-            return true;
-
-        }
-
-
 
         private void Add_Model_Errors(IdentityResult result)
         {
