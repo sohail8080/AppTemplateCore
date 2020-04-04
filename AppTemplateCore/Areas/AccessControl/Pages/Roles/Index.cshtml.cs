@@ -42,6 +42,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         //public IList<ApplicationRole> ApplicationRole { get;set; }
 
 
+        [TempData]
+        public string StatusMessage { get; set; }
+        private readonly string Success_Msg = "Successfully created new Role : {0}";
+        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+
+
         public IList<InputModel> Input { get; set; }
 
 
@@ -50,8 +56,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             // Get the list of Users in this Role
             public IList<ApplicationUser> UserList { get; set; }
         }
-
-
 
         // Fill the ViewModel Properties, that all, no need to call Page();
         public async Task OnGetAsync()
@@ -105,8 +109,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         }
 
 
-
-
         public async Task<IActionResult> OnGetDeleteAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -136,5 +138,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             return RedirectToPage("./Index");
 
         }
+
+
+
     }
 }

@@ -43,6 +43,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         }
 
 
+        [TempData]
+        public string StatusMessage { get; set; }
+        private readonly string Success_Msg = "Successfully created new Role : {0}";
+        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+
+
+
         // ViewModel Properties
         // During OnGet() it will be blank
         // During OnPost() it will be filled by automatic model binding
@@ -197,6 +204,21 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             { ModelState.AddModelError("", error.Description); }
         }
 
-       
+
+        private void Handle_Success_Response(IdentityResult result)
+        {
+            Logger.LogError(string.Format(Success_Msg, Input.Email));
+            StatusMessage = string.Format(Success_Msg, Input.Email);
+        }
+
+        private void Handle_Error_Response(IdentityResult result)
+        {
+            Logger.LogError(string.Format(Error_Msg, Input.Email));
+            StatusMessage = string.Format(Error_Msg, Input.Email);
+            foreach (var error in result.Errors)
+            { ModelState.AddModelError("", error.Description); }
+        }
+
+
     }
 }

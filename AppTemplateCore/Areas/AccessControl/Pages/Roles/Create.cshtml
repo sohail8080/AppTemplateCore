@@ -5,6 +5,8 @@
     ViewData["Title"] = "Add Role";
 }
 
+<partial name="_StatusMessage" for="StatusMessage" />
+
 <h1>@ViewData["Title"]</h1>
 
 <hr />
@@ -34,7 +36,7 @@
         <a asp-page="" class="btn btn-primary">Add Users</a>
 
 
-        @if (Model.Input.UserList.Count <= 0)
+        @if (Model.Input.AllUsersList.Count <= 0)
         {
             <hr />
             <p>No User exist.</p>
@@ -42,7 +44,7 @@
             return;
         }
 
-        @if (Model.Input.SelectedUserList.Count <= 0)
+        @if (Model.Input.AllUsersList.Count <= 0)
         {
             <hr />
             <p>No Users found in this Role.</p>
@@ -58,7 +60,7 @@
                     </tr>
                 </thead>
 
-                @foreach (var item in Model.Input.SelectedUserList)
+                @foreach (var item in Model.Input.AllUsersList)
                 {
                     <tr>
                         <td>

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 {
     public class EditModel : PageModel
@@ -39,6 +40,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             Logger = logger;
         }
 
+        [TempData]
+        public string StatusMessage { get; set; }
+        private readonly string Success_Msg = "Successfully created new Role : {0}";
+        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+
+
         // View Model Properties available in View
         // OnGet() we fill this property and show Page();
         // OnPost() we do not get this property as ActionParameters
@@ -59,10 +66,18 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             public string Name { get; set; }
 
             // Get the list of Users in this Role
-            public List<ApplicationUser> UserList { get; set; }
-            public List<ApplicationUser> SelectedUserList { get; set; }
+            public List<RoleHasUsers> AllUsersList { get; set; }
 
         }
+
+        public class RoleHasUsers
+        {
+            public string UserId { get; set; }
+            public string UserName { get; set; }
+            public bool IsSelected { get; set; }
+
+        }
+
 
         // OnGet(), fill ViewModel Propertis and show Page();
         public async Task<IActionResult> OnGetAsync(string id)
@@ -105,15 +120,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
             if (!result.Succeeded)
             {
-                //ViewBag.Message = "Error occurred while updating Record(s)";
-                Add_Model_Errors(result);
+                Handle_Error_Response(result);
                 await Load_Form_Reference_Data(role);
                 return Page();
             }
 
-            //ViewBag.Message = "Record(s) updated successfully.");
-            Logger.LogInformation($"Role {Input.Name} is updated successfully.");
-            // Show List Page
+            Handle_Success_Response(result);
+
             return RedirectToPage("./Index");
         }
 
@@ -127,17 +140,28 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             };
 
 
-            Input.UserList = UserManager.Users.ToList();
-            Input.SelectedUserList = new List<ApplicationUser>();
+            //Input.UserList = UserManager.Users.ToList();
+            //Input.SelectedUserList = new List<ApplicationUser>();
 
-            // Get the list of Users in this Role
-            foreach (var user in UserManager.Users.ToList())
+            //// Get the list of Users in this Role
+            //foreach (var user in UserManager.Users.ToList())
+            //{
+            //    if (await UserManager.IsInRoleAsync(user, role.Name))
+            //    {
+            //        Input.SelectedUserList.Add(user);
+            //    }
+            //}
+
+            var All_Users = await UserManager.Users.ToListAsync();
+
+            var Role_Users = UserManager.GetUsersInRoleAsync(role.Name).Result;
+
+            Input.AllUsersList = All_Users.Select(user => new RoleHasUsers()
             {
-                if (await UserManager.IsInRoleAsync(user, role.Name))
-                {
-                    Input.SelectedUserList.Add(user);
-                }
-            }
+                IsSelected = Role_Users.Contains(user),
+                UserId = user.Id,
+                UserName = user.UserName
+            }).ToList();
 
             return true;
 
@@ -149,6 +173,19 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             { ModelState.AddModelError("", error.Description); }
         }
 
+        private void Handle_Success_Response(IdentityResult result)
+        {
+            Logger.LogError(string.Format(Success_Msg, Input.Name));
+            StatusMessage = string.Format(Success_Msg, Input.Name);
+        }
+
+        private void Handle_Error_Response(IdentityResult result)
+        {
+            Logger.LogError(string.Format(Error_Msg, Input.Name));
+            StatusMessage = string.Format(Error_Msg, Input.Name);
+            foreach (var error in result.Errors)
+            { ModelState.AddModelError("", error.Description); }            
+        }
 
         private bool ApplicationRoleExists(string id)
         {

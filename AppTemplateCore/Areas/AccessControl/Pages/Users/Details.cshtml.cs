@@ -37,6 +37,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         }
 
 
+        [TempData]
+        public string StatusMessage { get; set; }
+        private readonly string Success_Msg = "Successfully created new Role : {0}";
+        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+
+
         // This Model need to be Validated on POST
         // This Model is used to Render the View on GET
         public InputModel Input { get; set; }

@@ -37,6 +37,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             Logger = logger;
         }
 
+
+        [TempData]
+        public string StatusMessage { get; set; }
+        private readonly string Success_Msg = "Successfully created new Role : {0}";
+        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+
+
         // Public VM Properties to show List of Application Roles
         // Domain Model Classes are OK for Display purpose if they are fit to scena
         //public IList<ApplicationUser> ApplicationUser { get; set; }

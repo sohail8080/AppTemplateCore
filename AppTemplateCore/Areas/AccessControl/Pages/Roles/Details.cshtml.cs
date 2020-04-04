@@ -36,6 +36,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             Logger = logger;
         }
 
+        [TempData]
+        public string StatusMessage { get; set; }
+        private readonly string Success_Msg = "Successfully created new Role : {0}";
+        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+
+
 
         public InputModel Input { get; set; }
 
