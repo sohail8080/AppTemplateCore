@@ -38,8 +38,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
         [TempData]
         public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully created new Role : {0}";
-        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+        private readonly string Success_Msg = "Successfully deleted Role : {0}";
+        private readonly string Error_Msg = "Error occurred while deleting Role : {0}";
 
 
         [BindProperty]
@@ -89,7 +89,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
             if (role == null)
             {
-                //ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";                
+                                
                 return NotFound();                
             }
 
@@ -97,13 +97,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
             if (!result.Succeeded)
             {
-                //ViewBag.Message = "Error occurred while deleting Record(s)";
+                
                 Add_Model_Errors(result);
                 await Load_Form_Reference_Data(role);
                 return Page();
             }
 
-            //ViewBag.Message = "Record(s) deleted successfully.";
+            
             Logger.LogInformation($"Role {Input.Name} is deleted successfully.");
             return RedirectToPage("./Index");
 

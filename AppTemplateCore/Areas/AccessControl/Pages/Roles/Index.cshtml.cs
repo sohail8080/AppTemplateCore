@@ -44,8 +44,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
         [TempData]
         public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully created new Role : {0}";
-        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+        private readonly string Success_Msg = "Successfully deleted Role : {0}";
+        private readonly string Error_Msg = "Error occurred while deleting new Role : {0}";
 
 
         public IList<InputModel> Input { get; set; }
@@ -88,20 +88,50 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             if (role == null)
             {
                 return NotFound();
-                //ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";                
+                                
             }
 
             IdentityResult result = await RoleManager.DeleteAsync(role);
 
             if (!result.Succeeded)
             {
-                //ViewBag.Message = "Error occurred while deleting Record(s)";
+                
                 foreach (var error in result.Errors)
                 { ModelState.AddModelError("", error.Description); }
                 return Page();
             }
 
-            //ViewBag.Message = "Record(s) deleted successfully.";
+            
+            Logger.LogInformation($"Role {role.Name} is deleted successfully.");
+
+            return RedirectToPage("./Index");
+
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            { return NotFound(); }
+
+            var role = await RoleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                return NotFound();
+
+            }
+
+            IdentityResult result = await RoleManager.DeleteAsync(role);
+
+            if (!result.Succeeded)
+            {
+
+                foreach (var error in result.Errors)
+                { ModelState.AddModelError("", error.Description); }
+                return Page();
+            }
+
+
             Logger.LogInformation($"Role {role.Name} is deleted successfully.");
 
             return RedirectToPage("./Index");
@@ -119,20 +149,20 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             if (role == null)
             {
                 return NotFound();
-                //ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";                
+                                
             }
 
             IdentityResult result = await RoleManager.DeleteAsync(role);
 
             if (!result.Succeeded)
             {
-                //ViewBag.Message = "Error occurred while deleting Record(s)";
+                
                 foreach (var error in result.Errors)
                 { ModelState.AddModelError("", error.Description); }
                 return Page();
             }
 
-            //ViewBag.Message = "Record(s) deleted successfully.";
+            
             Logger.LogInformation($"Role {role.Name} is deleted successfully.");
 
             return RedirectToPage("./Index");

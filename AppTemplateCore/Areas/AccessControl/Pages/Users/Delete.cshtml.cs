@@ -40,50 +40,18 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         [TempData]
         public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully created new Role : {0}";
-        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+        private readonly string Success_Msg = "Successfully deleted Role : {0}";
+        private readonly string Error_Msg = "Error occurred while deleting Role : {0}";
 
 
         [BindProperty]
         public InputModel Input { get; set; }
 
 
-        // This Model need to be Validated on POST
-        // This Model is used to Render the View on GET
-        public class InputModel
+        public class InputModel : ApplicationUser
         {
-            [Required]
-            public string Id { get; set; }
-
-            [Required]
-            [Display(Name = "First Name")]
-            [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            public string FirstName { get; set; }
-
-            [Required]
-            [Display(Name = "Last Name")]
-            [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            public string LastName { get; set; }
-
-            [Display(Name = "User Name")]
-            public string UserName { get; set; }
-
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
-
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
-            public string Password { get; set; }
-
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
-
+            // Get the list of Users in this Role
+            public IList<string> RolesList { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync(string id)
@@ -91,10 +59,10 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (string.IsNullOrEmpty(id))
             { return NotFound(); }
 
-            var user = await Context.Users.FirstOrDefaultAsync(m => m.Id == id);
+            var user = await UserManager.FindByIdAsync(id);
 
             if (user == null)
-            { return NotFound();}
+            { return NotFound(); }
 
             return Page();
         }
@@ -104,15 +72,39 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (string.IsNullOrEmpty(Input.Id))
             { return NotFound(); }
 
-            var user = await Context.Users.FindAsync(Input.Id);
+            var user = await UserManager.FindByIdAsync(Input.Id);
 
-            if (user != null)
+            if (user == null)
+            { return NotFound(); }
+
+            IdentityResult result = await UserManager.DeleteAsync(user);
+
+            if (!result.Succeeded)
             {
-                Context.Users.Remove(user);
-                await Context.SaveChangesAsync();
+                Handle_Error_Response(result);
+                await Load_Form_Reference_Data(user);
+                return Page();
             }
 
+            Handle_Success_Response(result);
+
             return RedirectToPage("./Index");
+        }
+
+        private async Task<bool> Load_Form_Reference_Data(ApplicationUser user)
+        {
+            Input = new InputModel()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+
+            };
+
+            Input.RolesList = await UserManager.GetRolesAsync(user);
+
+            return true;
         }
 
 

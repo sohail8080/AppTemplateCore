@@ -10,19 +10,65 @@
 <h1>@ViewData["Title"]</h1>
 
 <hr />
+
 <div class="row">
 
-    <div class="col-md-4">
+    <div class="col-md-12">
 
         <form method="post">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="Input.Name" class="control-label"></label>
-                <input asp-for="Input.Name" class="form-control" />
+                <label asp-for="Input.Name" class="control-label col-md-5"></label>
+                <input asp-for="Input.Name" class="form-control col-md-5" />
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
+
+           
+
+            @if (Model.Input.AllUsersList.Count <= 0)
+            {
+                <hr />
+                <p>No User exist.</p>
+                <hr />
+                return;
+            }
+
+            @if (Model.Input.AllUsersList.Count() <= 0)
+            {
+                <hr />
+                <p>No Users found in this Role.</p>
+                <hr />
+            }
+            else
+            {
+                <table class="table table-bordered table-hover col-md-5">
+
+                    <thead>
+                        <tr>
+                            <th>Users in Role</th>
+                        </tr>
+                    </thead>
+
+                    @for (int i = 0; i < Model.Input.AllUsersList.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input hidden asp-for="@Model.Input.AllUsersList[i].UserId" />
+                                <input hidden asp-for="@Model.Input.AllUsersList[i].UserName" />
+
+                                <span class="checkbox">
+                                    <label>
+                                        <input asp-for="@Model.Input.AllUsersList[i].IsSelected" />
+                                        @Model.Input.AllUsersList[i].UserName
+                                    </label>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" /> |
@@ -31,54 +77,13 @@
 
         </form>
 
-
-        <hr />
-        <a asp-page="" class="btn btn-primary">Add Users</a>
-
-
-        @if (Model.Input.AllUsersList.Count <= 0)
-        {
-            <hr />
-            <p>No User exist.</p>
-            <hr />
-            return;
-        }
-
-        @if (Model.Input.AllUsersList.Count <= 0)
-        {
-            <hr />
-            <p>No Users found in this Role.</p>
-            <hr />
-        }
-        else
-        {
-            <table class="table table-bordered table-hover">
-
-                <thead>
-                    <tr>
-                        <th>Users in Role</th>
-                    </tr>
-                </thead>
-
-                @foreach (var item in Model.Input.AllUsersList)
-                {
-                    <tr>
-                        <td>
-                            @item.UserName
-                        </td>
-                    </tr>
-                }
-            </table>
-        }
-
-
     </div>
 </div>
 
 <div>
-   
+
 </div>
 
 @*@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}*@
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@

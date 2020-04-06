@@ -17,7 +17,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 {
     public class EditModel : PageModel
     {
-        // Controller dependencies : UOW
         // Controller dependencies
         private readonly ApplicationDbContext Context;
         private readonly UserManager<ApplicationUser> UserManager;
@@ -42,8 +41,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
         [TempData]
         public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully created new Role : {0}";
-        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+        private readonly string Success_Msg = "Successfully modified Role : {0}";
+        private readonly string Error_Msg = "Error occurred while modifying Role : {0}";
 
 
         // View Model Properties available in View
@@ -75,9 +74,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             public string UserId { get; set; }
             public string UserName { get; set; }
             public bool IsSelected { get; set; }
-
         }
-
 
         // OnGet(), fill ViewModel Propertis and show Page();
         public async Task<IActionResult> OnGetAsync(string id)
@@ -93,7 +90,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             await Load_Form_Reference_Data(role);
             return Page();
         }
-
 
         // OnPost(), ViewModel Properties filled and available
         // No need to catch then in Controller Action paramters
@@ -125,11 +121,83 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
                 return Page();
             }
 
-            Handle_Success_Response(result);
+            var Is_Any_User_Selected = Input.AllUsersList.Any(user => user.IsSelected == true);
 
+            // New User Added Successfully now add it roles
+            // If some users are selected for Role, Add those roles
+            if (Is_Any_User_Selected)
+            {
+
+                List<string> Existing_Users_In_Role = new List<string>();
+                foreach (var user in UserManager.Users)
+                { if (await UserManager.IsInRoleAsync(user, role.Name))
+                        Existing_Users_In_Role.Add(user.Id);
+                }
+                
+                var Selected_Users = Input.AllUsersList.Where(user => user.IsSelected == true).Select(s => s.UserId).ToList().ToArray();
+                var Newly_Selected_Users = Selected_Users.Except(Existing_Users_In_Role).ToArray<string>();
+                var Un_Selected_Users = Existing_Users_In_Role.Except(Selected_Users).ToArray<string>();
+
+                foreach (var user in Newly_Selected_Users)
+                {
+                    var appUser = await UserManager.FindByIdAsync(user);
+                    result = await UserManager.AddToRoleAsync(appUser, role.Name);
+
+                    if (!result.Succeeded)
+                    {
+                        // Error occurs while adding users
+                        Handle_Error_Response(result);
+                        return Page();
+                    }
+
+                }
+
+
+                foreach (var user in Un_Selected_Users)
+                {
+                    var appUser = await UserManager.FindByIdAsync(user);
+                    result = await UserManager.RemoveFromRoleAsync(appUser, role.Name);
+
+                    if (!result.Succeeded)
+                    {
+                        // Error occurs while adding roles
+                        Handle_Error_Response(result);
+                        return Page();
+                    }
+
+                }
+
+            }
+            else
+            {
+                // Remove all Users of the Role
+                List<string> Existing_Users_In_Role = new List<string>();
+                foreach (var user in UserManager.Users)
+                {
+                    if (await UserManager.IsInRoleAsync(user, role.Name))
+                        Existing_Users_In_Role.Add(user.Id);
+                }
+
+
+                foreach (var user in Existing_Users_In_Role)
+                {
+                    var appUser = await UserManager.FindByIdAsync(user);
+                    result = await UserManager.RemoveFromRoleAsync(appUser, role.Name);
+
+                    if (!result.Succeeded)
+                    {
+                        // Error occurs while adding roles
+                        Handle_Error_Response(result);
+                        return Page();
+                    }
+
+                }
+                
+            }
+
+            Handle_Success_Response(result);
             return RedirectToPage("./Index");
         }
-
 
         private async Task<bool> Load_Form_Reference_Data(ApplicationRole role)
         {
@@ -139,18 +207,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
                 Name = role.Name
             };
 
-
-            //Input.UserList = UserManager.Users.ToList();
-            //Input.SelectedUserList = new List<ApplicationUser>();
-
-            //// Get the list of Users in this Role
-            //foreach (var user in UserManager.Users.ToList())
-            //{
-            //    if (await UserManager.IsInRoleAsync(user, role.Name))
-            //    {
-            //        Input.SelectedUserList.Add(user);
-            //    }
-            //}
 
             var All_Users = await UserManager.Users.ToListAsync();
 
@@ -184,7 +240,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             Logger.LogError(string.Format(Error_Msg, Input.Name));
             StatusMessage = string.Format(Error_Msg, Input.Name);
             foreach (var error in result.Errors)
-            { ModelState.AddModelError("", error.Description); }            
+            { ModelState.AddModelError("", error.Description); }
         }
 
         private bool ApplicationRoleExists(string id)

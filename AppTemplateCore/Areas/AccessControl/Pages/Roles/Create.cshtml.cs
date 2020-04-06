@@ -13,7 +13,6 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
 
-
 namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 {
     public class CreateModel : PageModel
@@ -91,17 +90,49 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             // Model is VM Prperties
             if (!ModelState.IsValid)
             {
-                await Load_Form_Reference_Data_OnPost_Failed();
+                //await Load_Form_Reference_Data_OnPost_Failed();
                 return Page();
             }
 
-            IdentityResult result = await RoleManager.CreateAsync(
-                new ApplicationRole() { Name = Input.Name });
+            var role = new ApplicationRole() { Name = Input.Name };
+
+            IdentityResult result = await RoleManager.CreateAsync(role);
 
             if (!result.Succeeded)
             {
-                await Handle_Error_Response(result);
+                Handle_Error_Response(result);
                 return Page();
+            }
+
+            var Is_Any_User_Selected = Input.AllUsersList.Any(user => user.IsSelected == true);
+
+            // New User Added Successfully now add it roles
+            if (Is_Any_User_Selected)
+            {
+                //var Selected_Users = Input.AllUsersList.Where(user => user.IsSelected == true).Select(s => s.UserName).ToList().ToArray();
+                var Selected_Users = Input.AllUsersList.Where(user => user.IsSelected == true);
+
+                foreach (var user in Selected_Users)
+                {
+                    var appUser = await UserManager.FindByIdAsync(user.UserId);
+                    result = await UserManager.AddToRoleAsync(appUser, role.Name);
+
+                    if (!result.Succeeded)
+                    {
+                        // Error occurs while adding roles
+                        Handle_Error_Response(result);
+                        return Page();
+                    }
+
+                }
+                // If some roles are selected for New User, Add those roles
+                               
+                if (!result.Succeeded)
+                {
+                    // Error occurs while adding roles
+                    Handle_Error_Response(result);
+                    return Page();
+                }
             }
 
             Handle_Success_Response(result);
@@ -126,19 +157,19 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             return true;
         }
 
-        private async Task<bool> Load_Form_Reference_Data_OnPost_Failed()
-        {            
-            var All_Users = await UserManager.Users.ToListAsync();
+        //private async Task<bool> Load_Form_Reference_Data_OnPost_Failed()
+        //{            
+        //    var All_Users = await UserManager.Users.ToListAsync();
 
-            Input.AllUsersList = All_Users.Select(user => new RoleHasUsers()
-            {
-                IsSelected = false,
-                UserId = user.Id,
-                UserName = user.UserName
-            }).ToList();
+        //    Input.AllUsersList = All_Users.Select(user => new RoleHasUsers()
+        //    {
+        //        IsSelected = false,
+        //        UserId = user.Id,
+        //        UserName = user.UserName
+        //    }).ToList();
 
-            return true;
-        }
+        //    return true;
+        //}
 
         private void Handle_Success_Response(IdentityResult result)
         {
@@ -146,13 +177,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             StatusMessage = string.Format(Success_Msg, Input.Name);
         }
 
-        private async Task Handle_Error_Response(IdentityResult result)
+        private void Handle_Error_Response(IdentityResult result)
         {
             Logger.LogError(string.Format(Error_Msg, Input.Name));
             StatusMessage = string.Format(Error_Msg, Input.Name);
             foreach (var error in result.Errors)
             { ModelState.AddModelError("", error.Description); }
-            await Load_Form_Reference_Data_OnPost_Failed();
+            //await Load_Form_Reference_Data_OnPost_Failed();
         }
 
     }

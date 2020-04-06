@@ -65,22 +65,27 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (user == null)
             { return NotFound();}
 
+            await Load_Form_Reference_Data(user);
+
+            return Page();
+        }
+
+
+        private async Task<bool> Load_Form_Reference_Data(ApplicationUser user)
+        {
             Input = new InputModel()
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName
-               
+
             };
 
             Input.RolesList = await UserManager.GetRolesAsync(user);
 
-            return Page();
+            return true;
         }
-
-
-
 
 
 

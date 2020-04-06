@@ -42,8 +42,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         [TempData]
         public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully created new Role : {0}";
-        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+        private readonly string Success_Msg = "Successfully modified Role : {0}";
+        private readonly string Error_Msg = "Error occurred while modifying Role : {0}";
 
 
         // View Model Properties available in View
@@ -168,9 +168,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             IdentityResult result = await UserManager.UpdateAsync(user);
 
             if (!result.Succeeded)
-            {
-                //ViewBag.Message = "Error occurred while updating Record(s)";
-                Add_Model_Errors(result);
+            {                
+                Handle_Error_Response(result);
                 await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                 return Page();
             }
@@ -191,8 +190,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 if (!result.Succeeded)
                 {
                     // Error occurs while adding roles
-                    //ViewBag.Message = "Error occurred while adding Record(s)";
-                    Add_Model_Errors(result);
+                    Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
                 }
@@ -204,8 +202,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     // Error occurs while removing roles, but user edited, role added, not removed
                     if (!result.Succeeded)
                     {
-                        //ViewBag.Message = "Error occurred while updating Record(s)";
-                        Add_Model_Errors(result);
+    
+                        Handle_Error_Response(result);
                         await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                         return Page();
                     }
@@ -218,8 +216,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 if (!result.Succeeded)
                 {
-                    //ViewBag.Message = "Error occurred while updating Record(s)";
-                    Add_Model_Errors(result);
+
+                    Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
                 }
@@ -240,7 +238,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 if (!result.Succeeded)
                 {   // Error occurs while adding claims                                                     
-                    Add_Model_Errors(result);
+                    Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
                 }
@@ -252,8 +250,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     // Error occurs while removing claims, user edited, roles added, claims added but unchecked claims not removed
                     if (!result.Succeeded)
                     {
-                        //ViewBag.Message = "Error occurred while updating Record(s)";
-                        Add_Model_Errors(result);
+                        Handle_Error_Response(result);
                         await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                         return Page();
                     }
@@ -266,17 +263,15 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 if (!result.Succeeded)
                 {
-                    //ViewBag.Message = "Error occurred while updating Record(s)";
-                    Add_Model_Errors(result);
+
+                    Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
                 }
 
             }
 
-
-            //ViewBag.Message = "Record(s) updated successfully.");
-            Logger.LogInformation($"User {Username} is updated successfully.");
+            Handle_Success_Response(result);
             // Show List Page
             return RedirectToPage("./Index");
 

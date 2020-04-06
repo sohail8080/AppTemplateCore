@@ -42,8 +42,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         [TempData]
         public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully created new Role : {0}";
-        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
+        private readonly string Success_Msg = "Successfully modified Role : {0}";
+        private readonly string Error_Msg = "Error occurred while modifying Role : {0}";
 
 
         // View Model Properties available in View
@@ -155,8 +155,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (user == null)
             { return NotFound(); }
 
-            // Here Model means all Properties of this class
-            // VM Properties already filled, show page again
             if (!ModelState.IsValid)
             {
                 await Load_Form_Reference_Data_OnPost_Failed(user);
@@ -173,8 +171,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             if (!result.Succeeded)
             {
-                //ViewBag.Message = "Error occurred while updating Record(s)";
-                Add_Model_Errors(result);
+                Handle_Error_Response(result);
                 await Load_Form_Reference_Data_OnPost_Failed(user);
                 return Page();
             }
@@ -196,23 +193,20 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 {
                     // Error occurs while adding roles
                     //ViewBag.Message = "Error occurred while adding Record(s)";
-                    Add_Model_Errors(result);
+                    Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user);
                     return Page();
                 }
-                else
-                {
-                    // Remove all roles other than selected roles.                   
-                    result = await UserManager.RemoveFromRolesAsync(user, Un_Selected_Roles);
 
-                    // Error occurs while removing roles, but user edited, role added, not removed
-                    if (!result.Succeeded)
-                    {
-                        //ViewBag.Message = "Error occurred while updating Record(s)";
-                        Add_Model_Errors(result);
-                        await Load_Form_Reference_Data_OnPost_Failed(user);
-                        return Page();
-                    }
+                // Remove all roles other than selected roles.                   
+                result = await UserManager.RemoveFromRolesAsync(user, Un_Selected_Roles);
+
+                // Error occurs while removing roles, but user edited, role added, not removed
+                if (!result.Succeeded)
+                {
+                    Handle_Error_Response(result);
+                    await Load_Form_Reference_Data_OnPost_Failed(user);
+                    return Page();
                 }
             }
             else
@@ -222,12 +216,10 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 if (!result.Succeeded)
                 {
-                    //ViewBag.Message = "Error occurred while updating Record(s)";
-                    Add_Model_Errors(result);
+                    Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user);
                     return Page();
                 }
-
             }
             // here check for the case when all roles are un checked while edit
 
@@ -236,15 +228,15 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (Is_Any_Claim_Selected)
             {
                 var Existing_Claims = await UserManager.GetClaimsAsync(user);
-                var Selected_Claims = Input.AllClaimsList.Where(c => c.IsSelected == true).Select(s => new Claim(s.ClaimType, s.ClaimValue)).ToList();                
-                var Newly_Selected_Claims = Difference_Of_Claims_Lists(Selected_Claims, Existing_Claims);                
-                var Un_Selected_Claims = Difference_Of_Claims_Lists(Existing_Claims, Selected_Claims);                
+                var Selected_Claims = Input.AllClaimsList.Where(c => c.IsSelected == true).Select(s => new Claim(s.ClaimType, s.ClaimValue)).ToList();
+                var Newly_Selected_Claims = Difference_Of_Claims_Lists(Selected_Claims, Existing_Claims);
+                var Un_Selected_Claims = Difference_Of_Claims_Lists(Existing_Claims, Selected_Claims);
 
                 result = await UserManager.AddClaimsAsync(user, Newly_Selected_Claims);
 
                 if (!result.Succeeded)
                 {   // Error occurs while adding claims                                                     
-                    Add_Model_Errors(result);
+                    Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user);
                     return Page();
                 }
@@ -256,8 +248,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     // Error occurs while removing claims, user edited, roles added, claims added but unchecked claims not removed
                     if (!result.Succeeded)
                     {
-                        //ViewBag.Message = "Error occurred while updating Record(s)";
-                        Add_Model_Errors(result);
+                        Handle_Error_Response(result);
                         await Load_Form_Reference_Data_OnPost_Failed(user);
                         return Page();
                     }
@@ -270,17 +261,14 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 if (!result.Succeeded)
                 {
-                    //ViewBag.Message = "Error occurred while updating Record(s)";
-                    Add_Model_Errors(result);
+                    Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user);
                     return Page();
                 }
 
             }
 
-
-            //ViewBag.Message = "Record(s) updated successfully.");
-            Logger.LogInformation($"User {Username} is updated successfully.");
+            Handle_Success_Response(result);
             // Show List Page
             return RedirectToPage("./Index");
 
@@ -349,7 +337,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 }).ToList(),
 
                 AllClaimsList = ClaimsStore.AllClaims.Select(claim => new UserHasClaims()
-                {                    
+                {
                     IsSelected = userClaims.Any(uc => uc.Value == claim.Value),
                     ClaimType = claim.Type,
                     ClaimValue = claim.Value,

@@ -1,0 +1,131 @@
+﻿@page
+@model IndexModel2
+
+@{
+    ViewData["Title"] = "Roles List";
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    @*Show Page by calling OnGet() both page at same level *@
+    <a asp-page="Create" class="btn btn-primary">Add Role</a>    
+</p>
+
+@{ 
+    if (Model.Input.Count() <= 0)
+    {
+        <p>No Role Found</p>
+        return;
+    }
+}
+
+
+<table id="roles" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Roles</th>
+            <th>Details</th>
+            <th>Users</th>
+            <th>Edit</th>
+            <th>Delete by Get </th>
+            <th>Delete by Post </th>
+            <th>Delete by Post </th>
+            <th>2 Step Delete</th>
+            <th>Add Users</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var role in Model.Input)
+        {
+        <tr>
+
+            <td>
+                <a asp-page="./Details" asp-route-id="@role.Id"> @role.Name</a>
+            </td>
+
+            <td>
+                <a asp-page="./Details" asp-route-id="@role.Id" class="btn btn-primary">Details</a>
+            </td>
+
+            <td>
+                @if (role.UserList != null && role.UserList.Count >= 1)
+                {
+                    string userlist = string.Empty;
+                    foreach (var user in role.UserList)
+                    {
+                        userlist = userlist + user.UserName + ", ";
+                    }
+                    <p>@userlist</p>
+                }
+                else
+                {
+                    <p>Role not assigned</p>
+                }
+            </td>
+
+            <td>
+                <a asp-page="./Edit" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+            </td>
+
+            <td>
+                @*Delete by Get, not to use in real, just for demo*@
+                <a asp-page-handler="Delete" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
+            </td>
+
+            <td>
+                @*Delete by Post, dialog box confirmation*@
+                <form method="post" asp-route-id="@role.Id">
+
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+
+                </form>
+            </td>
+
+            <td>
+                @*Delete by Post, inline confirmation*@
+                <form method="post" asp-route-id="@role.Id">
+                
+                    <span id="confirmDeleteSpan_@role.Id" style="display:none">
+
+                        <span>Are you sure you want to delete?</span>
+
+                        <button type="submit" class="btn btn-danger">Yes</button>
+
+                        <a href="#" class="btn btn-primary"
+                           onclick="confirmDelete('@role.Id', false)">No</a>
+
+                    </span>
+
+                    <span id="deleteSpan_@role.Id">
+                        <a href="#" class="btn btn-danger"
+                           onclick="confirmDelete('@role.Id', true)">Delete</a>
+                    </span>
+
+                </form>
+            </td>
+
+
+
+            <td>
+                @*Two step delete by seperate delete page *@
+                <a asp-page="./Delete" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
+            </td>
+
+            <td>
+                @Html.ActionLink("Add Users", "List", "RolesUsers", routeValues: new { userid = role.Id }, htmlAttributes: new { id = "roleDeleteLink", @class = "btn btn-primary" })
+            </td>
+
+        </tr>
+
+        }
+
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/js/ConfirmDelete.js"></script>
+}

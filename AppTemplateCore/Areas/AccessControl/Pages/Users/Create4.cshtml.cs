@@ -127,7 +127,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (!result.Succeeded)
             {
                 // Error occures while Adding New User                                            
-                Add_Model_Errors(result);
+                Handle_Error_Response(result);
                 await Load_Form_Reference_Data_OnPost_Failed(SelectedRoles, SelectedClaims);
                 return Page();
             }
@@ -144,7 +144,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 if (!result.Succeeded)
                 {
                     // Error occurs while adding roles
-                    Add_Model_Errors(result);
+                    Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(SelectedRoles, SelectedClaims);
                     return Page();
                 }
@@ -162,15 +162,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 if (!result.Succeeded)
                 {   // Error occurs while adding claims                                                     
-                    Add_Model_Errors(result);
+                    Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(SelectedRoles, SelectedClaims);
                     return Page();
                 }
             }
 
-            //ViewBag.Message = "Record(s) addded successfully.";
-            // Show List Page
-            Logger.LogInformation($"User {user.UserName} is created successfully.");
+            Handle_Success_Response(result);
             return RedirectToPage("./Index");
 
         }

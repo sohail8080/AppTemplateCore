@@ -54,7 +54,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         // During OnPost() it will be filled by automatic model binding
         [BindProperty]
         public InputModel Input { get; set; }
-               
+
 
         // This Model need to be Validated on POST
         // This Model is used to Render the View on GET
@@ -122,7 +122,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         {
             // Model is VM Prperties
             if (!ModelState.IsValid)
-            {                
+            {
                 return Page();
             }
 
@@ -140,7 +140,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (!result.Succeeded)
             {
                 // Error occures while Adding New User                                            
-                Add_Model_Errors(result);               
+                Handle_Error_Response(result);
                 return Page();
             }
 
@@ -149,7 +149,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             // New User Added Successfully now add it roles
             if (Is_Any_Role_Selected)
             {
-                var Selected_Roles = Input.AllRolesList.Where(r => r.IsSelected == true).Select(s => s.RoleName).ToList().ToArray();                
+                var Selected_Roles = Input.AllRolesList.Where(r => r.IsSelected == true).Select(s => s.RoleName).ToList().ToArray();
 
                 // If some roles are selected for New User, Add those roles
                 result = await UserManager.AddToRolesAsync(user, Selected_Roles);
@@ -157,13 +157,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 if (!result.Succeeded)
                 {
                     // Error occurs while adding roles
-                    Add_Model_Errors(result);                   
+                    Handle_Error_Response(result);
                     return Page();
                 }
             }
 
             var Is_Any_Claim_Selected = Input.AllClaimsList.Any(c => c.IsSelected == true);
-            
+
             if (Is_Any_Claim_Selected)
             {
 
@@ -173,16 +173,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 if (!result.Succeeded)
                 {   // Error occurs while adding claims                                                     
-                    Add_Model_Errors(result);                   
+                    Handle_Error_Response(result);
                     return Page();
                 }
             }
 
-            //ViewBag.Message = "Record(s) addded successfully.";
-            // Show List Page
-            Logger.LogInformation($"User {user.UserName} is created successfully.");
+            Handle_Success_Response(result);
             return RedirectToPage("./Index");
-
         }
 
         private async Task<bool> Load_Form_Reference_Data()

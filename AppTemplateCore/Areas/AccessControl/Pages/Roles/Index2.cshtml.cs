@@ -1,18 +1,18 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AppTemplateCore.Areas.AccessControl.Models;
-using AppTemplateCore.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using AppTemplateCore.Areas.AccessControl.Models;
+using AppTemplateCore.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace AppTemplateCore.Areas.AccessControl.Pages.Users
+namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 {
-    public class IndexModel : PageModel
+    public class IndexModel2 : PageModel
     {
         // Controller Dependencies
         // Controller dependencies
@@ -23,7 +23,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         private readonly ILogger<IndexModel> Logger;
 
         // Controller Constructors, loading Controller Dependencies
-        public IndexModel(
+        public IndexModel2(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
@@ -37,54 +37,44 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             Logger = logger;
         }
 
+        // Public VM Properties to show List of Application Roles
+        // Domain Model Classes are OK for Display purpose if they are fit to scena
+        //public IList<ApplicationRole> ApplicationRole { get;set; }
+
 
         [TempData]
         public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully deleted new Role : {0}";
+        private readonly string Success_Msg = "Successfully deleted Role : {0}";
         private readonly string Error_Msg = "Error occurred while deleting new Role : {0}";
 
-
-        // Public VM Properties to show List of Application Roles
-        // Domain Model Classes are OK for Display purpose if they are fit to scena
-        //public IList<ApplicationUser> ApplicationUser { get; set; }
 
         public IList<InputModel> Input { get; set; }
 
 
-        public class InputModel : ApplicationUser
+        public class InputModel : ApplicationRole
         {
             // Get the list of Users in this Role
-            public IList<string> RolesList { get; set; }
+            public IList<ApplicationUser> UserList { get; set; }
         }
-
 
         // Fill the ViewModel Properties, that all, no need to call Page();
         public async Task OnGetAsync()
         {
-            //ApplicationUser = await Context.Users.ToListAsync();
-            //var users = UserManager.Users.ToList();
-
-            var users = await UserManager.Users.ToListAsync();
+            var roles = await RoleManager.Roles.ToListAsync();
 
             Input = new List<InputModel>();
 
-            foreach (var user in users)
+            foreach (var role in roles)
             {
-                var userWithRoles = new InputModel();
-                userWithRoles.Id = user.Id;
-                userWithRoles.UserName = user.UserName;
-                userWithRoles.Email = user.Email;
-
-                userWithRoles.FirstName = user.FirstName;
-                userWithRoles.LastName = user.LastName;
-                userWithRoles.PhoneNumber = user.PhoneNumber;
-
-                userWithRoles.RolesList = await UserManager.GetRolesAsync(user);
-
-                Input.Add(userWithRoles);
+                var roleWithUsers = new InputModel();
+                roleWithUsers.Id = role.Id;
+                roleWithUsers.Name = role.Name;
+                roleWithUsers.NormalizedName = role.NormalizedName;
+                roleWithUsers.UserList = await UserManager.GetUsersInRoleAsync(role.Name);
+                Input.Add(roleWithUsers);
             }
 
-
+            //ApplicationRole = await Context.Roles.Include(u => u.Users).ToListAsync();
         }
 
 
@@ -93,15 +83,15 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (string.IsNullOrEmpty(id))
             { return NotFound(); }
 
-            var user = await UserManager.FindByIdAsync(id);
+            var role = await RoleManager.FindByIdAsync(id);
 
-            if (user == null)
+            if (role == null)
             {
                 return NotFound();
                                 
             }
 
-            IdentityResult result = await UserManager.DeleteAsync(user);
+            IdentityResult result = await RoleManager.DeleteAsync(role);
 
             if (!result.Succeeded)
             {
@@ -112,7 +102,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             }
 
             
-            Logger.LogInformation($"Role {user.UserName} is deleted successfully.");
+            Logger.LogInformation($"Role {role.Name} is deleted successfully.");
 
             return RedirectToPage("./Index");
 
@@ -124,15 +114,15 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (string.IsNullOrEmpty(id))
             { return NotFound(); }
 
-            var user = await UserManager.FindByIdAsync(id);
+            var role = await RoleManager.FindByIdAsync(id);
 
-            if (user == null)
+            if (role == null)
             {
                 return NotFound();
                                 
             }
 
-            IdentityResult result = await UserManager.DeleteAsync(user);
+            IdentityResult result = await RoleManager.DeleteAsync(role);
 
             if (!result.Succeeded)
             {
@@ -143,25 +133,10 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             }
 
             
-            Logger.LogInformation($"Role {user.UserName} is deleted successfully.");
+            Logger.LogInformation($"Role {role.Name} is deleted successfully.");
 
             return RedirectToPage("./Index");
 
-        }
-
-
-        private void Handle_Success_Response(IdentityResult result, ApplicationUser user)
-        {
-            Logger.LogError(string.Format(Success_Msg, user.Email));
-            StatusMessage = string.Format(Success_Msg, user.Email);
-        }
-
-        private void Handle_Error_Response(IdentityResult result, ApplicationUser user)
-        {
-            Logger.LogError(string.Format(Error_Msg, user.Email));
-            StatusMessage = string.Format(Error_Msg, user.Email);
-            foreach (var error in result.Errors)
-            { ModelState.AddModelError("", error.Description); }
         }
 
 
