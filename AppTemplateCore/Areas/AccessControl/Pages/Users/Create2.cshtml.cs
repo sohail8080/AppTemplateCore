@@ -16,18 +16,8 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
-    public class CreateModel2 : PageModel
+    public class CreateModel2 : UserPageModel
     {
-        // Controller dependencies
-        private readonly ApplicationDbContext Context;
-        private readonly UserManager<ApplicationUser> UserManager;
-        private readonly RoleManager<ApplicationRole> RoleManager;
-        private readonly SignInManager<ApplicationUser> SignInManager;
-        private readonly ILogger<CreateModel> Logger;
-
-        // Controller Contructor initializing Controller dependencies by 
-        //DI Container
-
         public CreateModel2(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
@@ -42,22 +32,9 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             Logger = logger;
         }
 
-        [TempData]
-        public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully created new Role : {0}";
-        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
-
-
-
-        // ViewModel Properties
-        // During OnGet() it will be blank
-        // During OnPost() it will be filled by automatic model binding
         [BindProperty]
         public InputModel Input { get; set; }
 
-
-        // This Model need to be Validated on POST
-        // This Model is used to Render the View on GET
         public class InputModel
         {
             [Required]
@@ -107,20 +84,14 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         }
 
-        // Just show the blank page
-        // ViewModel Properties are used to render View
         public async Task<IActionResult> OnGetAsync()
         {
             await Load_Form_Reference_Data();
             return Page();
         }
 
-
-        // OnPost(), ViewModel Properties filled and available
-        // No need to catch then in Controller Action paramters
         public async Task<IActionResult> OnPostAsync(string[] SelectedRoles, string[] SelectedClaims)
-        {
-            // Model is VM Prperties
+        {            
             if (!ModelState.IsValid)
             {
                 await Load_Form_Reference_Data_OnPost_Failed(SelectedRoles, SelectedClaims);
@@ -134,13 +105,11 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 FirstName = Input.FirstName,
                 LastName = Input.LastName
             };
-
-            // Use UserManager Service Class for storing User
+            
             var result = await UserManager.CreateAsync(user, Input.Password);
 
             if (!result.Succeeded)
-            {
-                // Error occures while Adding New User                                            
+            {                
                 Handle_Error_Response(result);
                 await Load_Form_Reference_Data_OnPost_Failed(SelectedRoles, SelectedClaims);
                 return Page();
@@ -156,8 +125,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 result = await UserManager.AddToRolesAsync(user, SelectedRoles);
 
                 if (!result.Succeeded)
-                {
-                    // Error occurs while adding roles
+                {                    
                     Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(SelectedRoles, SelectedClaims);
                     return Page();
@@ -175,7 +143,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 result = await UserManager.AddClaimsAsync(user, Selected_Claims);
 
                 if (!result.Succeeded)
-                {   // Error occurs while adding claims                                                     
+                {   
                     Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(SelectedRoles, SelectedClaims);
                     return Page();

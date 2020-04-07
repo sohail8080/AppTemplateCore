@@ -13,14 +13,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 {
-    public class DeleteModel : PageModel
+    public class DeleteModel : RolePageModel
     {
-        // Controller dependencies
-        private readonly ApplicationDbContext Context;
-        private readonly UserManager<ApplicationUser> UserManager;
-        private readonly RoleManager<ApplicationRole> RoleManager;
-        private readonly SignInManager<ApplicationUser> SignInManager;
-        private readonly ILogger<DeleteModel> Logger;
 
         public DeleteModel(
             ApplicationDbContext context,
@@ -36,11 +30,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             Logger = logger;
         }
 
-        [TempData]
-        public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully deleted Role : {0}";
-        private readonly string Error_Msg = "Error occurred while deleting Role : {0}";
-
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -54,8 +43,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
             [Display(Name = "Role Name")]
             public string Name { get; set; }
-
-            // Get the list of Users in this Role
+          
             public List<ApplicationUser> SelectedUserList { get; set; }
         }
 
@@ -65,8 +53,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         {
             if (string.IsNullOrEmpty(id))
             { return NotFound(); }
-
-            //var role = await Context.Roles.FirstOrDefaultAsync(m => m.Id == id);
+            
             var role = await RoleManager.FindByIdAsync(id);
 
             if (role == null)

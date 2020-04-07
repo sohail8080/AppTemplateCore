@@ -13,14 +13,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 {
-    public class DetailsModel : PageModel
+    public class DetailsModel : RolePageModel
     {
-        // Controller dependencies
-        private readonly ApplicationDbContext Context;
-        private readonly UserManager<ApplicationUser> UserManager;
-        private readonly RoleManager<ApplicationRole> RoleManager;
-        private readonly SignInManager<ApplicationUser> SignInManager;
-        private readonly ILogger<DetailsModel> Logger;
 
         public DetailsModel(
             ApplicationDbContext context,
@@ -36,31 +30,29 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             Logger = logger;
         }
 
-        [TempData]
-        public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully created new Role : {0}";
-        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
-
-
-
         public InputModel Input { get; set; }
 
 
         public class InputModel : ApplicationRole
-        {
-            // Get the list of Users in this Role
+        {            
             public IList<ApplicationUser> SelectedUserList { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
-            { return NotFound(); }
+            {
+                TempData["ErrorMessage"] = string.Format(NotFound_Msg, id);
+                return NotFound();
+            }
             
             var role = await RoleManager.FindByIdAsync(id);
 
             if (role == null)
-            { return NotFound(); }
+            {
+                TempData["ErrorMessage"] = string.Format(NotFound_Msg, id);
+                return NotFound();
+            }
 
             Input = new InputModel()
             {
@@ -70,7 +62,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
             Input.SelectedUserList = new List<ApplicationUser>();
 
-            // Get the list of Users in this Role
+       
             foreach (var user in UserManager.Users.ToList())
             {
                 if (await UserManager.IsInRoleAsync(user, role.Name))
@@ -78,7 +70,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
                     Input.SelectedUserList.Add(user);
                 }
             }
-
            
             return Page();
         }

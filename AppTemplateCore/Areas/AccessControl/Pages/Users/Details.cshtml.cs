@@ -13,14 +13,8 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
-    public class DetailsModel : PageModel
+    public class DetailsModel : UserPageModel
     {
-        // Controller dependencies
-        private readonly ApplicationDbContext Context;
-        private readonly UserManager<ApplicationUser> UserManager;
-        private readonly RoleManager<ApplicationRole> RoleManager;
-        private readonly SignInManager<ApplicationUser> SignInManager;
-        private readonly ILogger<DetailsModel> Logger;
 
         public DetailsModel(
             ApplicationDbContext context,
@@ -35,13 +29,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             SignInManager = signInManager;
             Logger = logger;
         }
-
-
-        [TempData]
-        public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully created new Role : {0}";
-        private readonly string Error_Msg = "Error occurred while creating new Role : {0}";
-
 
         // This Model need to be Validated on POST
         // This Model is used to Render the View on GET

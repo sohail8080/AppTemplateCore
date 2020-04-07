@@ -15,17 +15,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
-    public class EditModel3 : PageModel
+    public class EditModel3 : UserPageModel
     {
-        // Controller dependencies : UOW
-        // Controller dependencies
-        private readonly ApplicationDbContext Context;
-        private readonly UserManager<ApplicationUser> UserManager;
-        private readonly RoleManager<ApplicationRole> RoleManager;
-        private readonly SignInManager<ApplicationUser> SignInManager;
-        private readonly ILogger<EditModel> Logger;
-
-        // DI Container injects UOW inside controller constructor
+        
         public EditModel3(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
@@ -41,25 +33,9 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         }
 
 
-        [TempData]
-        public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully modified Role : {0}";
-        private readonly string Error_Msg = "Error occurred while modifying Role : {0}";
-
-
-        // View Model Properties available in View
-        // OnGet() we fill this property and show Page();
-        // OnPost() we do not get this property as ActionParameters
-        // When form is posted this property is Auto Filled and availble
-        // ModelState works as before in Controller
-        // ViewModel Properties
-        // During OnGet() it will be blank
-        // During OnPost() it will be filled by automatic model binding
         [BindProperty]
         public InputModel Input { get; set; }
 
-        // This Model need to be Validated on POST
-        // This Model is used to Render the View on GET
         public class InputModel
         {
             [Required]
@@ -97,19 +73,9 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         }
 
-        // Render the UI but not invovled in Post() 
-        // We only want to show this field on form
-        // But we do not want to Post Back this field
-        // We do not want to get this field in OnPost()
-        // We do not want Model Binding to happen on this
-        // As Username never changed, so this field not kept 
-        //inside postback class
-        // So we need to set this field, if postback failed
         [Display(Name = "User Name")]
         public string Username { get; set; }
-
-
-        // OnGet(), fill ViewModel Propertis and show Page();
+        
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -127,9 +93,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             return Page();
         }
 
-
-        // OnPost(), ViewModel Properties filled and available
-        // No need to catch then in Controller Action paramters
         public async Task<IActionResult> OnPostAsync()
         {
             if (string.IsNullOrEmpty(Input.Id))
@@ -267,7 +230,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             return RedirectToPage("./Index");
 
         }
-
 
         private async Task<bool> Load_Form_Reference_Data(ApplicationUser user)
         {

@@ -14,17 +14,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
-    public class EditModel : PageModel
+    public class EditModel : UserPageModel
     {
-        // Controller dependencies : UOW
-        // Controller dependencies
-        private readonly ApplicationDbContext Context;
-        private readonly UserManager<ApplicationUser> UserManager;
-        private readonly RoleManager<ApplicationRole> RoleManager;
-        private readonly SignInManager<ApplicationUser> SignInManager;
-        private readonly ILogger<EditModel> Logger;
-
-        // DI Container injects UOW inside controller constructor
+        
         public EditModel(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
@@ -40,26 +32,9 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         }
 
 
-        [TempData]
-        public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully modified Role : {0}";
-        private readonly string Error_Msg = "Error occurred while modifying Role : {0}";
-
-
-        // View Model Properties available in View
-        // OnGet() we fill this property and show Page();
-        // OnPost() we do not get this property as ActionParameters
-        // When form is posted this property is Auto Filled and availble
-        // ModelState works as before in Controller
-        // ViewModel Properties
-        // During OnGet() it will be blank
-        // During OnPost() it will be filled by automatic model binding
         [BindProperty]
         public InputModel Input { get; set; }
 
-
-        // This Model need to be Validated on POST
-        // This Model is used to Render the View on GET
         public class InputModel
         {
             [Required]
@@ -97,11 +72,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         }
 
 
-        // Render the UI but not invovled in Post() 
-        // We only want to show this field on form
-        // But we do not want to Post Back this field
-        // We do not want to get this field in OnPost()
-        // We do not want Model Binding to happen on this
         [Display(Name = "User Name")]
         public string Username { get; set; }
 
@@ -123,28 +93,22 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         }
 
 
-
-        // OnGet(), fill ViewModel Propertis and show Page();
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
             { return NotFound(); }
-
-            // ViewModel Property filling
+            
             var user = await UserManager.FindByIdAsync(id);
 
             if (user == null)
             { return NotFound(); }
 
             await Load_Form_Reference_Data(user);
-
-            // Show Page
+           
             return Page();
         }
 
 
-        // OnPost(), ViewModel Properties filled and available
-        // No need to catch then in Controller Action paramters
         public async Task<IActionResult> OnPostAsync()
         {
             if (string.IsNullOrEmpty(Input.Id))
@@ -177,8 +141,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             }
 
             var Is_Any_Role_Selected = Input.AllRolesList.Any(r => r.IsSelected == true);
-
-            // New User Added Successfully now add it roles
+            
             if (Is_Any_Role_Selected)
             {
                 var Existing_Roles = await UserManager.GetRolesAsync(user);
@@ -186,13 +149,11 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 var Newly_Selected_Roles = Selected_Roles.Except(Existing_Roles).ToArray<string>();
                 var Un_Selected_Roles = Existing_Roles.Except(Selected_Roles).ToArray<string>();
 
-                // Only add newly added roles, do not add already added roles.                
+                // Only add newly added roles
                 result = await UserManager.AddToRolesAsync(user, Newly_Selected_Roles);
 
                 if (!result.Succeeded)
                 {
-                    // Error occurs while adding roles
-                    //ViewBag.Message = "Error occurred while adding Record(s)";
                     Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user);
                     return Page();
@@ -200,8 +161,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 // Remove all roles other than selected roles.                   
                 result = await UserManager.RemoveFromRolesAsync(user, Un_Selected_Roles);
-
-                // Error occurs while removing roles, but user edited, role added, not removed
+                
                 if (!result.Succeeded)
                 {
                     Handle_Error_Response(result);
@@ -220,8 +180,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     await Load_Form_Reference_Data_OnPost_Failed(user);
                     return Page();
                 }
-            }
-            // here check for the case when all roles are un checked while edit
+            }            
 
             var Is_Any_Claim_Selected = Input.AllClaimsList.Any(c => c.IsSelected == true);
 
@@ -245,7 +204,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     // Remove all un selected claims.                    
                     result = await UserManager.RemoveClaimsAsync(user, Un_Selected_Claims);
 
-                    // Error occurs while removing claims, user edited, roles added, claims added but unchecked claims not removed
+                    // Error occurs while removing claims
                     if (!result.Succeeded)
                     {
                         Handle_Error_Response(result);
@@ -268,8 +227,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             }
 
-            Handle_Success_Response(result);
-            // Show List Page
+            Handle_Success_Response(result);            
             return RedirectToPage("./Index");
 
         }

@@ -14,17 +14,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
-    public class EditModel2 : PageModel
+    public class EditModel2 : UserPageModel
     {
-        // Controller dependencies : UOW
-        // Controller dependencies
-        private readonly ApplicationDbContext Context;
-        private readonly UserManager<ApplicationUser> UserManager;
-        private readonly RoleManager<ApplicationRole> RoleManager;
-        private readonly SignInManager<ApplicationUser> SignInManager;
-        private readonly ILogger<EditModel> Logger;
 
-        // DI Container injects UOW inside controller constructor
         public EditModel2(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
@@ -40,25 +32,9 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         }
 
 
-        [TempData]
-        public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully modified Role : {0}";
-        private readonly string Error_Msg = "Error occurred while modifying Role : {0}";
-
-
-        // View Model Properties available in View
-        // OnGet() we fill this property and show Page();
-        // OnPost() we do not get this property as ActionParameters
-        // When form is posted this property is Auto Filled and availble
-        // ModelState works as before in Controller
-        // ViewModel Properties
-        // During OnGet() it will be blank
-        // During OnPost() it will be filled by automatic model binding
         [BindProperty]
         public InputModel Input { get; set; }
 
-        // This Model need to be Validated on POST
-        // This Model is used to Render the View on GET
         public class InputModel
         {
             [Required]
@@ -92,11 +68,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         }
 
-        // Render the UI but not invovled in Post() 
-        // We only want to show this field on form
-        // But we do not want to Post Back this field
-        // We do not want to get this field in OnPost()
-        // We do not want Model Binding to happen on this
         [Display(Name = "User Name")]
         public string Username { get; set; }
 
@@ -119,8 +90,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             public bool IsSelected { get; set; }
 
         }
-
-        // OnGet(), fill ViewModel Propertis and show Page();
+        
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -139,8 +109,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         }
 
 
-        // OnPost(), ViewModel Properties filled and available
-        // No need to catch then in Controller Action paramters
         public async Task<IActionResult> OnPostAsync(string[] SelectedRoles, string[] SelectedClaims)
         {
             if (string.IsNullOrEmpty(Input.Id))
@@ -151,8 +119,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (user == null)
             { return NotFound(); }
 
-            // Here Model means all Properties of this class
-            // VM Properties already filled, show page again
             if (!ModelState.IsValid)
             {
                 await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
@@ -175,21 +141,19 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             }
 
             var Is_Any_Role_Selected = (SelectedRoles != null && SelectedRoles.Length > 0);
-
-            // New User Added Successfully now add it roles
+            
             if (Is_Any_Role_Selected)
             {
                 var Existing_Roles = await UserManager.GetRolesAsync(user);
-                var Selected_Roles = SelectedRoles; // AllRolesList.Where(r => r.IsSelected == true).Select(s => s.RoleName).ToList().ToArray();
+                var Selected_Roles = SelectedRoles; 
                 var Newly_Selected_Roles = Selected_Roles.Except(Existing_Roles).ToArray<string>();
                 var Un_Selected_Roles = Existing_Roles.Except(Selected_Roles).ToArray<string>();
 
-                // Only add newly added roles, do not add already added roles.                
+                // Only add newly added roles
                 result = await UserManager.AddToRolesAsync(user, Newly_Selected_Roles);
 
                 if (!result.Succeeded)
-                {
-                    // Error occurs while adding roles
+                {                    
                     Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
@@ -198,8 +162,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 {
                     // Remove all roles other than selected roles.                   
                     result = await UserManager.RemoveFromRolesAsync(user, Un_Selected_Roles);
-
-                    // Error occurs while removing roles, but user edited, role added, not removed
+                    
                     if (!result.Succeeded)
                     {
     
@@ -222,8 +185,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     return Page();
                 }
 
-            }
-            // here check for the case when all roles are un checked while edit
+            }            
 
             var Is_Any_Claim_Selected = (SelectedClaims != null && SelectedClaims.Length > 0);
 
@@ -237,7 +199,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 result = await UserManager.AddClaimsAsync(user, Newly_Selected_Claims);
 
                 if (!result.Succeeded)
-                {   // Error occurs while adding claims                                                     
+                {   
                     Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
@@ -246,8 +208,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 {
                     // Remove all un selected claims.                    
                     result = await UserManager.RemoveClaimsAsync(user, Un_Selected_Claims);
-
-                    // Error occurs while removing claims, user edited, roles added, claims added but unchecked claims not removed
+                    
                     if (!result.Succeeded)
                     {
                         Handle_Error_Response(result);
@@ -263,7 +224,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 if (!result.Succeeded)
                 {
-
                     Handle_Error_Response(result);
                     await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
@@ -271,8 +231,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             }
 
-            Handle_Success_Response(result);
-            // Show List Page
+            Handle_Success_Response(result);            
             return RedirectToPage("./Index");
 
         }

@@ -9,11 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
+namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
-    public class RolePageModel : PageModel
+    public class UserPageModel : PageModel
     {
-        
+
         internal ApplicationDbContext Context;
         internal UserManager<ApplicationUser> UserManager;
         internal RoleManager<ApplicationRole> RoleManager;
@@ -22,9 +22,9 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
         [TempData]
         public string StatusMessage { get; set; }
-        internal readonly string Success_Msg = "Successfully deleted Role : {0}";
-        internal readonly string Error_Msg = "Error occurred while deleting new Role : {0}";
-        internal readonly string NotFound_Msg = "Role with Id \"{0}\" cannot be found";
+        internal readonly string Success_Msg = "Successfully deleted User : {0}";
+        internal readonly string Error_Msg = "Error occurred while deleting new User : {0}";
+        internal readonly string NotFound_Msg = "User with Id \"{0}\" cannot be found";
 
     }
 }

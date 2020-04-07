@@ -12,17 +12,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 {
-    public class IndexModel : PageModel
+    public class IndexModel : RolePageModel
     {
-        // Controller Dependencies
-        // Controller dependencies
-        private readonly ApplicationDbContext Context;
-        private readonly UserManager<ApplicationUser> UserManager;
-        private readonly RoleManager<ApplicationRole> RoleManager;
-        private readonly SignInManager<ApplicationUser> SignInManager;
-        private readonly ILogger<IndexModel> Logger;
-
-        // Controller Constructors, loading Controller Dependencies
+        
         public IndexModel(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
@@ -37,17 +29,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             Logger = logger;
         }
 
-        // Public VM Properties to show List of Application Roles
-        // Domain Model Classes are OK for Display purpose if they are fit to scena
-        //public IList<ApplicationRole> ApplicationRole { get;set; }
-
-
-        [TempData]
-        public string StatusMessage { get; set; }
-        private readonly string Success_Msg = "Successfully deleted Role : {0}";
-        private readonly string Error_Msg = "Error occurred while deleting new Role : {0}";
-
-
         public IList<InputModel> Input { get; set; }
 
 
@@ -56,8 +37,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             // Get the list of Users in this Role
             public IList<ApplicationUser> UserList { get; set; }
         }
-
-        // Fill the ViewModel Properties, that all, no need to call Page();
+        
         public async Task OnGetAsync()
         {
             var roles = await RoleManager.Roles.ToListAsync();
