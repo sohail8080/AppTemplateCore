@@ -22,9 +22,20 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         [TempData]
         public string StatusMessage { get; set; }
-        internal readonly string Success_Msg = "Successfully deleted User : {0}";
-        internal readonly string Error_Msg = "Error occurred while deleting new User : {0}";
-        internal readonly string NotFound_Msg = "User with Id \"{0}\" cannot be found";
+        internal readonly string Create_All_Msg = "Successfully created all Users.";
+        internal readonly string Create_Success_Msg = "Successfully created User : \"{0}\"";
+        internal readonly string Create_Failed_Msg = "Error occurred while creating new Role : \"{0}\"";
+
+        internal readonly string Edit_All_Msg = "Successfully modified all Users.";
+        internal readonly string Edit_Success_Msg = "Successfully modified User : \"{0}\"";
+        internal readonly string Edit_Failed_Msg = "Error occurred while modifying User : \"{0}\"";
+
+        internal readonly string Delete_All_Msg = "Successfully deleted all Users.";
+        internal readonly string Delete_Success_Msg = "Successfully deleted User : \"{0}\"";
+        internal readonly string Delete_Failed_Msg = "Error occurred while deleting User : \"{0}\"";
+
+        internal readonly string Record_NotFound_Msg = "User with Id \"{0}\" cannot be found";
+
 
     }
 }

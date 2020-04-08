@@ -1,6 +1,10 @@
 ﻿@page
 @model IndexModel
 
+@using Microsoft.AspNetCore.Authorization
+
+@inject IAuthorizationService authorizationService
+
 @{
     ViewData["Title"] = "Roles List";
 }
@@ -29,7 +33,10 @@
             <th>Roles</th>
             <th>Details</th>
             <th>Users</th>
-            <th>Edit</th>
+            @if ((await authorizationService.AuthorizeAsync(User, "EditRolePolicy")).Succeeded)
+            {
+                <th>Edit</th>
+            }
             <th>Delete by Get </th>
             <th>Delete by Post </th>
             <th>Delete by Post </th>
@@ -68,9 +75,12 @@
                     }
                 </td>
 
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
-                </td>
+                @if ((await authorizationService.AuthorizeAsync(User, "EditRolePolicy")).Succeeded)
+                {
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                    </td>
+                }
 
                 <td>
                     @*Delete by Get, not to use in real, just for demo*@
@@ -192,7 +202,7 @@
 
             $("#roles").on("click", ".js-delete", function (e) {
 
-                var button = $(this);                
+                var button = $(this);
 
                 e.preventDefault();
 
@@ -213,7 +223,7 @@
                     callback: function (result) {
 
                         if (result) {
-                            $("#delroleform_" + button.attr("data-role-id")).submit();                            
+                            $("#delroleform_" + button.attr("data-role-id")).submit();
                         }
 
                     }
@@ -229,7 +239,7 @@
         $(document).ready(function () {
 
             $("#roles").on("click", ".js-deleterole", function (e) {
-               
+
                 var link = $(this);//.attr("href"); // "get" the intended link in a var
 
                 e.preventDefault();
@@ -252,7 +262,7 @@
 
                         if (result) {
                             $("#delroleform_" + link.attr("data-role-id")).submit();
-                            //document.location.href = link;  // if result, "set" the document location      
+                            //document.location.href = link;  // if result, "set" the document location
                         }
 
                     }

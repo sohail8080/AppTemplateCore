@@ -20,6 +20,7 @@ namespace AppTemplateCore.Controllers
         }
 
         [Route("Error/{statusCode}")]
+        [AllowAnonymous]
         public IActionResult HttpStatusCodeHandler(int statusCode)
         {
             var statusCodeResult = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
@@ -58,5 +59,14 @@ namespace AppTemplateCore.Controllers
 
             return View("Error");
         }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
     }
 }

@@ -42,7 +42,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         {
             if (string.IsNullOrEmpty(id))
             {
-                TempData["ErrorMessage"] = string.Format(NotFound_Msg, id);
+                TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id);
                 return NotFound();
             }
             
@@ -50,7 +50,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
             if (role == null)
             {
-                TempData["ErrorMessage"] = string.Format(NotFound_Msg, id);
+                TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id);
                 return NotFound();
             }
 

@@ -129,14 +129,14 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         private void Handle_Success_Response(IdentityResult result, ApplicationUser user)
         {
-            Logger.LogError(string.Format(Success_Msg, user.Email));
-            StatusMessage = string.Format(Success_Msg, user.Email);
+            Logger.LogError(string.Format(Delete_Success_Msg, user.Email));
+            StatusMessage = string.Format(Delete_Success_Msg, user.Email);
         }
 
         private void Handle_Error_Response(IdentityResult result, ApplicationUser user)
         {
-            Logger.LogError(string.Format(Error_Msg, user.Email));
-            StatusMessage = string.Format(Error_Msg, user.Email);
+            Logger.LogError(string.Format(Delete_Failed_Msg, user.Email));
+            StatusMessage = string.Format(Delete_Failed_Msg, user.Email);
             foreach (var error in result.Errors)
             { ModelState.AddModelError("", error.Description); }
         }

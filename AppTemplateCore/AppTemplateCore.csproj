@@ -13,6 +13,8 @@
     <Compile Remove="Data\Migrations\20200321081307_AddDrivingLicNPhoneColumnsToUserTable.Designer.cs" />
     <Compile Remove="Data\Migrations\20200321113725_AddMovieTableToDatabase.cs" />
     <Compile Remove="Data\Migrations\20200321113725_AddMovieTableToDatabase.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200408165023_RoleRefData.cs" />
+    <Compile Remove="Data\Migrations\20200408165023_RoleRefData.Designer.cs" />
   </ItemGroup>
 
 

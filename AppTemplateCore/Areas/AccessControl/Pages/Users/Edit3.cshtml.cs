@@ -314,14 +314,14 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         private void Handle_Success_Response(IdentityResult result)
         {
-            Logger.LogError(string.Format(Success_Msg, Input.Email));
-            StatusMessage = string.Format(Success_Msg, Input.Email);
+            Logger.LogError(string.Format(Edit_Success_Msg, Input.Email));
+            StatusMessage = string.Format(Edit_Success_Msg, Input.Email);
         }
 
         private void Handle_Error_Response(IdentityResult result)
         {
-            Logger.LogError(string.Format(Error_Msg, Input.Email));
-            StatusMessage = string.Format(Error_Msg, Input.Email);
+            Logger.LogError(string.Format(Edit_Failed_Msg, Input.Email));
+            StatusMessage = string.Format(Edit_Failed_Msg, Input.Email);
             foreach (var error in result.Errors)
             { ModelState.AddModelError("", error.Description); }
         }

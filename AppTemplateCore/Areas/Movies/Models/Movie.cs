@@ -40,7 +40,8 @@ namespace AppTemplateCore.Areas.Movies.Models
     }
 
 
-
+    // This class is called on Application Start Up to add Ref Data
+    // This class is called by Program.cs Class 
     public static class MoviesTableSeedData
     {
         public static void Initialize(IServiceProvider serviceProvider)

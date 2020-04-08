@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -36,10 +40,12 @@
 
                     <ul class="navbar-nav flex-grow-1">
 
+                        @*Home*@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
+                        @*Movies*@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -52,20 +58,23 @@
                         </li>
 
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Access Control
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" asp-area="AccessControl" asp-page="/Roles/Index">Roles</a>
-                                <a class="dropdown-item" asp-area="AccessControl" asp-page="/Roles/Create">Create Role</a>
-                                <a class="dropdown-item" asp-area="AccessControl" asp-page="/Users/Index">Users</a>
-                                <a class="dropdown-item" asp-area="AccessControl" asp-page="/Users/Create">Create User</a>
-
-                            </div>
-                        </li>
-
+                        @*Access Control*@
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Access Control
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" asp-area="AccessControl" asp-page="/Roles/Index">Roles</a>
+                                    <a class="dropdown-item" asp-area="AccessControl" asp-page="/Roles/DeleteList">Delete Roles List</a>
+                                    <a class="dropdown-item" asp-area="AccessControl" asp-page="/Roles/Create">Create Role</a>
+                                    <a class="dropdown-item" asp-area="AccessControl" asp-page="/Users/Index">Users</a>
+                                    <a class="dropdown-item" asp-area="AccessControl" asp-page="/Users/Create">Create User</a>
+                                </div>
+                            </li>
+                        }
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>

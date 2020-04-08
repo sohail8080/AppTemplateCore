@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AppTemplateCore.Areas.AccessControl.Models;
 using AppTemplateCore.Areas.Movies.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,7 @@ namespace AppTemplateCore
                 try
                 {
                     MoviesTableSeedData.Initialize(services);
+                    RoleTableSeedData.Initialize(services);
                 }
                 catch (Exception ex)
                 {

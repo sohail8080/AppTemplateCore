@@ -1,0 +1,73 @@
+﻿@page
+@model DeleteListModel
+
+@{
+    ViewData["Title"] = "Roles List";
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<h1>@ViewData["Title"]</h1>
+
+
+
+@{
+    if (Model.Input.Count() <= 0)
+    {
+        <p>No Role Found</p>
+        return;
+    }
+}
+
+<form method="post">
+
+    <p>
+        <button type="submit" class="btn btn-danger">Delete Roles</button>
+    </p>
+
+    <table id="roles" class="table table-bordered table-hover">
+
+        <thead>
+            <tr>
+                <th>Roles</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @for (int i = 0; i < Model.Input.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        <input hidden asp-for="@Model.Input[i].Id" />
+                        <input hidden asp-for="@Model.Input[i].Name" />
+                        <span class="checkbox">
+                            <label>
+                                <input asp-for="@Model.Input[i].IsSelected" />
+                                @Model.Input[i].Name
+                            </label>
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <p>
+        <button type="submit" class="btn btn-danger">Delete Roles</button>
+    </p>
+
+</form>
+
+
+@section Scripts {
+
+    <script src="~/js/ConfirmDelete.js"></script>
+
+    <script>
+
+
+    </script>
+
+}
