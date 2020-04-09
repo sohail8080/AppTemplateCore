@@ -40,7 +40,8 @@ namespace AppTemplateCore
             // Add Services & Configure their Settings needed by Cookie Middleware
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                // This lambda determines whether user consent for non-essential cookies 
+                //is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -90,7 +91,12 @@ namespace AppTemplateCore
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 // Adds an Entity Framework implementation of identity information stores.
                 // User EF + this UOW to persist the Identity Info
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                // Different Token Providers are used during Login, Register, 
+                // Email Confirmation, Mob. Ph Confirmation & 2FA, 
+                // following statement add Default Token Providers for above.
+                // We can customize the Token Providers and configure here.
+                .AddDefaultTokenProviders();
 
 
             //services.Configure<IdentityOptions>(
@@ -115,9 +121,14 @@ namespace AppTemplateCore
             // Add Services & Configure their Settings needed by MVC Middleware
             services.AddMvc(options =>
             {
+                // Authorization Policy for All Controllers of Application
                 var policy = new AuthorizationPolicyBuilder()
                                 .RequireAuthenticatedUser()
                                 .Build();
+                // Auth Policy + Auth Filter to MVC Framework
+                // All Controller Actions now need Logged In User.
+                // Anonymouse Users can get access to Controll Action having 
+                // Allow Anonymous Attribute.
                 options.Filters.Add(new AuthorizeFilter(policy));
             }
             ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -138,12 +149,17 @@ namespace AppTemplateCore
 
             services.ConfigureApplicationCookie(options =>
             {
+                // If you try to navigate to a URL/Controller/Action not
+                // allowed by Auth Rules, then this Controller Action will be invoked.
                 options.AccessDeniedPath = new PathString("/Error/AccessDenied");
             });
 
 
             services.AddAuthorization(options =>
             {
+                // Policy is about grouping multiple Authorization Rights under 
+                // One umbrella of Policy. On Controller/Action Method level we 
+                // Only apply that Policy, the whole group of Auth Rules are applied
                 options.AddPolicy("DeleteRolePolicy",
                     policy => policy.RequireClaim("Delete Role"));
 

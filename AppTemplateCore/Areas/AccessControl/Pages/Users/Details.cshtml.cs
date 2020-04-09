@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppTemplateCore.Areas.AccessControl.Models;
 using AppTemplateCore.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
-{
+{    
     public class DetailsModel : UserPageModel
     {
 

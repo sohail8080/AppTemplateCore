@@ -48,9 +48,7 @@ namespace AppTemplateCore.Areas.AccessControl.Models
     //     in Configure() method, and then apply the configuration to the model using ApplyConfiguration()
     //     in DbContext.OnModelCreating().
     //     The entity type to be configured.
-
     // This class is called by ApplicationDbContext.OnModelCreating()
-
     public class ApplicationRoleConfigurations : IEntityTypeConfiguration<ApplicationRole>
     {
         public void Configure(EntityTypeBuilder<ApplicationRole> builder)
@@ -58,8 +56,8 @@ namespace AppTemplateCore.Areas.AccessControl.Models
 
             builder.HasData(
                 new ApplicationRole
-                {                    
-                    Name = "AdminUser",                    
+                {
+                    Name = "AdminUser",
                 },
                 new ApplicationRole
                 {
@@ -75,7 +73,7 @@ namespace AppTemplateCore.Areas.AccessControl.Models
     // This class is called by Program.cs Class 
     public static class RoleTableSeedData
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static void InitializeAsync(IServiceProvider serviceProvider)
         {
             // Get the DBConext object by getting the DbContextOptions object
             // from the DI Container. DbContextOptions is registered as Service
@@ -86,37 +84,32 @@ namespace AppTemplateCore.Areas.AccessControl.Models
             // so that we can add
             serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
-                // Look for any movies.
-                if (context.Roles.Any())
-                {
-                    return; // DB has been seeded
-                }
 
+                if (context.Roles.Any(role => role.Name == "Admin"))
+                {
+                    return;
+                }
 
                 context.Roles.AddRange(
+
                 new ApplicationRole
                 {
-                    Name = "AdminUser",
-                    NormalizedName = "ADMINUSER",
-                },
-                new ApplicationRole
-                {
-                    Name = "FinanceUser",
-                    NormalizedName = "FINANCEUSER",
-                },
-                new ApplicationRole
-                {
-                    Name = "HrUser",
-                    NormalizedName = "HRUSER",
-                },
-                new ApplicationRole
-                {
-                    Name = "FinanceUser",
-                    NormalizedName = "FINANCEUSER",
+                    Name = "Admin",
+                    NormalizedName = "ADMIN",
                 }
+                //new ApplicationRole
+                //{
+                //    Name = "XXX",
+                //    NormalizedName = "XXXX",
+                //},
+
                 );
 
-                context.SaveChanges();
+                try
+                { context.SaveChanges();}
+                catch (Exception ex)
+                { throw ex;}
+
             }
         }
     }

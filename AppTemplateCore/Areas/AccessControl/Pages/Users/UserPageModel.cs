@@ -1,5 +1,6 @@
 ﻿using AppTemplateCore.Areas.AccessControl.Models;
 using AppTemplateCore.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
+    [Authorize(Roles = RolesStore.Admin)]
     public class UserPageModel : PageModel
     {
 

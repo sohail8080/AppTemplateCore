@@ -18,7 +18,7 @@ namespace AppTemplateCore
         public static void Main(string[] args)
         {
             var host = CreateWebHostBuilder(args).Build();
-            Seed_Application_Database(host);
+            Seed_Application_DatabaseAsync(host);
             host.Run();
         }
 
@@ -29,7 +29,7 @@ namespace AppTemplateCore
                 .UseStartup<Startup>();
 
 
-        public static void Seed_Application_Database(IWebHost host)
+        public static async Task Seed_Application_DatabaseAsync(IWebHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
@@ -37,8 +37,9 @@ namespace AppTemplateCore
 
                 try
                 {
-                    MoviesTableSeedData.Initialize(services);
-                    RoleTableSeedData.Initialize(services);
+                    //MoviesTableSeedData.Initialize(services);
+                    //RoleTableSeedData.InitializeAsync(services);
+                    await UserTableSeedData.InitializeIdentityAsync(services);
                 }
                 catch (Exception ex)
                 {

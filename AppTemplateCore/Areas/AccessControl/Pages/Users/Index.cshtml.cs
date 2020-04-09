@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppTemplateCore.Areas.AccessControl.Models;
 using AppTemplateCore.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
-{
+{   
     public class IndexModel : UserPageModel
     {        
         public IndexModel(
@@ -36,8 +37,8 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         {           
             public IList<string> RolesList { get; set; }
         }
-
        
+
         public async Task OnGetAsync()
         {
 
@@ -133,6 +134,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             StatusMessage = string.Format(Delete_Success_Msg, user.Email);
         }
 
+
         private void Handle_Error_Response(IdentityResult result, ApplicationUser user)
         {
             Logger.LogError(string.Format(Delete_Failed_Msg, user.Email));
@@ -140,8 +142,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             foreach (var error in result.Errors)
             { ModelState.AddModelError("", error.Description); }
         }
-
-
 
     }
 }

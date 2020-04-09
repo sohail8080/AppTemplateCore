@@ -9,9 +9,10 @@ using AppTemplateCore.Areas.AccessControl.Models;
 using AppTemplateCore.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
-{
+{    
     public class DeleteListModel : RolePageModel
     {
         
