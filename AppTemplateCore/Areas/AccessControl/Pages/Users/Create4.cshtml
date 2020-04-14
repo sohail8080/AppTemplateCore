@@ -50,6 +50,13 @@
 
 
             <div class="form-group">
+                <label asp-for="Input.Department"></label>
+                <input asp-for="Input.Department" value="Finance" class="form-control" />
+                <span asp-validation-for="Input.Department" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
                 <label> Select User Roles</label>
                 @if (Model.AllRolesList.Count<SelectListItem>() > 0)
                 {

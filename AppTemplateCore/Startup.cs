@@ -96,7 +96,9 @@ namespace AppTemplateCore
                 // Email Confirmation, Mob. Ph Confirmation & 2FA, 
                 // following statement add Default Token Providers for above.
                 // We can customize the Token Providers and configure here.
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                // Add FirstName & Last Name to the User Claims Collection
+                .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>();
 
 
             //services.Configure<IdentityOptions>(

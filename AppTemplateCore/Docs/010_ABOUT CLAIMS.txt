@@ -1,0 +1,44 @@
+Using Roles Based Authorization for controlling user access will be efficient 
+in scenarios 
+where your Roles do not change too much and >>>>>>>>>>>>>>>>>>>
+he users permissions do not change frequently.>>>>>>>>>>>>>>>>>>
+
+In some applications controlling user access on system resources is more complicated, 
+and having users assigned to certain Roles is not enough 
+for managing user access efficiently, 
+you need more dynamic way to to control access 
+based on certain information related to the authenticated user, 
+this will lead us to control user access using Claims, 
+or in another word using Claims Based Authorization.
+
+But before we dig into the implementation of Claims Based Authorization 
+we need to understand what Claims are!
+
+Note: It is not mandatory to use Claims for controlling user access, 
+if you are happy with Roles Based Authorization and 
+you have limited number of Roles then you can stick to this.
+
+What is a Claim?
+Claim is a statement about the user makes about itself, 
+it can be user name, first name, last name, gender, phone, the roles user assigned to, etc… 
+Yes the Roles we have been looking at are transformed to Claims at the end, 
+and as we saw in the previous post; 
+in ASP.NET Identity those Roles have their own manager (ApplicationRoleManager) and 
+set of APIs to manage them, yet you can consider them as a Claim of type Role.
+
+When authenticated, user will receive a JSON Web Token (JWT) 
+which contains a set of claims inside it, 
+what we’ll do now is to create a helper end point 
+which returns the claims encoded in the JWT for an authenticated user.
+
+ var identity = User.Identity as ClaimsIdentity;
+
+ claims contain three properties, and those properties represents the below:
+
+Subject: Represents the identity which those claims belongs to, 
+usually the value for the subject will contain the unique identifier 
+for the user in the system (Username or Email).
+
+Type: Represents the type of the information contained in the claim.
+
+Value: Represents the claim value (information) about this claim.

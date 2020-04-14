@@ -66,6 +66,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             public string LastName { get; set; }
 
+
+            [Required]
+            [Display(Name = "Department")]
+            [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            public string Department { get; set; }
+
             public List<UserHasRoles> AllRolesList { get; set; }
             public List<UserHasClaims> AllClaimsList { get; set; }
 
@@ -149,6 +155,33 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     Handle_Error_Response(result);
                     return Page();
                 }
+            }
+
+
+            var deptClaim = (await UserManager.GetClaimsAsync(user)).FirstOrDefault(dc => dc.Type == ClaimsStore.Department);
+
+            if(deptClaim != null)
+            {
+                result = await UserManager.RemoveClaimAsync(user, deptClaim);
+
+                if (!result.Succeeded)
+                {
+                    Handle_Error_Response(result);
+                    return Page();
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Input.Department))
+            {
+                deptClaim = new Claim(ClaimsStore.Department, Input.Department);
+                result = await UserManager.AddClaimAsync(user, deptClaim);
+
+                if (!result.Succeeded)
+                {
+                    Handle_Error_Response(result);
+                    return Page();
+                }
+
             }
 
             Handle_Success_Response(result);

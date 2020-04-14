@@ -15,5 +15,8 @@ namespace AppTemplateCore.Areas.AccessControl.Models
         new Claim(type:"Delete Role",value:"Delete Role")
     };
 
+        public const string Department = "Department";
+
+
     }
 }

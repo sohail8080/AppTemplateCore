@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<!-- saved from url=(0079)https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/ -->
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	   <!-- Global site tag (gtag.js) - Google Analytics -->
+	   <script type="text/javascript" async="" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/analytics.js.download"></script><script type="text/javascript" async="" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/insight.min.js.download"></script><script src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/2416171941963882" async=""></script><script src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/identity.js.download" async=""></script><script async="" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/fbevents.js.download"></script><script async="" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/js"></script>
+	   <script>
+		   window.dataLayer = window.dataLayer || [];
+		   function gtag(){dataLayer.push(arguments);}
+		   gtag('js', new Date());
+
+		   gtag('config', 'UA-149497714-1');
+	   </script>
+      
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+            <link href="https://deblokt.com/wp-content/uploads/2019/10/favicon.png" rel="icon">
+            <link rel="pingback" href="https://deblokt.com/xmlrpc.php">
+      
+      <link media="all" href="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/autoptimize_d7caf104d5a6b74a33dd091b26246289.css" rel="stylesheet"><title>PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial</title>
+
+<!-- This site is optimized with the Yoast SEO plugin v13.4.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Most of the “hard” steps are pretty much done. We just need to create database migrations for ASP.NET Core Identity to create the database tables.">
+<meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<link rel="canonical" href="https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial">
+<meta property="og:description" content="Most of the “hard” steps are pretty much done. We just need to create database migrations for ASP.NET Core Identity to create the database tables.">
+<meta property="og:url" content="https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/">
+<meta property="og:site_name" content="Deblokt">
+<meta property="article:section" content="Tutorials">
+<meta property="article:published_time" content="2019-09-24T08:46:05+00:00">
+<meta property="article:modified_time" content="2019-11-07T18:29:50+00:00">
+<meta property="og:updated_time" content="2019-11-07T18:29:50+00:00">
+<meta property="og:image" content="https://deblokt.com/wp-content/uploads/2019/09/PostLogo.jpg">
+<meta property="og:image:secure_url" content="https://deblokt.com/wp-content/uploads/2019/09/PostLogo.jpg">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="720">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Most of the “hard” steps are pretty much done. We just need to create database migrations for ASP.NET Core Identity to create the database tables.">
+<meta name="twitter:title" content="PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial">
+<meta name="twitter:image" content="https://deblokt.com/wp-content/uploads/2019/09/PostLogo.jpg">
+<script type="application/ld+json" class="yoast-schema-graph yoast-schema-graph--main">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://deblokt.com/#website","url":"https://deblokt.com/","name":"Deblokt","inLanguage":"en-US","description":"We inspire people to integrate standard open-source SSO solutions","potentialAction":[{"@type":"SearchAction","target":"https://deblokt.com/?s={search_term_string}","query-input":"required name=search_term_string"}]},{"@type":"ImageObject","@id":"https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/#primaryimage","inLanguage":"en-US","url":"https://deblokt.com/wp-content/uploads/2019/09/PostLogo.jpg","width":1280,"height":720},{"@type":"WebPage","@id":"https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/#webpage","url":"https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/","name":"PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial","isPartOf":{"@id":"https://deblokt.com/#website"},"inLanguage":"en-US","primaryImageOfPage":{"@id":"https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/#primaryimage"},"datePublished":"2019-09-24T08:46:05+00:00","dateModified":"2019-11-07T18:29:50+00:00","author":{"@id":"https://deblokt.com/#/schema/person/ae34489e91454a8ba6f088ce7d1910af"},"description":"Most of the \u201chard\u201d steps are pretty much done. We just need to create database migrations for ASP.NET Core Identity to create the database tables.","potentialAction":[{"@type":"ReadAction","target":["https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/"]}]},{"@type":["Person"],"@id":"https://deblokt.com/#/schema/person/ae34489e91454a8ba6f088ce7d1910af","name":"deblokt","image":{"@type":"ImageObject","@id":"https://deblokt.com/#authorlogo","inLanguage":"en-US","url":"https://secure.gravatar.com/avatar/b18e1925f0026150567fc8f655ca187c?s=96&d=mm&r=g","caption":"deblokt"},"sameAs":[]}]}</script>
+<!-- / Yoast SEO plugin. -->
+
+<link rel="dns-prefetch" href="https://maps.googleapis.com/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="Deblokt » Feed" href="https://deblokt.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Deblokt » Comments Feed" href="https://deblokt.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Deblokt » 04. PART 2 IdentityServer4 ASP.NET Core Identity Comments Feed" href="https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/feed/">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/deblokt.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.4"}};
+			/*! This file is auto-generated */
+			!function(e,a,t){var r,n,o,i,p=a.createElement("canvas"),s=p.getContext&&p.getContext("2d");function c(e,t){var a=String.fromCharCode;s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,e),0,0);var r=p.toDataURL();return s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,t),0,0),r===p.toDataURL()}function l(e){if(!s||!s.fillText)return!1;switch(s.textBaseline="top",s.font="600 32px Arial",e){case"flag":return!c([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])&&(!c([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!c([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]));case"emoji":return!c([55357,56424,55356,57342,8205,55358,56605,8205,55357,56424,55356,57340],[55357,56424,55356,57342,8203,55358,56605,8203,55357,56424,55356,57340])}return!1}function d(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(i=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},o=0;o<i.length;o++)t.supports[i[o]]=l(i[o]),t.supports.everything=t.supports.everything&&t.supports[i[o]],"flag"!==i[o]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[i[o]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(r=t.source||{}).concatemoji?d(r.concatemoji):r.wpemoji&&r.twemoji&&(d(r.twemoji),d(r.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+		
+	
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" id="themetek-dynamic-colors-css" href="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/colors-keysoft.css.php" type="text/css" media="all">
+<link rel="stylesheet" id="redux-google-fonts-css" href="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/css" type="text/css" media="all">
+<script type="text/javascript" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/jquery.js.download"></script>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"_2.7.2_beta","is_admin":"0","ajaxurl":"https:\/\/deblokt.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+
+
+
+
+
+
+
+<link rel="https://api.w.org/" href="https://deblokt.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://deblokt.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://deblokt.com/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 5.4">
+<link rel="shortlink" href="https://deblokt.com/?p=2730">
+<link rel="alternate" type="application/json+oembed" href="https://deblokt.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fdeblokt.com%2F2019%2F09%2F24%2F04-part-2-identityserver4-asp-net-core-identity%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://deblokt.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fdeblokt.com%2F2019%2F09%2F24%2F04-part-2-identityserver4-asp-net-core-identity%2F&amp;format=xml">
+
+	
+		<script>
+		(function(h,o,t,j,a,r){
+			h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+			h._hjSettings={hjid:1569855,hjsv:5};
+			a=o.getElementsByTagName('head')[0];
+			r=o.createElement('script');r.async=1;
+			r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+			a.appendChild(r);
+		})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+		</script><script async="" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/hotjar-1569855.js.download"></script>
+		
+<!-- Facebook Pixel Code -->
+<script type="text/javascript">
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+</script>
+<!-- End Facebook Pixel Code -->
+<script type="text/javascript">
+  fbq('init', '2416171941963882', [], {
+    "agent": "wordpress-5.4-2.0.1"
+});
+</script><script type="text/javascript">
+  fbq('track', 'PageView', []);
+</script>
+<!-- Facebook Pixel Code -->
+<noscript>
+<img height="1" width="1" style="display:none" alt="fbpx"
+src="https://www.facebook.com/tr?id=2416171941963882&ev=PageView&noscript=1" />
+</noscript>
+<!-- End Facebook Pixel Code -->
+<meta name="generator" content="Powered by WPBakery Page Builder - drag and drop page builder for WordPress.">
+<!--[if lte IE 9]><link rel="stylesheet" type="text/css" href="https://deblokt.com/wp-content/plugins/js_composer/assets/css/vc_lte_ie9.min.css" media="screen"><![endif]-->		<style type="text/css" id="wp-custom-css">
+			.error404 #header .section-heading {
+		display: none;
+}
+
+header .intro-text .intro-lead-in {
+    font-size: 34px;
+}
+
+#header {
+		min-height: 450px;
+}
+
+.lower-footer {
+    padding-top: 13px;
+}
+
+footer {
+    padding: 0 0 10px 0;
+}
+
+header .intro-text .intro-heading {
+    line-height: 30px;
+}
+
+header .intro-text .intro-lead-in {
+    line-height: 50px;
+}
+
+section {
+    padding: 100px 30px;
+}
+
+.homepage-masonry-grid .vc_gitem-animated-block {
+    display: none;
+}
+
+.homepage-masonry-grid .vc_gitem-post-data-source-post_title > h4 {
+		font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.homepage-masonry-grid .vc_gitem-zone {
+    background: none !important;
+		overflow: visible;
+}
+
+.homepage-masonry-grid .vc_gitem-zone p {
+	font-size: 1.115rem;
+}
+
+.homepage-masonry-grid .vc_btn3-shape-rounded {
+    background-color: #35AAE0 !important;
+}
+
+#posts-content .post p {
+    font-size: 1.125em;
+    line-height: 25px;
+}
+
+#posts-content .post h3 {
+    font-size: 30px;
+}
+
+#posts-content .post .blog-single-title, #posts-content .blog-single-content .blog-single-title {
+    font-size: 40px;
+		line-height: 40px;
+}
+
+.subscribe input[type="submit"] {
+    border: 1px solid #ccc;
+		background-color: #f8f8f8;
+}
+
+.subscribe input[type="submit"]:hover {
+    border: 1px solid #ccc;
+		background-color: #f8f8f8;
+}
+
+.subscribe input {
+    width: 400px;
+    border-radius: 2px;
+    height: 50px;
+    line-height: 1;
+    font-size: 0.875em;
+    color: black;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background-color: #f8f8f8;
+    padding: 0 20px;
+    border: 1px solid #ccc;
+}
+
+.subscribe input[type="email"]
+{
+	color: red;
+}
+
+.vc_column_container>.vc_column-inner {
+    padding-top: 1%;
+}
+
+.testimonials.slider .tt-content h3 {
+    font-size: 24px;
+}
+
+.pricing.active, .primary-button.button-inverse:hover, .primary-button.button-inverse {
+    visibility: hidden;
+} 
+
+.primary-button {
+	color: #fff;
+  background-color: transparent!important;
+}
+
+.features-tabs .tabs {    
+    margin-top: 0px;
+}
+
+.testimonials.slider .tt-content h3 {
+    font-size: 1.3em;
+}
+
+@media (max-width: 1024px){
+	.features-tabs .section-subheading {
+			max-width: 550px;
+	}
+}
+
+@media (min-width: 1025px){
+	.features-tabs .section-subheading {
+			max-width: 750px;
+	}
+}
+
+.features-tabs img {
+    box-shadow: 20px 25px 50px #464444;
+    border-radius: 15px;
+}
+
+.features-tabs .tabs {
+    margin-top: 40px;
+}
+
+.features-tabs li {
+		background: url(wp-content/plugins/tt-vc-addon/assets/img/checked.png) no-repeat left 5px;
+		font-size: 1em;
+		line-height: 30px;
+}
+
+.features-tabs ul {
+    margin-top: 20px;
+}
+
+.testimonials.slider .tt-quote {
+    margin-top: -10px;
+}
+
+ul, ol {
+    font-size: 1.125em;
+}
+
+#posts-content .post .blog-single-title, #posts-content .blog-single-content .blog-single-title {
+    font-weight: bold;
+}
+
+@media (max-width: 1200px){
+.features-tabs img {
+    margin: 40px auto;
+    max-width: 60%;
+    position: relative;
+    top: auto;
+    right: auto;
+    height: auto;
+		visibility: hidden;
+		display: none;
+	}
+}
+
+@media (min-width: 960px){
+		#header.image-bg .image-overlay {
+			background-attachment: fixed;
+			background-size: 100%;
+			background-repeat: no-repeat;
+			background-image: url("/wp-content/uploads/2019/09/headerImg.jpg")!important;
+			position: absolute;
+			background-position: top;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			opacity: 0.25;
+		}
+}
+
+@media (max-width: 960px){
+		#header.image-bg .image-overlay {
+			background-attachment: fixed;
+			background-size: 100%;
+			background-repeat: no-repeat;
+			background-image: url("/wp-content/uploads/2019/09/Header2-819x1024.jpg")!important;
+			position: absolute;
+			background-position: top;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			opacity: 0.25;
+		}
+}
+
+.contact {
+    width: 527px;
+} 
+
+@media (min-width: 768px){
+	.vc_col-sm-12 {
+		width: 107% !important;
+	}
+} 
+
+@media (max-width: 1220px) {
+	.contact {
+    width: 100%;
+    padding-top: 0px;
+	}
+}
+
+@media (max-width: 1200px){ 
+.wpcf7 .wpcf7-form {
+    width: 100% !important;
+    margin: auto;
+	}
+} 
+
+@media (max-width: 1200px) {
+	.row .contact p, section .section-subheading {
+    	font-size: 1.125em !important;
+	}
+}
+
+.elementor-section.elementor-section-stretched {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#wrapper {
+			min-height: 95vh;
+}
+
+p {
+    font-size: 1.125em;
+} 
+
+.nf-field-container {
+    margin-bottom: 35px;
+    width: 100%;
+}
+
+.nf-form-content {
+    padding: 0px;
+    margin: 0px;
+		margin-top: 20px;
+}
+
+.nf-form-cont .one-half {
+		margin-left: 0px;
+}
+
+.nf-form-cont .one-half, .nf-form-cont .three-sixths, .nf-form-cont .two-fourths {
+    width: 100%;
+}
+
+.nf-field-description p:last-child {
+    margin-bottom: 15px;
+		margin-top: -8px;
+}
+
+@media only screen and (max-width: 800px) {
+	.label-above .field-wrap, .label-below .field-wrap {
+    margin-bottom: 35px;
+	}
+}
+
+.nf-form-content button, .nf-form-content input[type=button], .nf-form-content input[type=submit] {
+    background: #35AAE0;
+		border-radius: 5px;
+		text-transform: uppercase;
+		width: 100%;
+		font-weight: bold;
+}
+
+.nf-form-fields-required, .nf-error-msg nf-error-field-errors {
+	display: none!important;
+}
+
+section#single-page.section.special-offer {
+    padding: 70px 0px!important;
+}
+
+section#single-page.section.live-demo {
+    padding: 70px 0px!important;
+}
+
+section#single-page.section.leads {
+    padding: 70px 0px!important;
+}
+
+#our-video {
+    background: url("/wp-content/uploads/2019/10/image-1.jpg") no-repeat center center fixed;
+	-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.header-buttons {
+    margin: 80px auto 60px auto;
+    font-size: large;
+}
+
+.header-buttons a {
+		padding: 10px 40px;
+		background-color: rgba(53, 170, 224, 0.6)!important;
+}
+
+ul.children {
+	font-size: 14.22px!important;
+}
+
+ul.comment-list {
+	font-size: 14.22px!important;
+}		</style>
+		<noscript><style type="text/css"> .wpb_animate_when_almost_visible { opacity: 1; }</style></noscript>      <link href="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/saved_resource" class="css-color" rel="stylesheet">
+   <script async="" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/modules.55e699e3acb21494688c.js.download" charset="utf-8"></script><style type="text/css">iframe#_hjRemoteVarsFrame {display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;}</style><script type="text/javascript" charset="UTF-8" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/common.js.download"></script><script type="text/javascript" charset="UTF-8" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/util.js.download"></script></head>
+   <body class="post-template-default single single-post postid-2730 single-format-standard subscribe-form wpb-js-composer js-comp-ver-5.5.5 vc_responsive elementor-default">
+                    <nav class="navbar navbar-default navbar-fixed-top navbar-shrink" role="navigation">
+         <div class="container">
+            <div id="logo">
+               <a class="logo" href="https://deblokt.com/">
+                              <img class="fixed-logo" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/Deblokt-slova-belatransp.png" alt="">
+               </a>
+            </div>
+           <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-menu">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+            </div>
+            <div id="main-menu" class="collapse navbar-collapse  navbar-right">
+               <ul id="menu-main-menu" class="nav navbar-nav"><li id="menu-item-1857" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1857 one-page-link"><a title="Giving back" href="https://deblokt.com/home#giving-back">Giving back</a></li>
+<li id="menu-item-1822" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1822 one-page-link"><a title="Work" href="https://deblokt.com/home#work">Work</a></li>
+<li id="menu-item-1832" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1832 one-page-link"><a title="Team" href="https://deblokt.com/home#our-team">Team</a></li>
+<li id="menu-item-3036" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3036 one-page-link"><a title="Contact" href="https://deblokt.com/home#contact-2">Contact</a></li>
+<li id="menu-item-4220" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4220"><a title="Case study" target="_blank" href="https://deblokt.com/wp-content/uploads/2020/01/DEBLOKT-FocustApps-Case-Study.pdf">Case study</a></li>
+<li id="menu-item-3970" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3970"><a title="Live demo" href="https://deblokt.com/live-demo/#single-page">Live demo</a></li>
+</ul>            </div>
+         </div>
+      </nav>
+      <div id="wrapper">
+            
+      <header id="header" class="blog-header" style="background-image:url(&#39;https://deblokt.com/wp-content/uploads/2019/09/PostLogo.jpg&#39;)">
+         <div class="header-overlay"></div>
+         <div class="container">
+            <div class="intro-text">
+                              <h2 class="section-heading">04. PART 2 IdentityServer4 ASP.NET Core Identity</h2>
+                              <span class="separator" style="background:#ffffff"></span>
+               <p class="section-subheading" style="color:#ffffff">"An investment in knowledge always pays the best interest" - Benjamin Franklin </p>
+            </div>
+         </div>
+      </header>
+      <div id="posts-content" class="container blog-single">
+<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+               <div class="post-2730 post type-post status-publish format-standard has-post-thumbnail hentry category-tutorials" id="post-2730">
+         <div class="blog-single-content">
+            <img width="1024" height="576" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/PostLogo-1024x576.jpg" data-lazy-type="image" data-lazy-src="https://deblokt.com/wp-content/uploads/2019/09/PostLogo-1024x576.jpg" class="lazy attachment-large size-large wp-post-image lazy-loaded" alt="" data-lazy-srcset="https://deblokt.com/wp-content/uploads/2019/09/PostLogo-1024x576.jpg 1024w, https://deblokt.com/wp-content/uploads/2019/09/PostLogo-300x169.jpg 300w, https://deblokt.com/wp-content/uploads/2019/09/PostLogo-768x432.jpg 768w, https://deblokt.com/wp-content/uploads/2019/09/PostLogo.jpg 1280w" data-lazy-sizes="(max-width: 1024px) 100vw, 1024px" srcset="https://deblokt.com/wp-content/uploads/2019/09/PostLogo-1024x576.jpg 1024w, https://deblokt.com/wp-content/uploads/2019/09/PostLogo-300x169.jpg 300w, https://deblokt.com/wp-content/uploads/2019/09/PostLogo-768x432.jpg 768w, https://deblokt.com/wp-content/uploads/2019/09/PostLogo.jpg 1280w" sizes="(max-width: 1024px) 100vw, 1024px"><noscript><img width="1024" height="576" src="https://deblokt.com/wp-content/uploads/2019/09/PostLogo-1024x576.jpg" class="attachment-large size-large wp-post-image" alt="" srcset="https://deblokt.com/wp-content/uploads/2019/09/PostLogo-1024x576.jpg 1024w, https://deblokt.com/wp-content/uploads/2019/09/PostLogo-300x169.jpg 300w, https://deblokt.com/wp-content/uploads/2019/09/PostLogo-768x432.jpg 768w, https://deblokt.com/wp-content/uploads/2019/09/PostLogo.jpg 1280w" sizes="(max-width: 1024px) 100vw, 1024px" /></noscript>            <h1 class="blog-single-title">04. PART 2 IdentityServer4 ASP.NET Core Identity</h1>
+          <div class="entry-meta">
+                        <span class="published">September 24, 2019</span><span class="blog-separator">|</span>
+            <span class="author"><a href="https://deblokt.com/author/root/" title="Posts by deblokt" rel="author">deblokt</a></span><span class="blog-separator">|</span>                   
+            <span class="blog-label">in category <a href="https://deblokt.com/category/tutorials/" rel="category tag">Tutorials</a></span>                    
+            <span class="comment-count"><span class="fa fa-comment-o"></span><a href="https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/#respond">No comments yet</a></span>
+         </div>
+            <div class="blog-content"><p>You can find the project <a href="https://github.com/Deblokt/IdentityServer4Demos/tree/master/04.%20PART%202%20IdentityServer4%20ASP.NET%20Core%20Identity">here</a>.</p>
+<p style="text-align: justify;">If you got up to this point I congratulate you for being persistent. Most of the “hard” steps are pretty much done. We just need to create database migrations for ASP.NET Core Identity to create the database tables. I will help you to understand new identity tables, similar as we did with IdentityServer4 tables. In the <a href="https://deblokt.com/final/2019/09/26/04-part-3-identityserver4-asp-net-core-identity/">next tutorial</a> we will start with adding custom properties to the user to start extending the functionality.</p>
+<h3><strong>Database code-first migration</strong></h3>
+<p>In Visual Studio open Package Manager Console. First we need to add the migration for ASP.NET Core Identity database context (IdentityDbContext). Like so</p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5e94a6f2b59e5248417686" class="crayon-syntax crayon-theme-eclipse crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 18px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 15px !important; height: 22.5px !important; line-height: 22.5px !important; margin-top: -23px; display: none; z-index: 4;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 15px !important;height: 22.5px !important; line-height: 22.5px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">MS DOS</span></div></div>
+			<div class="crayon-info" style="min-height: 21px !important; line-height: 21px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 15px !important; line-height: 18px !important; z-index: 0; opacity: 0; overflow: hidden;">Add-Migration InitialIdentityDbMigration -c IdentityDbContext -o Data/Migrations/AspNetIdentity/AspNetIdentityDb</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 18px !important;"><div class="crayon-num" data-line="crayon-5e94a6f2b59e5248417686-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 18px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5e94a6f2b59e5248417686-1"><span class="crayon-r ">Add-Migration</span><span class="crayon-h"> </span>InitialIdentityDbMigration<span class="crayon-e "> -c</span><span class="crayon-h"> </span>IdentityDbContext<span class="crayon-e "> -o</span><span class="crayon-h"> </span>Data<span class="crayon-o">/</span>Migrations<span class="crayon-o">/</span>AspNetIdentity<span class="crayon-o">/</span>AspNetIdentityDb</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0008 seconds] -->
+<p></p><div id="envira-gallery-wrap-2731" class="envira-gallery-wrap envira-gallery-theme-base envira-lightbox-theme-base" itemscope="" itemtype="https://schema.org/ImageGallery"><div style="opacity: 1; height: 383.433px;" data-row-height="500" data-gallery-theme="normal" id="envira-gallery-2731" class="envira-gallery-public envira-gallery-justified-public envira-gallery-0-columns envira-clear enviratope envira-gallery-css-animations justified-gallery" data-envira-columns="0"><div id="envira-gallery-item-2732" class="envira-gallery-item enviratope-item envira-gallery-item-1" style="padding-left: 5px; padding-bottom: 10px; padding-right: 5px;" itemscope="" itemtype="https://schema.org/ImageObject"><div class="envira-gallery-item-inner jg-entry" style="width: 770px; height: 382.433px; top: 1px; left: 0px; opacity: 1;"><div class="envira-gallery-position-overlay  envira-gallery-top-left"></div><div class="envira-gallery-position-overlay  envira-gallery-top-right"></div><div class="envira-gallery-position-overlay  envira-gallery-bottom-left"></div><div class="envira-gallery-position-overlay  envira-gallery-bottom-right"></div><a href="https://deblokt.com/wp-content/uploads/2019/09/1-7.png" class="envira-gallery-2731 envira-gallery-link" rel="enviragallery2731" title="1" data-envira-caption="1" data-envira-retina="" data-thumbnail="" itemprop="contentUrl"><img id="envira-gallery-image-2732" class="lazy envira-gallery-image envira-gallery-image-1 envira-normal  lazy-loaded" data-envira-index="1" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/1-7-1024x507.png" data-lazy-type="image" data-lazy-src="https://deblokt.com/wp-content/uploads/2019/09/1-7-1024x507.png" data-envira-src="https://deblokt.com/wp-content/uploads/2019/09/1-7-1024x507.png" data-envira-gallery-id="2731" data-envira-item-id="2732" data-envira-caption="1" alt="" title="1" itemprop="thumbnailUrl" data-envira-data-lazy-srcset="https://deblokt.com/wp-content/uploads/2019/09/1-7-1024x507.png 400w,https://deblokt.com/wp-content/uploads/2019/09/1-7-1024x507.png 2x" data-envira-width="300" data-envira-height="149" data-lazy-srcset="https://deblokt.com/wp-content/uploads/2019/09/1-7-2048x2048.png 2x" data-safe-src="https://deblokt.com/wp-content/uploads/2019/09/1-7-1024x507.png" srcset="https://deblokt.com/wp-content/uploads/2019/09/1-7-2048x2048.png 2x" style="width: 770px; height: 383px; margin-left: -385px; margin-top: -191.5px; opacity: 1;"><noscript><img id="envira-gallery-image-2732" class="envira-gallery-image envira-gallery-image-1 envira-normal " data-envira-index="1" src="https://deblokt.com/wp-content/uploads/2019/09/1-7-1024x507.png" data-envira-src="https://deblokt.com/wp-content/uploads/2019/09/1-7-1024x507.png" data-envira-gallery-id="2731" data-envira-item-id="2732" data-envira-caption="1" alt="" title="1"  itemprop="thumbnailUrl" data-envira-srcset="https://deblokt.com/wp-content/uploads/2019/09/1-7-1024x507.png 400w,https://deblokt.com/wp-content/uploads/2019/09/1-7-1024x507.png 2x" data-envira-width="300" data-envira-height="149" srcset="https://deblokt.com/wp-content/uploads/2019/09/1-7-2048x2048.png 2x" data-safe-src="https://deblokt.com/wp-content/uploads/2019/09/1-7-1024x507.png" /></noscript></a></div></div></div></div><noscript><img src="https://deblokt.com/wp-content/uploads/2019/09/1-7.png" alt="" /></noscript><p></p>
+<p style="text-align: justify;">This will add database migration “InitialIdentityDbMigration” to “Data/Migrations/AspNetIdentity” folder right next to the IdentityServer4 migrations for configuration and persisted grants. Let’s update the database structure with ASP.NET Core Identity tables. In Package Manager Console execute update database command like so</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5e94a6f2b59ee619705323" class="crayon-syntax crayon-theme-eclipse crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 18px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 15px !important; height: 22.5px !important; line-height: 22.5px !important; margin-top: -23px; display: none; z-index: 4;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 15px !important;height: 22.5px !important; line-height: 22.5px !important;"><div class="crayon-button crayon-nums-button crayon-pressed" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code" style="display: none;"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">C#</span></div></div>
+			<div class="crayon-info" style="min-height: 21px !important; line-height: 21px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 15px !important; line-height: 18px !important; z-index: 0; opacity: 0; overflow: hidden;">Update-Database -Context IdentityDbContext</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="show">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 18px !important;"><div class="crayon-num" data-line="crayon-5e94a6f2b59ee619705323-1">1</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 18px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5e94a6f2b59ee619705323-1"><span class="crayon-v">Update</span><span class="crayon-o">-</span><span class="crayon-v">Database</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-e">Context </span><span class="crayon-v">IdentityDbContext</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+<p></p>
+<p style="text-align: justify;">That’s it! We previously successfully migrated all temporary in-memory configuration to the database, now we also migrated the user store. Wow. Take a moment and relax now. Moment gone. Let’s see new tables we got to play with.</p>
+<p style="text-align: justify;">PS. Feel free to delete the “ScaffoldingReadme.txt” file from the project root. This readme file was automatically added when we did the ASP.NET Core Identity scaffolding.</p>
+<h3 style="text-align: justify;"><strong>ASP.NET Core Identity tables</strong></h3>
+<p style="text-align: justify;">I used the MSSQL database in this example but it’s pretty much the same for PostgreSQL. Here is the list of tables that we have in the “IdentityServerQuickstart” database. Seven tables that start with the “AspNet” prefix are the ASP.NET Core Identity tables that hold user store (users, claims, roles, logins, and user tokens).</p>
+<div id="envira-gallery-wrap-2735" class="envira-gallery-wrap envira-gallery-theme-base envira-lightbox-theme-base" itemscope="" itemtype="https://schema.org/ImageGallery"><div style="opacity: 1; height: 700px;" data-row-height="700" data-gallery-theme="normal" id="envira-gallery-2735" class="envira-gallery-public envira-gallery-justified-public envira-gallery-0-columns envira-clear enviratope envira-gallery-css-animations justified-gallery" data-envira-columns="0"><div id="envira-gallery-item-2736" class="envira-gallery-item enviratope-item envira-gallery-item-1" style="padding-left: 5px; padding-bottom: 10px; padding-right: 5px;" itemscope="" itemtype="https://schema.org/ImageObject"><div class="envira-gallery-item-inner jg-entry" style="width: 299px; height: 700px; top: 0px; left: 0px; opacity: 1;"><div class="envira-gallery-position-overlay  envira-gallery-top-left"></div><div class="envira-gallery-position-overlay  envira-gallery-top-right"></div><div class="envira-gallery-position-overlay  envira-gallery-bottom-left"></div><div class="envira-gallery-position-overlay  envira-gallery-bottom-right"></div><a href="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/2-8.png" class="envira-gallery-2735 envira-gallery-link" rel="enviragallery2735" title="2" data-envira-caption="2" data-envira-retina="" data-thumbnail="" itemprop="contentUrl"><img id="envira-gallery-image-2736" class="lazy envira-gallery-image envira-gallery-image-1 envira-normal  lazy-loaded" data-envira-index="1" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/2-8.png" data-lazy-type="image" data-lazy-src="https://deblokt.com/wp-content/uploads/2019/09/2-8.png" data-envira-src="https://deblokt.com/wp-content/uploads/2019/09/2-8.png" data-envira-gallery-id="2735" data-envira-item-id="2736" data-envira-caption="2" alt="" title="2" itemprop="thumbnailUrl" data-envira-data-lazy-srcset="https://deblokt.com/wp-content/uploads/2019/09/2-8.png 400w,https://deblokt.com/wp-content/uploads/2019/09/2-8.png 2x" data-envira-width="128" data-envira-height="300" data-lazy-srcset="https://deblokt.com/wp-content/uploads/2019/09/2-8-2048x2048.png 2x" data-safe-src="https://deblokt.com/wp-content/uploads/2019/09/2-8.png" srcset="https://deblokt.com/wp-content/uploads/2019/09/2-8-2048x2048.png 2x" style="width: 299px; height: 700px; margin-left: -149.5px; margin-top: -350px; opacity: 1;"><noscript><img id="envira-gallery-image-2736" class="envira-gallery-image envira-gallery-image-1 envira-normal " data-envira-index="1" src="https://deblokt.com/wp-content/uploads/2019/09/2-8.png" data-envira-src="https://deblokt.com/wp-content/uploads/2019/09/2-8.png" data-envira-gallery-id="2735" data-envira-item-id="2736" data-envira-caption="2" alt="" title="2"  itemprop="thumbnailUrl" data-envira-srcset="https://deblokt.com/wp-content/uploads/2019/09/2-8.png 400w,https://deblokt.com/wp-content/uploads/2019/09/2-8.png 2x" data-envira-width="128" data-envira-height="300" srcset="https://deblokt.com/wp-content/uploads/2019/09/2-8-2048x2048.png 2x" data-safe-src="https://deblokt.com/wp-content/uploads/2019/09/2-8.png" /></noscript></a></div></div></div></div><noscript><img src="https://deblokt.com/wp-content/uploads/2019/09/2-8.png" alt="" /></noscript>
+<p>Let’s see the relationship between ASP.NET Core Identity tables in a diagram</p>
+<div id="envira-gallery-wrap-2738" class="envira-gallery-wrap envira-gallery-theme-base envira-lightbox-theme-base" itemscope="" itemtype="https://schema.org/ImageGallery"><div style="opacity: 1; height: 593.9px;" data-row-height="800" data-gallery-theme="normal" id="envira-gallery-2738" class="envira-gallery-public envira-gallery-justified-public envira-gallery-0-columns envira-clear enviratope envira-gallery-css-animations justified-gallery" data-envira-columns="0"><div id="envira-gallery-item-2739" class="envira-gallery-item enviratope-item envira-gallery-item-1" style="padding-left: 5px; padding-bottom: 10px; padding-right: 5px;" itemscope="" itemtype="https://schema.org/ImageObject"><div class="envira-gallery-item-inner jg-entry" style="width: 770px; height: 592.9px; top: 1px; left: 0px; opacity: 1;"><div class="envira-gallery-position-overlay  envira-gallery-top-left"></div><div class="envira-gallery-position-overlay  envira-gallery-top-right"></div><div class="envira-gallery-position-overlay  envira-gallery-bottom-left"></div><div class="envira-gallery-position-overlay  envira-gallery-bottom-right"></div><a href="https://deblokt.com/wp-content/uploads/2019/09/3-5.png" class="envira-gallery-2738 envira-gallery-link" rel="enviragallery2738" title="3" data-envira-caption="3" data-envira-retina="" data-thumbnail="" itemprop="contentUrl"><img id="envira-gallery-image-2739" class="lazy envira-gallery-image envira-gallery-image-1 envira-normal  lazy-loaded" data-envira-index="1" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/3-5-1024x789.png" data-lazy-type="image" data-lazy-src="https://deblokt.com/wp-content/uploads/2019/09/3-5-1024x789.png" data-envira-src="https://deblokt.com/wp-content/uploads/2019/09/3-5-1024x789.png" data-envira-gallery-id="2738" data-envira-item-id="2739" data-envira-caption="3" alt="" title="3" itemprop="thumbnailUrl" data-envira-data-lazy-srcset="https://deblokt.com/wp-content/uploads/2019/09/3-5-1024x789.png 400w,https://deblokt.com/wp-content/uploads/2019/09/3-5-1024x789.png 2x" data-envira-width="300" data-envira-height="231" data-lazy-srcset="https://deblokt.com/wp-content/uploads/2019/09/3-5-2048x2048.png 2x" data-safe-src="https://deblokt.com/wp-content/uploads/2019/09/3-5-1024x789.png" srcset="https://deblokt.com/wp-content/uploads/2019/09/3-5-2048x2048.png 2x" style="width: 770px; height: 593px; margin-left: -385px; margin-top: -296.5px; opacity: 1;"><noscript><img id="envira-gallery-image-2739" class="envira-gallery-image envira-gallery-image-1 envira-normal " data-envira-index="1" src="https://deblokt.com/wp-content/uploads/2019/09/3-5-1024x789.png" data-envira-src="https://deblokt.com/wp-content/uploads/2019/09/3-5-1024x789.png" data-envira-gallery-id="2738" data-envira-item-id="2739" data-envira-caption="3" alt="" title="3"  itemprop="thumbnailUrl" data-envira-srcset="https://deblokt.com/wp-content/uploads/2019/09/3-5-1024x789.png 400w,https://deblokt.com/wp-content/uploads/2019/09/3-5-1024x789.png 2x" data-envira-width="300" data-envira-height="231" srcset="https://deblokt.com/wp-content/uploads/2019/09/3-5-2048x2048.png 2x" data-safe-src="https://deblokt.com/wp-content/uploads/2019/09/3-5-1024x789.png" /></noscript></a></div></div></div></div><noscript><img src="https://deblokt.com/wp-content/uploads/2019/09/3-5.png" alt="" /></noscript>
+<ul>
+<li style="text-align: justify;">“dbo.AspNetRoleClaims” table is holding claims assigned to a specific role.</li>
+<li style="text-align: justify;">“dbo.AspNetRoles” table is holding a list of roles. It is a lookup table of all possible roles that exist and can be assigned to a user.</li>
+<li style="text-align: justify;">“dbo.AspNetUserClaims” table is holding claims assigned to a user. A claim is different from a role because a claim is a key-value pair. You can have a role or not have a role. Claim also provides a value for a specified claim. In a way, it is like an optional property assigned to a user.</li>
+<li style="text-align: justify;">“dbo.AspNetUserLogins” table is connecting external users to local users. All users specified in “dbo.AspNetUsers” table are local users. Say you want to login with Google and you want to link your Google account with your local account. This table holds that link so once you are linked you don’t have to go through the linking process again.</li>
+<li style="text-align: justify;">“dbo.AspNetUserRoles” table is a many-to-many relationship table that connects users with assigned roles.</li>
+<li style="text-align: justify;">“dbo.AspNetUsers” table is holding users. All of the user properties like username, email, password are stored here. We can also add custom user properties here to extend the user.</li>
+<li style="text-align: justify;">“dbo.AspNetUserTokens” table is holding external authentication tokens. This table is also used for keeping TOTP authenticator keys and recovery codes for user.</li>
+</ul>
+<h3></h3>
+<h3><strong>Recap</strong></h3>
+<p style="text-align: justify;">We added migration for ASP.NET Core Identity, updated the database with new tables and learned about each table. I explained the rest of the tables (the non “AspNet” prefix tables) in my <a href="https://deblokt.com/final/2019/09/23/04-part-1-identityserver4-asp-net-core-identity/">previous tutorial</a>.</p>
+<p style="text-align: justify;">In <a href="https://deblokt.com/final/2019/09/26/04-part-3-identityserver4-asp-net-core-identity/">my next tutorial</a> we will start adding custom attributes to the user. “Hard” stuff is pretty much over, we are now off to customization and adding new features.</p>
+<p>You can find the project <a href="https://github.com/Deblokt/IdentityServer4Demos/tree/master/04.%20PART%202%20IdentityServer4%20ASP.NET%20Core%20Identity">here</a>.</p>
+<h3><strong>Support</strong></h3>
+<p style="text-align: justify;">For direct assistance <a href="https://calendly.com/ivan-sedlak/meeting" target="_blank" rel="noopener noreferrer">schedule a technical meeting with Ivan</a> to talk about your requirements.<br>
+For a general overview of our services and a live demo <a href="https://calendly.com/maja-stanic/meeting" target="_blank" rel="noopener noreferrer">schedule a meeting with Maja</a>.</p>
+</div>
+            <div class="meta-content">
+               <div class="tags"></div>
+               <div class="navigation pagination">
+                  <a class="prev" href="https://deblokt.com/2019/09/23/04-part-1-identityserver4-asp-net-core-identity/" rel="prev">Previous</a>                  <a class="next" href="https://deblokt.com/2019/09/26/04-part-3-identityserver4-asp-net-core-identity/" rel="next">Next</a>               </div>
+            </div>
+         </div>
+      </div>
+      <div class="page-content comments-content">
+         <div id="comments" class="comments-area">
+      	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a comment <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/#respond" style="display:none;"> - Cancel Reply</a></small></h3><form action="https://deblokt.com/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><textarea placeholder="Comment" id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p><p class="comment-form-author"><input placeholder="Name" id="author" name="author" type="text" value="" size="30"></p>
+<p class="comment-form-email"><input placeholder="Email" id="email" name="email" type="text" value="" size="30"></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post a Comment"> <input type="hidden" name="comment_post_ID" value="2730" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p></form>	</div><!-- #respond -->
+	 
+</div>
+      </div>
+   </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+      <div class="blog_widget"><form role="search" method="get" id="searchform" class="searchform" action="https://deblokt.com/">
+				<div>
+					
+					<input type="text" value="" name="s" id="s" placeholder="Search">
+					<input type="submit" id="searchsubmit" value="">
+				</div>
+			</form></div><div class="blog_widget"><h5 class="widget-title"><span>Recent Videos</span></h5><ul id="category-posts-3-internal" class="category-posts-internal">
+<li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2019/09/01/full-ownership-of-identity-solution-vs-renting-identity-solution/" rel="bookmark">Renting Identity solution vs having Full Ownership of Identity solution</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2019/09/01/authentication-as-a-service-vs-in-app-integrated-authentication-solutions/" rel="bookmark">In-app integrated authentication solutions vs Authentication as a Service</a></div></li></ul>
+</div><div class="blog_widget"><h5 class="widget-title"><span>Recent Posts</span></h5><ul id="category-posts-4-internal" class="category-posts-internal">
+<li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2020/01/24/08-part-2-identityserver4-mfa-fido2-yubikey-5-net-core-3-1/" rel="bookmark">08. PART 2 IdentityServer4 MFA – FIDO2 (YubiKey 5) .NET Core 3.1</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2020/01/24/08-part-1-identityserver4-mfa-fido2-yubikey-5-net-core-3-1/" rel="bookmark">08. PART 1 IdentityServer4 MFA – FIDO2 (YubiKey 5) .NET Core 3.1</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2020/01/24/07-identityserver4-mfa-totp-net-core-3-1/" rel="bookmark">07. IdentityServer4 MFA – TOTP .NET Core 3.1</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2020/01/24/06-identityserver4-external-providers-net-core-3-1/" rel="bookmark">06. IdentityServer4 External Providers .NET Core 3.1</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2020/01/24/05-identityserver4-adding-custom-properties-to-user-net-core-3-1/" rel="bookmark">05. IdentityServer4 Adding custom properties to User .NET Core 3.1</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2020/01/24/04-part-3-identityserver4-asp-net-core-identity-net-core-3-1/" rel="bookmark">04. PART 3 IdentityServer4 ASP.NET Core Identity .NET Core 3.1</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2020/01/24/04-part-2-identityserver4-asp-net-core-identity-net-core-3-1/" rel="bookmark">04. PART 2 IdentityServer4 ASP.NET Core Identity .NET Core 3.1</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2020/01/24/04-part-1-identityserver4-asp-net-core-identity-net-core-3-1/" rel="bookmark">04. PART 1 IdentityServer4 ASP.NET Core Identity .NET Core 3.1</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2020/01/24/03-identityserver4-ef-with-postgresql-net-core-3-1/" rel="bookmark">03. IdentityServer4 EF With PostgreSQL .NET Core 3.1</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2020/01/24/02-identityserver4-entityframework-net-core-3-1/" rel="bookmark">02. IdentityServer4 EntityFramework .NET Core 3.1</a></div></li></ul>
+</div><div class="blog_widget"><h5 class="widget-title"><span>Older Posts</span></h5><ul id="category-posts-2-internal" class="category-posts-internal">
+<li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2019/12/11/08-part-2-identityserver4-mfa-fido2-yubikey-5/" rel="bookmark">08. PART 2 IdentityServer4 MFA – FIDO2 (YubiKey 5)</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2019/10/21/08-identityserver4-mfa-fido2-yubikey-5/" rel="bookmark">08. PART 1 IdentityServer4 MFA – FIDO2 (YubiKey 5)</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2019/10/09/07-identityserver4-mfa-totp/" rel="bookmark">07. IdentityServer4 MFA – TOTP</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2019/09/30/06-identityserver4-external-providers/" rel="bookmark">06. IdentityServer4 External Providers</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2019/09/27/05-identityserver4-adding-custom-properties-to-user/" rel="bookmark">05. IdentityServer4 Adding custom properties to User</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2019/09/26/04-part-3-identityserver4-asp-net-core-identity/" rel="bookmark">04. PART 3 IdentityServer4 ASP.NET Core Identity</a></div></li><li class="cat-post-item cat-post-current"><div><a class="cat-post-title" href="https://deblokt.com/2019/09/24/04-part-2-identityserver4-asp-net-core-identity/" rel="bookmark">04. PART 2 IdentityServer4 ASP.NET Core Identity</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2019/09/23/04-part-1-identityserver4-asp-net-core-identity/" rel="bookmark">04. PART 1 IdentityServer4 ASP.NET Core Identity</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2019/09/23/03-identityserver4-ef-with-postgresql/" rel="bookmark">03. IdentityServer4 EF With PostgreSQL</a></div></li><li class="cat-post-item"><div><a class="cat-post-title" href="https://deblokt.com/2019/09/20/02-identityserver4-entityframework/" rel="bookmark">02. IdentityServer4 EntityFramework</a></div></li></ul>
+</div>   </div>
+         </div>
+</div>
+<footer id="footer">
+   <div class="container">
+      <div class="lower-footer">
+         <div class="pull-left">
+            <span>© 2019 Deblokt LLC – Removing roadblocks in your business</span>
+         </div>
+         <div id="social-icons" class="pull-right">
+            <a href="http://facebook.com/deblokt" target="_blank"><span class="fa fa-facebook"></span></a>            <a href="http://twitter.com/deblokt" target="_blank"><span class="fa fa-twitter"></span></a>                        <a href="https://www.instagram.com/deblokt/" target="_blank"><span class="fa fa-instagram"></span></a>                        <a href="https://www.linkedin.com/company/deblokt-doo-subotica/" target="_blank"><span class="fa fa-linkedin"></span></a>         </div>
+      </div>
+   </div>
+</footer>
+<script type="text/javascript">
+_linkedin_partner_id = "1590833";
+window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+</script><script type="text/javascript">
+(function(){var s = document.getElementsByTagName("script")[0];
+var b = document.createElement("script");
+b.type = "text/javascript";b.async = true;
+b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+s.parentNode.insertBefore(b, s);})();
+</script>
+<noscript>
+<img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=1590833&fmt=gif(43 B)
+https://px.ads.linkedin.com/collect/?pid=1590833&fmt=gif
+" />
+</noscript>
+
+
+
+<script type="text/javascript">
+/* <![CDATA[ */
+var wpcf7 = {"apiSettings":{"root":"https:\/\/deblokt.com\/wp-json\/contact-form-7\/v1","namespace":"contact-form-7\/v1"},"cached":"1"};
+/* ]]> */
+</script>
+
+
+
+<script type="text/javascript" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/js(1)"></script>
+
+
+
+
+
+
+
+
+        <script type="text/javascript">
+            var envira_galleries = [],envira_gallery_images = [],envira_isotopes = [],envira_isotopes_config = [];jQuery(document).ready(function($){var envira_container_2731 = '';function envira_album_lazy_load_image( $id ) {}$('#envira-gallery-2731').enviraJustifiedGallery({rowHeight : 500,maxRowHeight: -1,waitThumbnailsLoad: true,selector: '> div > div',lastRow: 'nojustify',border: 0,margins: 1,});$('#envira-gallery-2731').justifiedGallery().on('jg.complete', function (e) {envira_album_lazy_load_image(2731);$(window).scroll(function(event){envira_album_lazy_load_image(2731);});});$( document ).on( "envira_pagination_ajax_load_completed", function() {$('#envira-gallery-2731').justifiedGallery().on('jg.complete', function (e) {envira_album_lazy_load_image(2731);$(window).scroll(function(event){envira_album_lazy_load_image(2731);});});});$('#envira-gallery-2731').css('opacity', '1');envira_container_2731 = $('#envira-gallery-2731').enviraImagesLoaded( function() {$('.envira-gallery-item img').fadeTo( 'slow', 1 );});envira_gallery_options = {padding: 15,cyclic: true,titlePosition: 'float',margin: 60,arrows: 1,aspectRatio: 1,loop: 1,mouseWheel: 1,preload: 1,openEffect: 'fade',closeEffect: 'fade',nextEffect: 'fade',prevEffect: 'fade',tpl: {wrap : '<div class="envirabox-wrap" tabIndex="-1"><div class="envirabox-skin envirabox-theme-base"><div class="envirabox-outer"><div class="envirabox-inner"><div class="envirabox-position-overlay envira-gallery-top-left"></div><div class="envirabox-position-overlay envira-gallery-top-right"></div><div class="envirabox-position-overlay envira-gallery-bottom-left"></div><div class="envirabox-position-overlay envira-gallery-bottom-right"></div></div></div></div></div>',image: '<img class="envirabox-image" src="{href}" alt="" data-envira-title="" data-envira-caption="" data-envira-index="" data-envira-data="" />',iframe : '<iframe id="envirabox-frame{rnd}" name="envirabox-frame{rnd}" class="envirabox-iframe" frameborder="0" vspace="0" hspace="0" allowtransparency="true" wekitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',error: '<p class="envirabox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',closeBtn : '<a title="Close" class="envirabox-item envirabox-close" href="#"></a>',next : '<a title="Next" class="envirabox-nav envirabox-next envirabox-arrows-inside" href="#"><span></span></a>',prev : '<a title="Previous" class="envirabox-nav envirabox-prev envirabox-arrows-inside" href="#"><span></span></a>'},helpers: {title: {type: 'float'},},beforeLoad: function(){this.title = $(this.element).attr('data-envira-caption');},afterLoad: function(){$('envirabox-overlay-fixed').on({'touchmove' : function(e){e.preventDefault();}});},beforeShow: function(){$(window).on({'resize.envirabox' : function(){$.envirabox.update();}});if ( typeof this.element === 'undefined' ) {var gallery_id = this.group[ this.index ].gallery_id;var gallery_item_id = this.group[ this.index ].id;var alt = this.group[ this.index ].alt;var title = this.group[ this.index ].title;var caption = this.group[ this.index ].caption;var index = this.index;} else {var gallery_id = this.element.find('img').data('envira-gallery-id');var gallery_item_id = this.element.find('img').data('envira-item-id');var alt = this.element.find('img').attr('alt');var title = this.element.find('img').parent().attr('title');var caption = this.element.find('img').parent().data('envira-caption');var retina_image = this.element.find('img').parent().data('envira-retina');var index = this.element.find('img').data('envira-index');}this.inner.find('img').attr('alt', alt).attr('data-envira-gallery-id', gallery_id).attr('data-envira-item-id', gallery_item_id).attr('data-envira-title', title).attr('data-envira-caption', caption).attr('data-envira-index', index);if ( typeof retina_image !== 'undefined' && retina_image !== '' ) {this.inner.find('img').attr('srcset', retina_image + ' 2x');}},onStart: function(){$('#envirabox-wrap, #envirabox-wrap #envirabox-left, #envirabox-wrap #envirabox-right').swipe( {excludedElements:"label, button, input, select, textarea, .noSwipe",swipe: function(event, direction, distance, duration, fingerCount, fingerData) {if (direction === 'left') {$.envirabox.next(direction);} else if (direction === 'right') {$.envirabox.prev(direction);} else if (direction === 'up') {$.envirabox.close();}}} );},beforeClose: function(){},afterClose: function(){$(window).off('resize.envirabox');},onUpdate: function(){},onCancel: function(){},onPlayStart: function(){},onPlayEnd: function(){}};envira_galleries['2731'] = $('.envira-gallery-2731').envirabox( envira_gallery_options );var envira_container_2735 = '';function envira_album_lazy_load_image( $id ) {}$('#envira-gallery-2735').enviraJustifiedGallery({rowHeight : 700,maxRowHeight: -1,waitThumbnailsLoad: true,selector: '> div > div',lastRow: 'nojustify',border: 0,margins: 1,});$('#envira-gallery-2735').justifiedGallery().on('jg.complete', function (e) {envira_album_lazy_load_image(2735);$(window).scroll(function(event){envira_album_lazy_load_image(2735);});});$( document ).on( "envira_pagination_ajax_load_completed", function() {$('#envira-gallery-2735').justifiedGallery().on('jg.complete', function (e) {envira_album_lazy_load_image(2735);$(window).scroll(function(event){envira_album_lazy_load_image(2735);});});});$('#envira-gallery-2735').css('opacity', '1');envira_container_2735 = $('#envira-gallery-2735').enviraImagesLoaded( function() {$('.envira-gallery-item img').fadeTo( 'slow', 1 );});envira_gallery_options = {padding: 15,cyclic: true,titlePosition: 'float',margin: 60,arrows: 1,aspectRatio: 1,loop: 1,mouseWheel: 1,preload: 1,openEffect: 'fade',closeEffect: 'fade',nextEffect: 'fade',prevEffect: 'fade',tpl: {wrap : '<div class="envirabox-wrap" tabIndex="-1"><div class="envirabox-skin envirabox-theme-base"><div class="envirabox-outer"><div class="envirabox-inner"><div class="envirabox-position-overlay envira-gallery-top-left"></div><div class="envirabox-position-overlay envira-gallery-top-right"></div><div class="envirabox-position-overlay envira-gallery-bottom-left"></div><div class="envirabox-position-overlay envira-gallery-bottom-right"></div></div></div></div></div>',image: '<img class="envirabox-image" src="{href}" alt="" data-envira-title="" data-envira-caption="" data-envira-index="" data-envira-data="" />',iframe : '<iframe id="envirabox-frame{rnd}" name="envirabox-frame{rnd}" class="envirabox-iframe" frameborder="0" vspace="0" hspace="0" allowtransparency="true" wekitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',error: '<p class="envirabox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',closeBtn : '<a title="Close" class="envirabox-item envirabox-close" href="#"></a>',next : '<a title="Next" class="envirabox-nav envirabox-next envirabox-arrows-inside" href="#"><span></span></a>',prev : '<a title="Previous" class="envirabox-nav envirabox-prev envirabox-arrows-inside" href="#"><span></span></a>'},helpers: {title: {type: 'float'},},beforeLoad: function(){this.title = $(this.element).attr('data-envira-caption');},afterLoad: function(){$('envirabox-overlay-fixed').on({'touchmove' : function(e){e.preventDefault();}});},beforeShow: function(){$(window).on({'resize.envirabox' : function(){$.envirabox.update();}});if ( typeof this.element === 'undefined' ) {var gallery_id = this.group[ this.index ].gallery_id;var gallery_item_id = this.group[ this.index ].id;var alt = this.group[ this.index ].alt;var title = this.group[ this.index ].title;var caption = this.group[ this.index ].caption;var index = this.index;} else {var gallery_id = this.element.find('img').data('envira-gallery-id');var gallery_item_id = this.element.find('img').data('envira-item-id');var alt = this.element.find('img').attr('alt');var title = this.element.find('img').parent().attr('title');var caption = this.element.find('img').parent().data('envira-caption');var retina_image = this.element.find('img').parent().data('envira-retina');var index = this.element.find('img').data('envira-index');}this.inner.find('img').attr('alt', alt).attr('data-envira-gallery-id', gallery_id).attr('data-envira-item-id', gallery_item_id).attr('data-envira-title', title).attr('data-envira-caption', caption).attr('data-envira-index', index);if ( typeof retina_image !== 'undefined' && retina_image !== '' ) {this.inner.find('img').attr('srcset', retina_image + ' 2x');}},onStart: function(){$('#envirabox-wrap, #envirabox-wrap #envirabox-left, #envirabox-wrap #envirabox-right').swipe( {excludedElements:"label, button, input, select, textarea, .noSwipe",swipe: function(event, direction, distance, duration, fingerCount, fingerData) {if (direction === 'left') {$.envirabox.next(direction);} else if (direction === 'right') {$.envirabox.prev(direction);} else if (direction === 'up') {$.envirabox.close();}}} );},beforeClose: function(){},afterClose: function(){$(window).off('resize.envirabox');},onUpdate: function(){},onCancel: function(){},onPlayStart: function(){},onPlayEnd: function(){}};envira_galleries['2735'] = $('.envira-gallery-2735').envirabox( envira_gallery_options );var envira_container_2738 = '';function envira_album_lazy_load_image( $id ) {}$('#envira-gallery-2738').enviraJustifiedGallery({rowHeight : 800,maxRowHeight: -1,waitThumbnailsLoad: true,selector: '> div > div',lastRow: 'nojustify',border: 0,margins: 1,});$('#envira-gallery-2738').justifiedGallery().on('jg.complete', function (e) {envira_album_lazy_load_image(2738);$(window).scroll(function(event){envira_album_lazy_load_image(2738);});});$( document ).on( "envira_pagination_ajax_load_completed", function() {$('#envira-gallery-2738').justifiedGallery().on('jg.complete', function (e) {envira_album_lazy_load_image(2738);$(window).scroll(function(event){envira_album_lazy_load_image(2738);});});});$('#envira-gallery-2738').css('opacity', '1');envira_container_2738 = $('#envira-gallery-2738').enviraImagesLoaded( function() {$('.envira-gallery-item img').fadeTo( 'slow', 1 );});envira_gallery_options = {padding: 15,cyclic: true,titlePosition: 'float',margin: 60,arrows: 1,aspectRatio: 1,loop: 1,mouseWheel: 1,preload: 1,openEffect: 'fade',closeEffect: 'fade',nextEffect: 'fade',prevEffect: 'fade',tpl: {wrap : '<div class="envirabox-wrap" tabIndex="-1"><div class="envirabox-skin envirabox-theme-base"><div class="envirabox-outer"><div class="envirabox-inner"><div class="envirabox-position-overlay envira-gallery-top-left"></div><div class="envirabox-position-overlay envira-gallery-top-right"></div><div class="envirabox-position-overlay envira-gallery-bottom-left"></div><div class="envirabox-position-overlay envira-gallery-bottom-right"></div></div></div></div></div>',image: '<img class="envirabox-image" src="{href}" alt="" data-envira-title="" data-envira-caption="" data-envira-index="" data-envira-data="" />',iframe : '<iframe id="envirabox-frame{rnd}" name="envirabox-frame{rnd}" class="envirabox-iframe" frameborder="0" vspace="0" hspace="0" allowtransparency="true" wekitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',error: '<p class="envirabox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',closeBtn : '<a title="Close" class="envirabox-item envirabox-close" href="#"></a>',next : '<a title="Next" class="envirabox-nav envirabox-next envirabox-arrows-inside" href="#"><span></span></a>',prev : '<a title="Previous" class="envirabox-nav envirabox-prev envirabox-arrows-inside" href="#"><span></span></a>'},helpers: {title: {type: 'float'},},beforeLoad: function(){this.title = $(this.element).attr('data-envira-caption');},afterLoad: function(){$('envirabox-overlay-fixed').on({'touchmove' : function(e){e.preventDefault();}});},beforeShow: function(){$(window).on({'resize.envirabox' : function(){$.envirabox.update();}});if ( typeof this.element === 'undefined' ) {var gallery_id = this.group[ this.index ].gallery_id;var gallery_item_id = this.group[ this.index ].id;var alt = this.group[ this.index ].alt;var title = this.group[ this.index ].title;var caption = this.group[ this.index ].caption;var index = this.index;} else {var gallery_id = this.element.find('img').data('envira-gallery-id');var gallery_item_id = this.element.find('img').data('envira-item-id');var alt = this.element.find('img').attr('alt');var title = this.element.find('img').parent().attr('title');var caption = this.element.find('img').parent().data('envira-caption');var retina_image = this.element.find('img').parent().data('envira-retina');var index = this.element.find('img').data('envira-index');}this.inner.find('img').attr('alt', alt).attr('data-envira-gallery-id', gallery_id).attr('data-envira-item-id', gallery_item_id).attr('data-envira-title', title).attr('data-envira-caption', caption).attr('data-envira-index', index);if ( typeof retina_image !== 'undefined' && retina_image !== '' ) {this.inner.find('img').attr('srcset', retina_image + ' 2x');}},onStart: function(){$('#envirabox-wrap, #envirabox-wrap #envirabox-left, #envirabox-wrap #envirabox-right').swipe( {excludedElements:"label, button, input, select, textarea, .noSwipe",swipe: function(event, direction, distance, duration, fingerCount, fingerData) {if (direction === 'left') {$.envirabox.next(direction);} else if (direction === 'right') {$.envirabox.prev(direction);} else if (direction === 'up') {$.envirabox.close();}}} );},beforeClose: function(){},afterClose: function(){$(window).off('resize.envirabox');},onUpdate: function(){},onCancel: function(){},onPlayStart: function(){},onPlayEnd: function(){}};envira_galleries['2738'] = $('.envira-gallery-2738').envirabox( envira_gallery_options );});        </script>
+        <script defer="" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/autoptimize_87ce642cf3e50fe5ce53d196510abd2c.js.download"></script>
+
+<!--
+Performance optimized by W3 Total Cache. Learn more: https://www.boldgrid.com/w3-total-cache/
+
+Page Caching using disk: enhanced 
+
+Served from: deblokt.com @ 2020-04-13 19:52:51 by W3 Total Cache
+--><div id="envirabox-tmp"></div><div id="envirabox-loading"><div></div></div><div id="envirabox-overlay"></div><div id="envirabox-wrap" style=""><div id="envirabox-outer"><div class="envirabox-bg" id="envirabox-bg-n"></div><div class="envirabox-bg" id="envirabox-bg-ne"></div><div class="envirabox-bg" id="envirabox-bg-e"></div><div class="envirabox-bg" id="envirabox-bg-se"></div><div class="envirabox-bg" id="envirabox-bg-s"></div><div class="envirabox-bg" id="envirabox-bg-sw"></div><div class="envirabox-bg" id="envirabox-bg-w"></div><div class="envirabox-bg" id="envirabox-bg-nw"></div><div id="envirabox-content"></div><a id="envirabox-close"></a><div id="envirabox-title"></div><a href="javascript:;" id="envirabox-left"><span class="fancy-ico" id="envirabox-left-ico"></span></a><a href="javascript:;" id="envirabox-right"><span class="fancy-ico" id="envirabox-right-ico"></span></a></div></div><iframe name="_hjRemoteVarsFrame" title="_hjRemoteVarsFrame" id="_hjRemoteVarsFrame" src="./PART 2 IdentityServer4 ASP.NET Core Identity - Step-by-Step Tutorial_files/box-469cf41adb11dc78be68c1ae7f9457a4.html" style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe></body></html>

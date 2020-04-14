@@ -1,0 +1,83 @@
+Improving Performance of SimpleMembership By Using Claims-Based Access Control
+
+October 01, 2013
+
+Claims-based identity and access control became first class citizens 
+with the introduction of .NET version 4.5.  
+
+This along with integrating Windows Identify Foundation (WIF) has added 
+some very powerful security features to .NET 4.5.  
+
+In this article I will look how we can make a simple changes to SimpleSecurity 
+to make it more efficient and reduce the number of times 
+we need to hit the database during authorization 
+by retrieving some of the information we need from claims. 
+
+If you are not familiar with claims there is a good introduction here.
+
+I originally introduced the idea of  decoupling the security model from the application 
+by creating a custom AuthorizeAttribute that 
+accepted a resource and operation/CONTROLLER ACTION instead of a role. 
+You can read more about it here and some later improvements here.  
+
+
+claims in the current principal already contain the roles for the user.  
+And this information is persisted in the authentication cookie so that 
+it does not have to hit the database for every HTTP request
+
+First we get the ClaimsPrincipal of the current user.
+
+I THINK CLAIMS PRINCIPALL IS AN COOKIE BASED OBJECT THAT IS POSTED
+BACK TO THE SERVER WITH EACH REQUEST. IT CONTAINS IMPORTANT INFORMATION
+ABOUT THE USER IDENTITY & AUTHORIZATION RIGHTS.
+
+THIS COOKIE IS CREATED WHEN THE USER IS LOGGED INTO THE SYSTEM.
+DURING THE SESSION, WHEN THE USER POST BACK ON THE SERVER. THIS 
+WHOLE INFO IS SUBMITTED TO THE SERVER. IN THE CONTROLLER ACTION, 
+THIS COOKIR INFO IS AVAILABLE AS THE CLAIMSPRINCIPAL. 
+WHEN THIS OBJECTS IS QUERIES FOR CLAIMS, IT DOES NOT QUERY THE DB
+IT ONLY PROVIDE INFO FROM THE COOKIE STORED ON USER MACHINE.
+IF WE CHANGE AUTH & AUTH INFO ON THE SERVER, IT IS NOT APPLIED IMMEDIATELY
+WE SIGNOUT, SIGN IN, NEW COOKIE IS CREATED, AND APPLIED.
+
+ONE TO ONE RELATIONSHIP
+COOKIE <===============> CLAIMS PRINCIPAL OBJECT
+
+WE SHOULD ONLY CONTAIN THE INFO THE COOKIE THAT IS FREQUENTLY 
+NEEDED AND AVOID DATABASE TRIPS. 
+
+IF WE BLOAT THIS OBJECT WITH UNNCESARY INFO, THE REQUEST PROCESSING 
+WILL BE SLOW DUE TO HEAVY COOKIE EACH TIME IT IS SUBMITTED.
+
+
+Now you might be thinking, why don't we put the roles for all of the resources 
+and operations in the claims also.  
+
+It turns out that .NET 4.5 makes it easy to put additional claim information 
+into the current principal and 
+even handles breaking the information into multiple cookies 
+if it gets too large.  
+
+But that is a topic for a future article.  
+Adding this information to the claims would depend on the application 
+and the number of resources, operations, and roles used.  
+We do not want to make the cookie TOO LARGE and pass it around all of the time.
+
+I will tackle adding more TYPE OF CLAIMS in another article because 
+there is other useful information we can add to the claims.  
+
+For example, the user ID, which is the foreign key in a lot of other databases/tables 
+for tying user information to other information in the system.  
+
+Usually when you want to query information based on the current user 
+you get the USER NAME FROM CLAIMS PRINCIPLE, 
+do a database query to get the USER ID, and 
+then query for the information we a looking for. 
+
+We can eliminate this intermediate step by PUTTING THE USER ID IN CLAIMS.
+PUT USER ID IN COOKIE, PUT USER ID IN CUTTRENT PRINCIPLE OF USER.
+
+
+
+
+ 

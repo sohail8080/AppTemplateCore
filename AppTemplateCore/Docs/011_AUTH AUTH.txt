@@ -1,0 +1,97 @@
+Authorization means 
+
+-Assigning Users authorization rights based on their Roles/Claims when user signs in.
+
+-Role is also a Claim, in future it will be merged with Claim.
+
+USER CAN REQUEST FOR ALL RESOURCES IN THE SYSTEM. YOU CANNOT STOP USER
+FORM DOIN THIS. WE CAN CUSTOMIZE THE UI OF THE APPLICATION SO THAT USER
+MAKES ONLY THE LEGIMATE REQUEST. BUT THAT IS ONLY SUPPORT TO THE USER
+USER HAS BROWSER ADDRESS BAR, HE CAN ASK FOR ANY THING.
+
+IF USER IS NOT SIGNED IN HE IS ASKED TO SIGNED IN AND HAVE A 
+CLAIMS LIST.
+
+WHEN USER ASKS FOR CONTROLLER ACTION/RESOURCE, HIS TOKEN IS VALIDED
+HIS CLAIMS BAG IS VALIDATED, IF NOT THORWN OUT.
+IF VALID, THEN WE CHECKS WHAT IS IN THAT CLAIMS BAG. 
+IF AUTH, GIVE HIM RESOURCE IF NOT DENY.
+
+CONTROLLER PROGRAMMING
+WE PROGRAM OUR SYSTEM WITH RESPECT THE AUTHORIZATION IN MIND.
+WHAT PART OF APPLICATINO IS FOR WHAT TYPE OF CLAIMS.
+OR WHAT CLAIMS ARE ALLOWED TO HAVE THESE ACTIONS/RESOURCES.
+WE USUALLY DO THIS ON THE CONTROLLER ACTION LEVEL.
+WE ALSO DEFINE THE SYSTEM REACTION, WHEN USER ASK FOR RESOURCES
+BUT HE IS NOT AUTH FOR THAT RESOURCE. REDIRECT TO A PAGE.
+
+UI PROGRAMMING
+2ND PART OF PROGRAMMING IS RELATED TO UI CUSTOMIZAITON.
+WE SHOW ONLY THE ALLOWED OPTIONS TO THE USER ON THE UI.
+THE FIRST PART AND 2ND PART SHOULD BE SINKED.
+UI AUTH CUSTOMIZATION AND UI AUTH OF CONTROLLERS SHOULD BE SINKED
+
+CONTROLLER AND UI PART ARE SEPERATE, NOTHING TO DO WITH EACH OTHER.
+IF ONE IS DONE 2ND IS NOT DONE. WE HAVE TO DO IT.
+CUSTOMIZING UI, DONOT RESTRICT CONTROLLER ACTIONS.
+RESTRICTING CONTROLLER ACTIONS DO NOT RESTRICT ACTIONS ON UI
+
+==============================================
+
+what does claim mechanism means in new ASP.NET Identity Core?
+
+There are two common authorization approaches that are based on Role and Claim.
+
+Role-Based Security
+
+A user gets assigned to one or more roles through which the user gets access rights. 
+Also, by assigning a user to a role, the user immediately gets 
+all the access rights defined for that role.
+
+Claims-Based Security
+
+A claims-based identity is the set of claims. 
+A claim is a statement that an entity (a USER or another APPLICATION)
+makes about itself, it's just a claim. 
+
+For example a CLAIM LIST can have the 
+user’s name, 
+user’s e-mail, 
+user’s age, 
+user's authorization for an action. 
+EVEN ROLE IS ALSO A CLAIM
+
+In role-based Security, a user presents the ALL CREDENTIALS directly to the application.
+BASED ON WHICH APPLICATION DECIDES WHAT TO GIVE THAT USER AND WHAT NOT
+
+In a claims-based model, the user presents the CLAIMS LIST and not the credentials 
+to the application. 
+
+For a CLAIM to have practical value, it must come from an entity/SYSTEM the application trusts.
+CLAIM SHOULD BE TRUSTED AS WELL. 
+CLAIM SHOULD COME FROM TRUSTED SOURCES
+VALIDATE CLAIM FIRST AND THEM GIVE RIGHT ACCORDING TO THAT
+
+Below steps illustrate the sequence of that happens in a claims-based security model:
+
+The user requests an action. The relying party (RP)/OUR application asks for a token.
+TOKEN IS A BAG HAVING AUTHORIZATION RIGHTS. 
+
+IF USER HAS NO TOKEN/CLAIMS BAG, THEN USER IS REDIRECTED TO 
+LOGIN PAGE
+EXTERNAL IDENTITY SYSTEM
+THIRD PARTY APPLICATION
+TO HAVE THE TOKEN/CLAIMS BAG/AUTH BAG
+
+The user presents the credentials to the issuing authority that the RP application trusts.
+ISSUEING AUTH CAN BE APP ITSELF, SEPERATER IDENITY SERVER OR EXT APP.
+
+The issuing authority issues a SIGNED TOKEN with CLAIMS LIST, 
+after authenticating the user’s credentials.
+
+The user presents the TOKEN to the RP application. 
+The application VALIDATES the token signature, 
+extracts the CLAIMS LIST, and based on the claims, 
+either accepts or denies the request.
+
+

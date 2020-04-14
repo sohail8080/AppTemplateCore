@@ -67,6 +67,11 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+            [Required]
+            [Display(Name = "Department")]
+            [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            public string Department { get; set; }
+
         }
 
         [Display(Name = "User Name")]
@@ -232,6 +237,37 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             }
 
+
+
+            var deptClaim = (await UserManager.GetClaimsAsync(user)).FirstOrDefault(dc => dc.Type == ClaimsStore.Department);
+
+            if (deptClaim != null)
+            {
+                result = await UserManager.RemoveClaimAsync(user, deptClaim);
+
+                if (!result.Succeeded)
+                {
+                    Handle_Error_Response(result);
+                    return Page();
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Input.Department))
+            {
+                deptClaim = new Claim(ClaimsStore.Department, Input.Department);
+                result = await UserManager.AddClaimAsync(user, deptClaim);
+
+                if (!result.Succeeded)
+                {
+                    Handle_Error_Response(result);
+                    return Page();
+                }
+
+            }
+
+
+
+
             Handle_Success_Response(result);            
             return RedirectToPage("./Index");
 
@@ -280,18 +316,21 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         private async Task<bool> Load_Form_Reference_Data(ApplicationUser user)
         {
             Username = user.UserName;
-          
+
+            var userRoles = await UserManager.GetRolesAsync(user);
+            var userClaims = await UserManager.GetClaimsAsync(user);
+
+            var depClaim = userClaims.SingleOrDefault(uc => uc.Type == ClaimsStore.Department);
+
             Input = new InputModel
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-
+                Department = depClaim?.Value ?? string.Empty
             };
 
-            var userRoles = await UserManager.GetRolesAsync(user);
-            var userClaims = await UserManager.GetClaimsAsync(user);
 
             var All_Roles = await RoleManager.Roles.ToListAsync();
 

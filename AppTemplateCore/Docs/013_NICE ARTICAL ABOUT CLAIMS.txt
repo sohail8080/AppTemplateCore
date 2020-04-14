@@ -1,0 +1,99 @@
+Using Claims in ASP.NET Identity
+December 05, 2013
+
+Claims can simplify and increase the performance of authentication and authorization processes. 
+I wrote about how you can use the 
+roles stored as claims 
+to eliminate >>>>>back-end queries every time authorization takes place.  
+
+CLAIMS ARE FAST AS COMPART TO ROLES.
+CLAIMS PROVIES FAST RESOLUTIONS OF AUTH CHECKS AS COMPARED TO ROLES.
+SO ALSO SAVE ROLE AS THE CLAIM, I THINK IT IS DONE
+
+ASP.NET Identity has good support for claims-based identity and 
+it creates several claims for you automatically 
+when you CREATE A NEW IDENITY.  
+
+Here is how we create the identity for a new user during the log-in process
+CREATING IDENTITY FOR THE LOGGED IN USER.
+
+UserManager<applicationuser> userManager = 
+new UserManager<applicationuser>(new UserStore<applicationuser>(new SecurityContext()));
+
+ClaimsIdentity identity = userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+
+If you inspect the Claims property of ClaimsIdentity after calling CreateIdentity 
+you will see that there are there are three or more claims. 
+
+There is a claim for the 
+user ID, 
+user name, 
+identity provider and 
+one for each role assigned. 
+
+So what if you want to add some more claims? 
+Here is an example of how to add the email as a claim.
+
+-----
+UserManager<applicationuser> userManager = 
+new UserManager<applicationuser>(new UserStore<applicationuser>(new SecurityContext()));
+
+ClaimsIdentity identity = userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+
+var user = userManager.Find(userName, password);
+identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+------
+ClaimTypes is an object that contains CONSTANT STRINGS that represent the claim type. 
+
+CONSTANT STRINGS are usually in the format of a URI. 
+
+For example the Email type is 
+"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress". 
+
+If you want to add a claim that is not represented in the ClaimTypes object then 
+you can use your own string to represent the type. 
+
+I usually create a static CLASS of my own HAVING CONSTANT STRINGS
+to store any custom CLAIM types. 
+
+You will need to know what that CONSTANT STRING, when you query for the claim. 
+Here is how we get the email claim from an identity.
+
+var prinicpal = (ClaimsPrincipal)Thread.CurrentPrincipal;
+var email = prinicpal.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault();
+
+CURRENT PRINCIPAL ?????
+ALL CLAIMS OF USER ARE STORED IN THE CURRENT PRINCIPAL OBJECT
+ALL CLAIMS ARE ALSO PERSISTED IN THE COOKIE
+THIS IS DONE WHEN WE SIGN IN THE USER.
+
+So how was the 
+custom email claim saved in the CurrentPrincipal and 
+custom email claim persisted in the cookie? 
+
+It is when we call the SignIn method to complete the log-in process, 
+passing in the identity we created with the custom claim added.
+
+
+-----
+UserManager<applicationuser> userManager = 
+new UserManager<applicationuser>(new UserStore<applicationuser>(new SecurityContext()));
+
+ClaimsIdentity identity = userManager.CreateIdentity(user, 
+DefaultAuthenticationTypes.ApplicationCookie);
+
+var user = userManager.Find(userName, password);
+identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+
+AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = persistCookie },
+ IDENTITY);
+------
+
+
+Using claims-based identity is very easy in ASP.NET Identity. 
+But don't get carried away shoving/PUTTING everything about the user in as a claim. 
+I would only keep it to items NEEDED FOR AUTHORIZATION or 
+that are ACCESSED OFTEN in the application for the current user. 
+How would you use claims-based identity in your applications?
+
+

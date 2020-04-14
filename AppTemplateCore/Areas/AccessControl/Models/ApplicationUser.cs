@@ -144,7 +144,7 @@ namespace AppTemplateCore.Areas.AccessControl.Models
 
                 // If Admin User is not added in Edit Claim, add him
                 var userClaims = await userManager.GetClaimsAsync(applicationUser);
-                if (! userClaims.Any(claim => claim.Type == "Edit Role" && claim.Value == "Edit Role"))
+                if (! (userClaims.Any(claim => claim.Type == "Edit Role" && claim.Value == "Edit Role")))
                 {
                     var result = await userManager.AddClaimAsync(applicationUser, ClaimsStore.AllClaims[1]);
 

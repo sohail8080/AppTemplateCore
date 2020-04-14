@@ -1,0 +1,104 @@
+Roles & Claims should be worked out with prior Planning
+===========================================
+Roles & Claims should be worked out with Planning, there should be no frequent 
+change in them. Things should have to be static. When Roles/Claims are changed
+then Whole Application is needed to be refactored. All Authorization Rules are 
+refactored througn out the application, All UI and Controller Action Check are to 
+be refactored in Code. Changing Role/Claims cannot be done without changing the 
+whole application Code. It is not the Role/Claims Screen only, it is the whole application
+that is to refactored.
+
+Different Levels of Authorization
+========================================
+When we for the Authorization, we want to expose subset of System UI & Functionality 
+to the users according to their scope.
+We want Conditional Rendering of UI for different users accordint to thier previligares
+We want Conditional Invoking of Functionlity for different users according to their previliges
+There are levels of this subsetting
+1. Divide UI & Functionality based on Logged In user & Anonymous Users
+2. Divide UI & Functionaliy based on existence of Role or Not
+3. Divide UI & Functionality based on Values of Claims
+
+What type of Info Goes to Claims
+====================================
+I think it is always the INFO related to the User directly or indirecly.
+That User Info may live in Users table or live in UserClaims table.
+Role is also the User Profile info living in seperate table UserRoles.
+
+If User Info lives in Users table
+====================================
+If User Info lives in Users table, we do to need to bother saving it in the UserClaims table
+If that UsersTable Info is madatory, the it will be given when User fills form, or when Admin 
+fill the form to create that user.
+If that UserTable Info is optional, then we can fill it any any other place, we may fill it while
+adding Claims to the User on seperate AddClaimsScreen.
+The info living ini UserTable is not loaded automatically in the ClaimsPrincipal object
+To load User Info living in Users table in the Claims List, we add a Factory Class and hook 
+that Factory class inside the RPP. I have done this and added FirstName Lastname in Claims List
+
+What is CliamsPrincipel Object
+============================================
+ClaimsPrinciple object contains the necssay UserInfo that is frequently needed in the 
+application code. We do not want to make Database trips this info.
+This ClaimsPrinciple object info is the part of the Encrypyted Cookie live on User Machine
+Web Server is Stateless, it does save the ClaimsPrinciple object for each active user.
+ClaimsPrinciple objct is created from the Cookeir data on the fly whe request is submitted.
+Claims List is the Part of ClaimsPriciple object/Cookie living on User Computer
+This Claims Principel obejct is created when User Logs in the application or Create the 
+Profile and Logs in the application.
+
+Users Info living in UserClaims table
+=======================================
+Users Info living in UserClaims table is automatically added in the Claims List.
+So User's Info that is not fit to live in Users table, but needed for Authorization, is kept inside
+the UserClaims table, and that info is auto laodedin Claims List
+
+Two Types of Claims stored in UserClaims table
+
+1. Boolean Value Claims stored in UserClaims table
+========================================================
+We are only interested wheter user has this claim or not.
+Like were in Roles case, either user has this role or not.
+If user has entry in UserRoles table, he has that role. if no entry, no role.
+In UI checks, we only validate User has that Claim or Not, plz check in kudvenkat code
+I think Same in Controller Action tagging, we check existence, not value, plz check,
+Kudvenkat approach is best for dealing with such Claims.
+Name Value pair for Claims object, are already known in this case.
+ClaimStore contains collection of Claims. As we already know the Name, Value pair.
+
+2. String/Int/Date | DataType Claims stored in UserClaims table
+===========================================================
+We are  intersted in both existence of Claim and Value of Claim
+So UI Check both, User has Row in the UserClaims table, & what is its Value
+I think same should be the Case with Controller Actions.
+Kudvenkat approach will not work.
+We do not have Name Value Pair for the Claim Object in ClaimStore Class
+In this scenario, ClaimStore Class only contain the ClaimName string
+Claim Store Class will just contain the Name part of Claim as Constant String and this
+string will be while Adding/Editing/Reteriving Claims from to DB
+We can have Seperate Screen for adding Claims if they are greater in numbner, 
+If they are few, then add themn on same screen that is used for Creating User.
+On the UI, we can force what Claims are MANDATORY and what are OPTIONAL
+While Adding, Add Only Claims those are specified, and left other
+While Editing, Remove All Previous Claims, Add New Claims
+As discussed, Claim Value can be INT, STRING, 
+
+
+THERE IS NOT VALUE OF SAVING CLAIMNAMES IN DB BECAUSE
+WE STILL HAVE TO UPDATE OTHER PART OF APPLICATION WHEN 
+CLAIMS ARE ADDED OR REMOVED.
+==========================================================
+When Claim Names are added/removed, we need to change the Form those 
+are used to mange the Claims. It cannot be the the Case that We Read
+the ClaimName form ClaimStore and Render the UI that is used to caputure
+those Claims. When we Add/Remove ClaimNames, the UI, Controller part is changed
+and we can change the ClaimStore class too at that time.
+Very Importantly when Claims are Added or removed, the UI and Controller Checks 
+are also changed based on new siutation.
+So Claims/Roles should be Static and Should not changed frequently.
+
+CLAIM VALUE FROM FIXED LOV CAN BE SAVED IN DB
+=====================================================
+Free text value for Claim Value wil be entered by hand
+But Fixed String values can be save in DB and shown as Drop Down in DB
+Show thse Claims Values on Screen while adding Claims to the User.
