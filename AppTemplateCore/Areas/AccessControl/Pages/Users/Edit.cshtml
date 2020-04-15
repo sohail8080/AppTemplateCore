@@ -11,133 +11,184 @@
 
 <hr />
 
-<div class="row">
+<form method="post">
 
-    <div class="col-md-12">
 
-        <form method="post">
+    <div class="row">
 
+        <div class="col-md-12">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-md-4">
 
             <input type="hidden" asp-for="Input.Id" />
 
             <div class="form-group">
-                <label asp-for="Username" class="control-label col-md-4"></label>
-                <input asp-for="Username" class="form-control col-md-4" disabled />
+                <label asp-for="Username" class="control-label font-weight-bold"></label>
+                <input asp-for="Username" class="form-control" disabled />
             </div>
 
             <div class="form-group">
-                <label asp-for="Input.FirstName" class="control-label col-md-4"></label>
-                <input asp-for="Input.FirstName" class="form-control col-md-4" />
+                <label asp-for="Input.FirstName" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.FirstName" class="form-control" />
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Input.LastName" class="control-label col-md-4"></label>
-                <input asp-for="Input.LastName" class="form-control col-md-4" />
+                <label asp-for="Input.LastName" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.LastName" class="form-control" />
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
 
 
             <div class="form-group">
-                <label asp-for="Input.Email" class="control-label col-md-4"></label>
-                <input asp-for="Input.Email" class="form-control col-md-4" />
+                <label asp-for="Input.Email" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Input.Password" class="control-label col-md-4"></label>
-                <input asp-for="Input.Password" value="Abc@123" class="form-control col-md-4" />
+                <label asp-for="Input.Password" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.Password" value="Abc@123" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Input.ConfirmPassword" class="control-label col-md-4"></label>
-                <input asp-for="Input.ConfirmPassword" value="Abc@123" class="form-control col-md-4" />
+                <label asp-for="Input.ConfirmPassword" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.ConfirmPassword" value="Abc@123" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
 
 
             <div class="form-group">
-                <label asp-for="Input.Department" class="control-label col-md-4"></label>
-                <input asp-for="Input.Department" class="form-control col-md-4" />
+                <label asp-for="Input.Department" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.Department" class="form-control" />
                 <span asp-validation-for="Input.Department" class="text-danger"></span>
             </div>
 
 
             <div class="form-group">
-                <label> Select User Roles</label>
-                @if (Model.Input.AllRolesList.Count() > 0)
-                {
-                    for (int i = 0; i < Model.Input.AllRolesList.Count; i++)
-                    {
-                        @*@Html.HiddenFor(m => m.Input.AllRolesList[i].RoleId)
-                    @Html.HiddenFor(m => m.Input.AllRolesList[i].RoleName)
-                    @Html.CheckBoxFor(m => m.Input.AllRolesList[i].IsSelected, new { @class = "form-check-input" })
-                    <label>  @Model.Input.AllRolesList[i].RoleName </label>*@
-
-                        <input hidden asp-for="@Model.Input.AllRolesList[i].RoleId" />
-                        <input hidden asp-for="@Model.Input.AllRolesList[i].RoleName" />
-
-                        <span class="checkbox">
-                            <label>
-                                <input asp-for="@Model.Input.AllRolesList[i].IsSelected" />
-                                @Model.Input.AllRolesList[i].RoleName
-                            </label>
-                        </span>
-
-                    }
-                }
-                else
-                {
-                    <label> No roles exist</label>
-                }
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-page="./Index" class="btn btn-primary">Back to List</a>
             </div>
 
+        </div>
+
+
+        <div class="col-md-4">
 
             <div class="form-group">
-                <label> Select User Claims</label>
 
-                @if (Model.Input.AllClaimsList.Count() > 0)
-                {
-                    for (int i = 0; i < Model.Input.AllClaimsList.Count; i++)
-                    {
-                        @*@Html.HiddenFor(m => m.Input.AllClaimsList[i].ClaimType)
-                    @Html.HiddenFor(m => m.Input.AllClaimsList[i].ClaimValue)
-                    @Html.CheckBoxFor(m => m.Input.AllClaimsList[i].IsSelected, new { @class = "form-check-input" })
-                    <label>  @Model.Input.AllClaimsList[i].ClaimType </label>*@
+                <div class="card">
 
-                        <input hidden asp-for="@Model.Input.AllClaimsList[i].ClaimType" />
-                        <input hidden asp-for="@Model.Input.AllClaimsList[i].ClaimValue" />
+                    <div class="card-header">
+                        <b>Select User's Roles</b>
+                    </div>
 
-                        <span class="checkbox">
-                            <label>
-                                <input asp-for="@Model.Input.AllClaimsList[i].IsSelected" />
-                                @Model.Input.AllClaimsList[i].ClaimType
-                            </label>
-                        </span>
+                    <div class="card-body">
+                        @if (!Model.Input.AllRolesList.Any())
+                        {
+                            <span class="card-title">  No roles exist in system.  </span>
+                        }
+                        else
+                        {
 
-                    }
-                }
-                else
-                {
-                    <label> No claims exist</label>
-                }
+                            for (int i = 0; i < Model.Input.AllRolesList.Count; i++)
+                            {
+                                @*@Html.HiddenFor(m => m.Input.AllRolesList[i].RoleId)
+                                    @Html.HiddenFor(m => m.Input.AllRolesList[i].RoleName)
+                                    @Html.CheckBoxFor(m => m.Input.AllRolesList[i].IsSelected, new { @class = "form-check-input" })
+                                    <label>  @Model.Input.AllRolesList[i].RoleName </label>*@
+
+                                <div>
+                                    <input hidden asp-for="@Model.Input.AllRolesList[i].RoleId" />
+                                    <input hidden asp-for="@Model.Input.AllRolesList[i].RoleName" />
+
+                                    <span class="checkbox">
+                                        <label>
+                                            <input asp-for="@Model.Input.AllRolesList[i].IsSelected" />
+                                            @Model.Input.AllRolesList[i].RoleName
+                                        </label>
+                                    </span>
+                                </div>
+                            }
+
+                        }
+                    </div>
+
+                    @*<div class="card-footer">
+                        </div>*@
+
+                </div>
+
             </div>
 
+        </div>
+
+
+
+
+        <div class="col-md-4">
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" /> |
-                <a asp-page="./Index">Back to List</a>
+
+                <div class="card">
+
+                    <div class="card-header">
+                        <b>Select User's Claims</b>
+                    </div>
+
+                    <div class="card-body">
+                        @if (!Model.Input.AllClaimsList.Any())
+                        {
+                            <span class="card-title">  No Claims exist in system.  </span>
+                        }
+                        else
+                        {
+
+                            for (int i = 0; i < Model.Input.AllClaimsList.Count; i++)
+                            {
+                                @*@Html.HiddenFor(m => m.Input.AllClaimsList[i].ClaimType)
+                                    @Html.HiddenFor(m => m.Input.AllClaimsList[i].ClaimValue)
+                                    @Html.CheckBoxFor(m => m.Input.AllClaimsList[i].IsSelected, new { @class = "form-check-input" })
+                                    <label>  @Model.Input.AllClaimsList[i].ClaimType </label>*@
+
+                                <div>
+                                    <input hidden asp-for="@Model.Input.AllClaimsList[i].ClaimType" />
+                                    <input hidden asp-for="@Model.Input.AllClaimsList[i].ClaimValue" />
+
+                                    <span class="checkbox">
+                                        <label>
+                                            <input asp-for="@Model.Input.AllClaimsList[i].IsSelected" />
+                                            @Model.Input.AllClaimsList[i].ClaimType
+                                        </label>
+                                    </span>
+                                </div>
+                            }
+
+                        }
+                    </div>
+
+                    @*<div class="card-footer">
+                        </div>*@
+
+                </div>
+
             </div>
 
-        </form>
+        </div>
+
 
     </div>
 
-</div>
-
+</form>
 
 @*@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}*@
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@

@@ -42,7 +42,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
             [Required(AllowEmptyStrings = false)]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
-            [Display(Name = "Role Name")]
+            [Display(Name = "Name")]
             public string Name { get; set; }
           
             public List<ApplicationUser> SelectedUserList { get; set; }
@@ -52,13 +52,20 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
+
             if (string.IsNullOrEmpty(id))
-            { return NotFound(); }
-            
+            {
+                TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id);
+                return NotFound();
+            }
+
             var role = await RoleManager.FindByIdAsync(id);
 
             if (role == null)
-            { return NotFound(); }
+            {
+                TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id);
+                return NotFound();
+            }
 
             await Load_Form_Reference_Data(role);
 
@@ -71,14 +78,17 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         {
 
             if (string.IsNullOrEmpty(Input.Id))
-            { return NotFound(); }
+            {
+                TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, Input.Id);
+                return NotFound();
+            }
 
             var role = await RoleManager.FindByIdAsync(Input.Id);
 
             if (role == null)
             {
-                                
-                return NotFound();                
+                TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, Input.Id);
+                return NotFound();
             }
 
             IdentityResult result = await RoleManager.DeleteAsync(role);
@@ -90,7 +100,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
                 await Load_Form_Reference_Data(role);
                 return Page();
             }
-
             
             Logger.LogInformation($"Role {Input.Name} is deleted successfully.");
             return RedirectToPage("./Index");

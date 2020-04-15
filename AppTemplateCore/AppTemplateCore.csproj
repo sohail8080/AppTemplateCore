@@ -15,6 +15,30 @@
     <Compile Remove="Data\Migrations\20200321113725_AddMovieTableToDatabase.Designer.cs" />
     <Compile Remove="Data\Migrations\20200408165023_RoleRefData.cs" />
     <Compile Remove="Data\Migrations\20200408165023_RoleRefData.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414204130_print.cs" />
+    <Compile Remove="Data\Migrations\20200414204130_print.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414204420_print.cs" />
+    <Compile Remove="Data\Migrations\20200414204420_print.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414205805_print.cs" />
+    <Compile Remove="Data\Migrations\20200414205805_print.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414210829_print.cs" />
+    <Compile Remove="Data\Migrations\20200414210829_print.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414213838_print.cs" />
+    <Compile Remove="Data\Migrations\20200414213838_print.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414215029_print.cs" />
+    <Compile Remove="Data\Migrations\20200414215029_print.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414215720_print.cs" />
+    <Compile Remove="Data\Migrations\20200414215720_print.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414215852_print.cs" />
+    <Compile Remove="Data\Migrations\20200414215852_print.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414220401_print.cs" />
+    <Compile Remove="Data\Migrations\20200414220401_print.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414220812_print.cs" />
+    <Compile Remove="Data\Migrations\20200414220812_print.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414220940_AgainAdjustingFkeyOfUserRoleTable.cs" />
+    <Compile Remove="Data\Migrations\20200414220940_AgainAdjustingFkeyOfUserRoleTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200414223532_print.cs" />
+    <Compile Remove="Data\Migrations\20200414223532_print.Designer.cs" />
   </ItemGroup>
 
 

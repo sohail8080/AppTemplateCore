@@ -3,68 +3,175 @@
 
 @{
     ViewData["Title"] = "Role Details";
-
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
 
 <h1>@ViewData["Title"]</h1>
 
-<div>
-
-    <hr />
-
-    <dl class="row">
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Input.Name)
-        </dt>
-
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Input.Name)
-        </dd>
-
-    </dl>
-</div>
-
-
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Input.Id" class="btn btn-primary">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
-
-
 <hr />
-<a asp-page="" class="btn btn-primary">Add Users</a>
 
 
-@if (Model.Input.SelectedUserList.Count <= 0)
-{
-    <hr />
-    <p>No Users found in this Role.</p>
-    <hr />
-}
-else
-{
-    //ToDo:  List of Users with Add Remove in the row
-    <table class="table table-bordered table-hover">
+<div class="row">
 
-        <thead>
-            <tr>
-                <th>Users in Role</th>
-            </tr>
-        </thead>
+    <div class="col-md-12">
 
-        @foreach (var item in Model.Input.SelectedUserList)
-        {
-            <tr>
-                <td>
-                    @item.UserName
-                </td>
-            </tr>
-        }
-    </table>
-}
+        <div class="col-md-5">
+            <dl class="row">
+
+                <dt class="col-md-2">
+                    @Html.DisplayNameFor(model => model.Input.Name)
+                </dt>
+
+                <dd class="col-md-3">
+                    @Html.DisplayFor(model => model.Input.Name)
+                </dd>
+
+            </dl>
+        </div>
+
+
+        <div class="form-group  col-md-5">
+            <a asp-page="./Edit" asp-route-id="@Model.Input.Id" class="btn btn-primary">Edit</a>            
+            <a asp-page="./Index" class="btn btn-primary">Back to List</a>
+        </div>
+
+
+        <div class="col-md-5">
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>Users in Role</th>
+                    </tr>
+                </thead>
+
+                @if (Model.Input.SelectedUserList.Count <= 0)
+                {
+                    <tr>
+                        <td>
+                            No Users found in this Role.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model.Input.SelectedUserList)
+                    {
+                        <tr>
+                            <td>
+                                @item.UserName
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+
+
+
+        <div class="form-group  col-md-5">            
+            <a asp-page="./AddUsersToRole" asp-route-id="@Model.Input.Id" class="btn btn-primary">Add/Remove Users</a>            
+        </div>
+
+
+        @*<div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <b>Users in Role</b>
+                </div>
+                <div class="card-body">
+                    @if (Model.Input.SelectedUserList.Any())
+                    {
+                        foreach (var user in Model.Input.SelectedUserList)
+                        {
+                            <span class="card-title">  @user.UserName</span>
+                        }
+                    }
+                    else
+                    {
+                        <span class="card-title">None at the moment</span>
+                    }
+                </div>
+                <div class="card-footer">
+                    <a asp-page="./Edit" asp-route-id="@Model.Input.Id" class="btn btn-primary">Edit</a>
+                    <a asp-page="./Index" class="btn btn-primary">Back to List</a>
+                </div>
+            </div>
+        </div>*@
+
+
+
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div>
+        <dl class="row">
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Input.Name)
+            </dt>
+
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Input.Name)
+            </dd>
+
+        </dl>
+    </div>*@
+
+
 
 
 

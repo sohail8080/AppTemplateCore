@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AppTemplateCore.Areas.AccessControl.Models;
 using AppTemplateCore.Areas.Movies.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,7 @@ namespace AppTemplateCore.Data
     // Alternatively, you can apply pending migrations from a command prompt at your project directory:
     // CommandPrompt> dotnet ef database update
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole,  string>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         // Connection String and Provider will be provided inside ConfigureService()
         // UOW is Connection String Free, It be hooked to any Database Type
@@ -41,15 +42,14 @@ namespace AppTemplateCore.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //     Configures the schema needed for the identity framework tables.
+            // Configures the schema needed for the identity framework tables.
             base.OnModelCreating(modelBuilder);
 
             //modelBuilder.SeedRoleData();
 
-
             // Applies configuration that is defined in an IEntityTypeConfiguration
             // instance.
-            //modelBuilder.ApplyConfiguration(new ApplicationRoleConfigurations());
+            modelBuilder.ApplyConfiguration(new ApplicationRoleConfigurations());
 
             //foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
             //    .SelectMany(e => e.GetForeignKeys()))

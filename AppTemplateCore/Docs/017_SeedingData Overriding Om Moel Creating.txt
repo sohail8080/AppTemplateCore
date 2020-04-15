@@ -1,0 +1,206 @@
+When using configuration by convention, the nullability of a column is based on 
+the property type from our model class. 
+
+When EF Core uses configuration by convention it will go through all the public properties 
+and map them by their name and type. 
+
+So, this means that the Name property can have a Null as a value 
+(because the default value for a string type is null) but the Age cannot 
+(because it is a value type):
+
+
+Of course, if we want the Age property to be nullable in a database, 
+we can use the “?” suffix like so (int? Age) or we can use generic Nullable<T> 
+like so (Nullable<int> Age):
+int? Age
+Nullable<int> Age
+
+EF Core Configuration via Data Annotations
+
+Data Annotations are specific .NET attributes which we use to validate and configure 
+the database features. 
+There are two relevant namespaces from which we can get the annotation attributes:
+System.ComponentModel.DataAnnotations and System.ComponentModel.DataAnnotations.Schema.
+ Attributes, from the first namespace, are mostly related to the property validation, 
+while the attributes from the second namespace are related to the database configuration.
+
+So, let’s see the Data Annotation configuration in action.
+
+Let’s start by modifying the Student class, by adding some validation attributes:
+
+Using the Fluent API Approach
+The Fluent API is a set of methods that we can use on the ModelBuilder class, 
+which is available in the OnModelCreating method in our context (ApplicationContext) class. 
+This approach provides a great variety of the EF Core configuration options 
+that we can use while configuring our entities.
+
+So, let’s create the OnModelCreating method in the ApplicationContext class 
+and add the same configuration as we did with the Data Annotations approach:
+
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Student>()
+        .ToTable("Student");// Entity Configuration
+
+
+    modelBuilder.Entity<Student>()
+        .Property(s => s.Id)
+        .HasColumnName("StudentId");// Property Configuratin
+
+    modelBuilder.Entity<Student>()
+        .Property(s => s.Name)
+        .IsRequired()
+        .HasMaxLength(50);// Multiple Properties Configuration
+
+    modelBuilder.Entity<Student>()
+        .Property(s => s.Age)
+        .IsRequired(false); // Property Configuration
+}
+
+
+In the beginning, we are selecting the entity to configure and 
+with the Property method, we are specifying which property we want to add 
+the constraint on. All the other methods are pretty self-explanatory.
+
+OnModelCreating is called the first time our application 
+instantiates the ApplicationContext class. 
+At that moment all three approaches are applied. 
+As you can see, we haven’t used any method for the primary key, 
+but our table has it nevertheless due to the naming convention:
+
+
+We have been talking about how Entity Framework Core maps all the properties 
+into the table columns. 
+But sometimes we might have some properties that we need in our class 
+but we don’t want it as a column inside a table. 
+
+ Let’s see how to do that with the Data Annotations approach:
+[NotMapped]
+    public int LocalCalculation { get; set; }
+
+The [NotMapped] attribute allows us to exclude certain properties from the mapping 
+and thus avoid creating that column in a table. 
+We can exclude a class as well if we need to:
+
+modelBuilder.Entity<Student>()
+    .Ignore(s => s.LocalCalculation);
+ 
+modelBuilder.Ignore<NotMappedClass>();
+
+As you can see, if we are ignoring a property, 
+then the Ignore method is chained directly to the Entity method, 
+not on the Property method, as we did in a previous configuration. 
+
+But if we are ignoring a class, then the Ignore method is called with the 
+modelBuilder object itself.
+
+By Convention
+We should always start with the configuration by Convention. 
+So, having the 
+same class name as the table name, 
+having a name for the primary key property that matches the naming convention and 
+having the properties with the same name and type as the columns, 
+should be our first choice. 
+
+It is quite easy to prepare this type of configuration and 
+it is time-saving as well.
+
+Data Annotations
+For the validation configuration, such as required or max length validation, 
+you should always prefer the Data Annotations over Fluent API approach. 
+
+And here’s why:
+
+It is easy to see which validation rule is related to which property 
+because it is placed right above the property and 
+it is quite self-explanatory
+
+Validations via Data Annotations can be used on the front end 
+because as we’ve seen in the Student class, 
+we can configure the error messages if validation fails
+
+We want to use these validation rules prior to the EF Core’s SaveChanges method 
+(we will talk about it in the following articles). 
+
+This approach is going to make our validation code much simpler and easier to maintain
+
+
+
+Let’s just say that we should use this approach for everything else. 
+Of course, we must use this approach for the configuration that 
+we can’t do otherwise or 
+when we want to hide the configuration setup from the model class. 
+So, indexes, composite keys, relationships are the things 
+we should keep in the OnModelCreating method.
+
+===================================================
+
+From ASP.NET Core 3.0, EF Core tools required for migrations are not preinstalled. 
+Therefore, we have to install Microsoft.EntityFrameworkCore.Tools library.
+ If you are following this series from the start, then you already have the 
+Microsoft.EntityFrameworkCore  library installed.
+
+Add-Migration MigrationName [options]
+
+Or through the dotnet CLI:
+
+dotnet ef migrations add MigrationName [options]
+
+PM> Add-Migration InitialMigration
+
+After we execute the Add-Migration command EF Core does several things behind 
+the scenes to prepare our migration. 
+
+The first thing it does is inspecting our class, associated entity classes 
+(in this case only the Student class) and any configuration we applied. 
+
+After that, it creates three different files in the Migrations folder
+
+The ApplicationContextModelSnapshot.cs file holds the model of the database and 
+it is updated every time a new migration is added. 
+
+The other two files: InitialMigration and InitialMigration.Designer are files 
+that contain and describe the newly created migration.
+
+So, if you have followed all the steps from the previous articles, 
+the content of the InitialMigration file should look like this:
+
+After we have successfully created our migration, we have to apply it for changes 
+to take effect in the database. 
+
+There are several ways of applying migrations (
+Using SQL scripts, 
+using Database.Migrate method or 
+using command line methods), 
+
+and as we did with the creation, 
+we are going to use the command line methods approach.
+
+For the Package Manager Console the command is :
+
+Update-Database [options]
+
+For the command prompt window the command is:
+
+dotnet ef database update [options]
+
+Since we already decided on PMC, let’s open the PMC window and execute the command:
+
+PM> Update-Database
+
+
+There are few more important facts we have to know about EF Core’s migrations. 
+
+If we inspect our database, we are going to find another created table: 
+_EFMigrationsHistoriy. 
+
+EF Core uses this table to track all the applied migrations. 
+So, this means that if we create another migration in our code and apply it,
+ EF Core will apply only the newly created migration.
+
+
+Each migration is applied within an SQL transaction, 
+which means that whole migration either succeeds or fails.
+ If we have multiple migrations to apply, then they will be applied in the exact order 
+they are created.

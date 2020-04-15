@@ -77,9 +77,10 @@
 
                 @if ((await authorizationService.AuthorizeAsync(User, "EditRolePolicy")).Succeeded)
                 {
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
-                    </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                    <a asp-page="./Edit5" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                </td>
                 }
 
                 <td>

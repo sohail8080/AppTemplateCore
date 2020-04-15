@@ -1,8 +1,8 @@
 ﻿@page
-@model CreateModel
+@model EditModel5
 
 @{
-    ViewData["Title"] = "Add Role";
+    ViewData["Title"] = "Edit Role";
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
@@ -19,11 +19,19 @@
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            <input type="hidden" asp-for="Input.Id" />
+
             <div class="form-group col-md-5">
-                <label asp-for="Input.Name" class="control-label font-weight-bold"></label>
+                <label asp-for="Input.Name" class="control-label font-weight-bold "></label>
                 <input asp-for="Input.Name" class="form-control" />
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
+
+            <div class="form-group col-md-5">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-page="./Index" class="btn btn-primary">Back to List</a>
+            </div>
+
 
             <div class="col-md-5">
 
@@ -35,7 +43,7 @@
                         </tr>
                     </thead>
 
-                    @if (Model.Input.AllUsersList.Count <= 0)
+                    @if (Model.Input.SelectedUserList.Count <= 0)
                     {
                         <tr>
                             <td>
@@ -45,20 +53,11 @@
                     }
                     else
                     {
-
-                        @for (int i = 0; i < Model.Input.AllUsersList.Count; i++)
+                        @foreach (var item in Model.Input.SelectedUserList)
                         {
                             <tr>
                                 <td>
-                                    <input hidden asp-for="@Model.Input.AllUsersList[i].UserId" />
-                                    <input hidden asp-for="@Model.Input.AllUsersList[i].UserName" />
-
-                                    <span class="checkbox">
-                                        <label>
-                                            <input asp-for="@Model.Input.AllUsersList[i].IsSelected" />
-                                            @Model.Input.AllUsersList[i].UserName
-                                        </label>
-                                    </span>
+                                    @item.UserName
                                 </td>
                             </tr>
                         }
@@ -66,14 +65,16 @@
                 </table>
             </div>
 
-            <div class="form-group col-md-5">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-page="Index" class="btn btn-primary">Back to List</a>
-            </div>
-
         </form>
 
+
+        <div class="form-group col-md-5">          
+            <a asp-page="./AddUsersToRole" asp-route-id="@Model.Input.Id" class="btn btn-primary" >Add/Remove Users</a>
+        </div>
+
+
     </div>
+
 </div>
 
 

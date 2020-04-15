@@ -54,16 +54,36 @@ namespace AppTemplateCore.Areas.AccessControl.Models
         public void Configure(EntityTypeBuilder<ApplicationRole> builder)
         {
 
-            builder.HasData(
-                new ApplicationRole
+            var userRoleEntity = builder.Metadata.Model.FindEntityType(typeof(IdentityUserRole<string>));
+            var userRoleRelational = builder.Metadata.Model.FindEntityType(typeof(IdentityUserRole<string>)).Relational();
+            var userRoleEntityFkeys = userRoleEntity.GetForeignKeys();
+
+            foreach (var fkey in userRoleEntityFkeys)
+            {
+                if (fkey.PrincipalEntityType.Name.Contains(".ApplicationRole") &&
+                    fkey.PrincipalKey.ToString().Contains(".Id"))
                 {
-                    Name = "AdminUser",
-                },
-                new ApplicationRole
-                {
-                    Name = "DeptFooUser",
+                    fkey.DeleteBehavior = DeleteBehavior.Restrict;
                 }
-            );
+
+                if (fkey.PrincipalEntityType.Name.Contains(".ApplicationUser") &&
+                    fkey.PrincipalKey.ToString().Contains(".Id"))
+                {
+                    fkey.DeleteBehavior = DeleteBehavior.Cascade;
+                }
+
+            }
+
+            //builder.HasData(
+            //    new ApplicationRole
+            //    {
+            //        Name = "AdminUser",
+            //    },
+            //    new ApplicationRole
+            //    {
+            //        Name = "DeptFooUser",
+            //    }
+            //);
 
         }
     }

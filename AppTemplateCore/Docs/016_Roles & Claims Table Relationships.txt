@@ -1,0 +1,15 @@
+
+There is a Many to Many Relation between 
+
+1. User & Roles resolved by UserRoles table
+2. User & Claims resolved by UserClaims table
+
+When User is deleted, UserRoles & UserClaims entries should be deleted
+but nothing should happens to Roles & Claims table. I Think this also OK
+
+When UserRole and UserClaim mapping is deleted, nothing happens to 
+the User, Roles & Claims tables. This thing is OK
+
+Role should only be deleted if it has not entry in the UserRoles table
+Claim should be removed from the Static Class if it has no entry in the 
+UserClaim table

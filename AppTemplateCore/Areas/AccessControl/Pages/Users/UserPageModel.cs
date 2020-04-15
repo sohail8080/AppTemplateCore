@@ -26,7 +26,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         public string StatusMessage { get; set; }
         internal readonly string Create_All_Msg = "Successfully created all Users.";
         internal readonly string Create_Success_Msg = "Successfully created User : \"{0}\"";
-        internal readonly string Create_Failed_Msg = "Error occurred while creating new Role : \"{0}\"";
+        internal readonly string Create_Failed_Msg = "Error occurred while creating new User : \"{0}\"";
 
         internal readonly string Edit_All_Msg = "Successfully modified all Users.";
         internal readonly string Edit_Success_Msg = "Successfully modified User : \"{0}\"";

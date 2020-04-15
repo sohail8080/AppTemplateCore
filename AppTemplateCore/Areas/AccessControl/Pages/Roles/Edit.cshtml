@@ -21,30 +21,15 @@
 
             <input type="hidden" asp-for="Input.Id" />
 
-            <div class="form-group">
-                <label asp-for="Input.Name" class="control-label col-md-5"></label>
-                <input asp-for="Input.Name" class="form-control col-md-5" />
+            <div class="form-group col-md-5">
+                <label asp-for="Input.Name" class="control-label font-weight-bold "></label>
+                <input asp-for="Input.Name" class="form-control" />
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
 
+            <div class="col-md-5">
 
-            @if (Model.Input.AllUsersList.Count <= 0)
-            {
-                <hr />
-                <p>No User exist.</p>
-                <hr />
-                return;
-            }
-
-            @if (Model.Input.AllUsersList.Count <= 0)
-            {
-                <hr />
-                <p>No Users found in this Role.</p>
-                <hr />
-            }
-            else
-            {
-                <table class="table table-bordered table-hover col-md-5">
+                <table class="table table-bordered table-hover">
 
                     <thead>
                         <tr>
@@ -52,29 +37,39 @@
                         </tr>
                     </thead>
 
-                    @for (int i = 0; i < Model.Input.AllUsersList.Count; i++)
+                    @if (Model.Input.AllUsersList.Count <= 0)
                     {
                         <tr>
                             <td>
-                                <input hidden asp-for="@Model.Input.AllUsersList[i].UserId" />
-                                <input hidden asp-for="@Model.Input.AllUsersList[i].UserName" />
-
-                                <span class="checkbox">
-                                    <label>
-                                        <input asp-for="@Model.Input.AllUsersList[i].IsSelected" />
-                                        @Model.Input.AllUsersList[i].UserName
-                                    </label>
-                                </span>
+                                No User found in system.
                             </td>
                         </tr>
                     }
+                    else
+                    {
+                        @for (int i = 0; i < Model.Input.AllUsersList.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input hidden asp-for="@Model.Input.AllUsersList[i].UserId" />
+                                    <input hidden asp-for="@Model.Input.AllUsersList[i].UserName" />
 
+                                    <span class="checkbox">
+                                        <label>
+                                            <input asp-for="@Model.Input.AllUsersList[i].IsSelected" />
+                                            @Model.Input.AllUsersList[i].UserName
+                                        </label>
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    }
                 </table>
-            }
+            </div>
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" /> |
-                <a asp-page="./Index">Back to List</a>
+            <div class="form-group col-md-5">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-page="./Index" class="btn btn-primary">Back to List</a>
             </div>
 
         </form>
@@ -86,5 +81,5 @@
 
 
 @*@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}*@
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@
