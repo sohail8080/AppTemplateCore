@@ -1,0 +1,164 @@
+﻿@page
+@model EditModel5
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+
+<form method="post">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <input type="hidden" asp-for="Input.Id" />
+
+            <div class="form-group">
+                <label asp-for="Username" class="control-label font-weight-bold"></label>
+                <input asp-for="Username" class="form-control" disabled />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.FirstName" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.FirstName" class="form-control" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.LastName" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.LastName" class="form-control" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Input.Email" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Password" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.Password" value="Abc@123" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.ConfirmPassword" value="Abc@123" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Input.Department" class="control-label font-weight-bold"></label>
+                <input asp-for="Input.Department" class="form-control" />
+                <span asp-validation-for="Input.Department" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-page="./Index" class="btn btn-primary">Back to List</a>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>Roles of User</th>
+                    </tr>
+                </thead>
+                @if (Model.Input.SelectedRolesList.Count() == 0)
+                {
+                    <tr>
+                        <td>
+                            No roles found for this user.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var role in Model.Input.SelectedRolesList)
+                    {
+                        <tr>
+                            <td>
+                                @role
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+
+            <div class="form-group">                
+                <a asp-page="./AddRolesToUser", asp-route-id="@Model.Input.Id" class="btn btn-primary">Add/Remove Roles</a>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>Claims of User</th>
+                    </tr>
+                </thead>
+                @if (Model.Input.SelectedClaimsList.Count() == 0)
+                {
+                    <tr>
+                        <td>
+                            No claims found for this user.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var claim in Model.Input.SelectedClaimsList)
+                    {
+                        <tr>
+                            <td>
+                                @claim
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+
+            <div class="form-group">
+                <a asp-page="./AddClaimsToUser"  asp-route-id="@Model.Input.Id" class="btn btn-primary">Add/Remove Claims</a>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</form>
+
+@*@section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@

@@ -1,0 +1,25 @@
+
+CreateRole ==> No Change
+
+EditRole ==> Show User in Card ==> Provide Option to Edit Users on Seperate Page ==> After Adding/Cancel came back to Edit page
+
+Edit Users ==> Show Roles in Card ==Proivde Option to Edit Roles in Seperate page ==> After Adding/Cancel came back to Edit page
+
+Edit Users ==> Show Claims in Card ==Proivde Option to Edit Claims in Seperate page ==> After Adding/Cancel came back to Edit page
+
+Hook Above Pages to the List Screens of Roles & Users
+
+
+Make Uniform Look & Feel for Child Records on the Following Forms
+User Bootstrap Cards for Chile Rows, Look Kudvenkat Forms
+Run Kudvenkat Employee App
+
+1. Add Role ==> Child Records: Users in that Role. Edittable/Readonly Card
+2. Details Role ==> Child Records: Users in that Role, Readonly Card
+3. Edit Role == Child Records:Users in that Role, Edittable Card
+4. Delete Role == Child Records: Users in that Role, Readonly Card
+
+1. Add User ==> Child Records: Roles/Claims for that User, Edittable/Readonly Card
+2. Details User ==> Child Records: Roles/Claims for that User, Readonly Card
+3. Edit User ==> Child Records: Roles/Claims for that User, Edittable/Readonly Card
+4. Delete User ==> Child Records: Roles/Claims for that User, Readonly Card

@@ -15,15 +15,15 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {    
-    public class DetailsModel : UserPageModel
+    public class EditModel5 : UserPageModel
     {
-
-        public DetailsModel(
+        
+        public EditModel5(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<DetailsModel> logger)
+            ILogger<EditModel> logger)
         {
             Context = context;
             UserManager = userManager;
@@ -32,14 +32,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             Logger = logger;
         }
 
-        // This Model need to be Validated on POST
-        // This Model is used to Render the View on GET
-        public InputModel Input { get; set; }
 
+        [BindProperty]
+        public InputModel Input { get; set; }
 
         public class InputModel
         {
-
             [Required]
             public string Id { get; set; }
 
@@ -52,12 +50,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             [Display(Name = "Last Name")]
             [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             public string LastName { get; set; }
-
-            [Required]
-            [Display(Name = "User Name")]
-            [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            public string UserName { get; set; }
-
 
             [Required]
             [EmailAddress]
@@ -83,35 +75,84 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             // Get the list of Users in this Role
             public IList<string> SelectedRolesList { get; set; }
             public IList<Claim> SelectedClaimsList { get; set; }
+
         }
+
+
+        [Display(Name = "User Name")]
+        public string Username { get; set; }
 
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
             { return NotFound(); }
-
+            
             var user = await UserManager.FindByIdAsync(id);
 
             if (user == null)
-            { return NotFound();}
+            { return NotFound(); }
 
             await Load_Form_Reference_Data(user);
-
+           
             return Page();
         }
 
 
-        private async Task<bool> Load_Form_Reference_Data(ApplicationUser user)
+        public async Task<IActionResult> OnPostAsync()
         {
+            if (string.IsNullOrEmpty(Input.Id))
+            { return NotFound(); }
+
+            var user = await UserManager.FindByIdAsync(Input.Id);
+
+            if (user == null)
+            { return NotFound(); }
+
+            if (!ModelState.IsValid)
+            {
+                await Load_Form_Reference_Data_OnPost_Failed(user);
+                return Page();
+            }
+
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+            user.Email = Input.Email;
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+
+            IdentityResult result = await UserManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                Handle_Error_Response(result);
+                await Load_Form_Reference_Data_OnPost_Failed(user);
+                return Page();
+            }
+
+
+            Handle_Success_Response(result);            
+            return RedirectToPage("./Index");
+
+        }
+
+
+        private bool ApplicationUserExists(string id)
+        {
+            return Context.Users.Any(e => e.Id == id);
+        }
+
+        private async Task<bool> Load_Form_Reference_Data(ApplicationUser user)
+        {          
             var userRoles = await UserManager.GetRolesAsync(user);
             var userClaims = await UserManager.GetClaimsAsync(user);
             var depClaim = userClaims.SingleOrDefault(uc => uc.Type == ClaimsStore.Department);
 
-            Input = new InputModel()
+            Username = user.UserName;
+
+            Input = new InputModel
             {
                 Id = user.Id,
-                UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
@@ -119,11 +160,36 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 SelectedRolesList = userRoles,
                 SelectedClaimsList = userClaims
             };
-            
+
+
             return true;
         }
 
+        private async Task<bool> Load_Form_Reference_Data_OnPost_Failed(ApplicationUser user)
+        {
+            Username = user.UserName;
+            return true;
+        }
 
+        private void Add_Model_Errors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            { ModelState.AddModelError("", error.Description); }
+        }
+
+        private void Handle_Success_Response(IdentityResult result)
+        {
+            Logger.LogError(string.Format(Edit_Success_Msg, Input.Email));
+            StatusMessage = string.Format(Edit_Success_Msg, Input.Email);
+        }
+
+        private void Handle_Error_Response(IdentityResult result)
+        {
+            Logger.LogError(string.Format(Edit_Failed_Msg, Input.Email));
+            StatusMessage = string.Format(Edit_Failed_Msg, Input.Email);
+            foreach (var error in result.Errors)
+            { ModelState.AddModelError("", error.Description); }
+        }
 
     }
 }

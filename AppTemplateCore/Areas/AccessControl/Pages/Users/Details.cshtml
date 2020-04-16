@@ -9,83 +9,136 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div>
+<hr />
 
-    <hr />
+    <div class="row">
 
-    <dl class="row">
+        <div class="col-md-4">
+          
+                <dl class="row" >
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Input.UserName)
-        </dt>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.Input.UserName): &nbsp;
+                    </dt>
 
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Input.UserName)
-        </dd>
-
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Input.FirstName)
-        </dt>
-
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Input.FirstName)
-        </dd>
+                    <dd class="col-md-6">
+                        @Html.DisplayFor(model => model.Input.UserName)
+                    </dd>
+                </dl>
 
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Input.LastName)
-        </dt>
+                <dl class="row">
 
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Input.LastName)
-        </dd>
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.Input.FirstName): &nbsp;
+                    </dt>
 
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Input.Email)
-        </dt>
-
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Input.Email)
-        </dd>
+                    <dd class="col-md-6">
+                        @Html.DisplayFor(model => model.Input.FirstName)
+                    </dd>
+                </dl>
 
 
-    </dl>
-</div>
+                <dl class="row">
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.Input.LastName): &nbsp;
+                    </dt>
+
+                    <dd class="col-md-6">
+                        @Html.DisplayFor(model => model.Input.LastName)
+                    </dd>
+                </dl>
+
+
+                <dl class="row">
+                    <dt class="col-md-4">
+                        @Html.DisplayNameFor(model => model.Input.Email): &nbsp;
+                    </dt>
+
+                    <dd class="col-md-6">
+                        @Html.DisplayFor(model => model.Input.Email)
+                    </dd>
+                </dl>
+
+        
+            <div class="form-group">
+                <a asp-page="./Edit" asp-route-id="@Model.Input.Id" class="btn btn-primary">Edit</a>
+                <a asp-page="./Index" class="btn btn-primary">Back to List</a>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>Roles of User</th>
+                    </tr>
+                </thead>
+                @if (Model.Input.SelectedRolesList.Count() == 0)
+                {
+                    <tr>
+                        <td>
+                            No roles found for this user.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var role in Model.Input.SelectedRolesList)
+                    {
+                        <tr>
+                            <td>
+                                @role
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>Claims of User</th>
+                    </tr>
+                </thead>
+                @if (Model.Input.SelectedClaimsList.Count() == 0)
+                {
+                    <tr>
+                        <td>
+                            No claims found for this user.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var claim in Model.Input.SelectedClaimsList)
+                    {
+                        <tr>
+                            <td>
+                                @claim
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+
+
+        </div>
+
+
+    </div>
 
 
 
-<table class="table table-bordered table-hover">
-
-    <thead>
-        <tr>
-            <th>Roles of User</th>
-        </tr>
-    </thead>
-    @if (Model.Input.RolesList.Count() == 0)
-    {
-        <tr>
-            <td>
-                No roles found for this user.
-            </td>
-        </tr>
-    }
-    else
-    {
-        @foreach (var role in Model.Input.RolesList)
-        {
-            <tr>
-                <td>
-                    @role
-                </td>
-            </tr>
-        }
-    }
-</table>
 
 
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Input.Id" class="btn btn-primary">Edit</a>
-    <a asp-page="./Index" class="btn btn-primary">Back to List</a>
-</div>
