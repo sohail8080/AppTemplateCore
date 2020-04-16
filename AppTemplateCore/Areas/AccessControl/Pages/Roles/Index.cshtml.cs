@@ -62,15 +62,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         public async Task<IActionResult> OnPostAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             var role = await RoleManager.FindByIdAsync(id);
 
             if (role == null)
-            {
-                return NotFound();
-                                
-            }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             IdentityResult result = await RoleManager.DeleteAsync(role);
 
@@ -92,15 +89,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         public async Task<IActionResult> OnPostDeleteAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             var role = await RoleManager.FindByIdAsync(id);
 
             if (role == null)
-            {
-                return NotFound();
-
-            }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             IdentityResult result = await RoleManager.DeleteAsync(role);
 
@@ -123,15 +117,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         public async Task<IActionResult> OnGetDeleteAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             var role = await RoleManager.FindByIdAsync(id);
 
             if (role == null)
-            {
-                return NotFound();
-                                
-            }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             IdentityResult result = await RoleManager.DeleteAsync(role);
 

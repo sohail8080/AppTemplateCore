@@ -78,7 +78,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                return NotFound();
             }
 
             var userName = await _userManager.GetUserNameAsync(user);
@@ -111,7 +112,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                return NotFound();
             }
 
             var email = await _userManager.GetEmailAsync(user);
@@ -158,7 +160,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                return NotFound();
             }
 
 

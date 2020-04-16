@@ -10,10 +10,11 @@ using AppTemplateCore.Areas.Movies.Models;
 using AppTemplateCore.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AppTemplateCore.Areas.AccessControl.Pages.Movies;
 
 namespace AppTemplateCore.Areas.Movies.Pages
 {
-    public class EditModel : PageModel
+    public class EditModel : MoviePageModel
     {
         private readonly ApplicationDbContext _context;
 
@@ -57,13 +58,13 @@ namespace AppTemplateCore.Areas.Movies.Pages
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             //var movieDB = await _context.Movies.FirstOrDefaultAsync(m => m.ID == id);
             var movieDB = await _context.Movies.SingleOrDefaultAsync(m => m.ID == id);
 
             if (movieDB == null)
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             Movie_ViewModel = MapToMovie_ViewModel(movieDB);
 
@@ -91,9 +92,7 @@ namespace AppTemplateCore.Areas.Movies.Pages
             catch (DbUpdateConcurrencyException)
             {
                 if (!MovieExists(Movie_ViewModel.ID))
-                {
-                    return NotFound();
-                }
+                { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, Movie_ViewModel.ID); return NotFound(); }
                 else
                 {
                     throw;

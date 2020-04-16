@@ -22,6 +22,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         internal SignInManager<ApplicationUser> SignInManager;
         internal ILogger Logger;
 
+
         [TempData]
         public string StatusMessage { get; set; }
         internal readonly string Create_All_Msg = "Successfully created all Users.";

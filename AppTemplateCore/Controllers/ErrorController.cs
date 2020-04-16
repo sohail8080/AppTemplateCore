@@ -30,6 +30,7 @@ namespace AppTemplateCore.Controllers
             if (TempData["ErrorMessage"] != null)
             {
                 ErrorMessage = TempData["ErrorMessage"].ToString();
+                TempData["ErrorMessage"] = null;
             }
             else
             {

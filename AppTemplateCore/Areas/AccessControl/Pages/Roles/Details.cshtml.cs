@@ -50,6 +50,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
+            
             if (string.IsNullOrEmpty(id))
             {
                 TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id);

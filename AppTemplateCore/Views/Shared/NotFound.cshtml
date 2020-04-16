@@ -1,8 +1,22 @@
-﻿@{ 
+﻿@{
     ViewBag.Title = "Not Found";
 }
 
+
+@*@if (TempData["ErrorMessage"] == null)
+{
+    <h1> Resource you are looking cannot be found. </h1>
+}
+else
+{
+    <h1>@TempData["ErrorMessage"]</h1>
+
+    TempData["ErrorMessage"] = null;
+}*@
+
+
 <h1>@ViewBag.ErrorMessage</h1>
+
 
 <a asp-action="index" asp-controller="home">
     Click here to navigate to the home page

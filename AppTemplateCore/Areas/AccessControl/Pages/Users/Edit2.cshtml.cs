@@ -100,13 +100,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             // ViewModel Property filling
             var user = await UserManager.FindByIdAsync(id);
 
             if (user == null)
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             await Load_Form_Reference_Data(user);
 
@@ -118,12 +118,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         public async Task<IActionResult> OnPostAsync(string[] SelectedRoles, string[] SelectedClaims)
         {
             if (string.IsNullOrEmpty(Input.Id))
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, Input.Id); return NotFound(); }
 
             var user = await UserManager.FindByIdAsync(Input.Id);
 
             if (user == null)
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, Input.Id); return NotFound(); }
 
             if (!ModelState.IsValid)
             {

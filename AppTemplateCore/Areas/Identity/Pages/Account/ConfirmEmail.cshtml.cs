@@ -34,7 +34,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{userId}'.");
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                return NotFound();
             }
 
             //     Validates that an email confirmation token matches the specified user.

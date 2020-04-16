@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using AppTemplateCore.Areas.Movies.Models;
 using AppTemplateCore.Data;
+using AppTemplateCore.Areas.AccessControl.Pages.Movies;
 
 namespace AppTemplateCore.Areas.Movies.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel : MoviePageModel
     {
         private readonly ApplicationDbContext _context;
 

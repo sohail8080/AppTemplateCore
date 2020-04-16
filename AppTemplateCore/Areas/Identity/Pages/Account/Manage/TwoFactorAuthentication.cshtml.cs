@@ -51,7 +51,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                return NotFound();
             }
 
             // Returns the authenticator app key for the user.
@@ -83,7 +84,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                return NotFound();
             }
 
             //     Clears the "Remember this browser flag" from the current browser

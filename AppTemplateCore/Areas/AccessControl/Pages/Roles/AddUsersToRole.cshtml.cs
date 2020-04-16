@@ -14,7 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
-{    
+{
     public class AddUsersToRoleModel : RolePageModel
     {
 
@@ -34,7 +34,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
         [BindProperty]
         public InputModel Input { get; set; }
-        
+
         public class InputModel
         {
             [Required(AllowEmptyStrings = false)]
@@ -44,7 +44,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
             [Display(Name = "Name")]
             public string Name { get; set; }
-            
+
             public List<RoleHasUsers> AllUsersList { get; set; }
 
         }
@@ -55,16 +55,22 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             public string UserName { get; set; }
             public bool IsSelected { get; set; }
         }
-        
+
         public async Task<IActionResult> OnGetAsync(string id)
-        {
+        { 
             if (string.IsNullOrEmpty(id))
-            { return NotFound(); }
+            {
+                TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id);
+                return NotFound();
+            }
 
             var role = await RoleManager.FindByIdAsync(id);
 
             if (role == null)
-            { return NotFound(); }
+            {
+                TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id);
+                return NotFound();
+            }
 
             await Load_Form_Reference_Data(role);
             return Page();
@@ -72,21 +78,20 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (string.IsNullOrEmpty(Input.Id))
-            { return NotFound(); }
+            if (string.IsNullOrEmpty(Input.Id)) { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, Input.Id); return NotFound(); }
 
             var role = await RoleManager.FindByIdAsync(Input.Id);
 
             if (role == null)
-            { return NotFound(); }
-            
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, Input.Id); return NotFound(); }
+
             //if (!ModelState.IsValid)
             //{
             //    await Load_Form_Reference_Data(role);
             //    return Page();
             //}
 
-         
+
             IdentityResult result = null;
 
             var Is_Any_User_Selected = Input.AllUsersList.Any(user => user.IsSelected == true);
@@ -97,10 +102,11 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
                 List<string> Existing_Users_In_Role = new List<string>();
                 foreach (var user in UserManager.Users)
-                { if (await UserManager.IsInRoleAsync(user, role.Name))
+                {
+                    if (await UserManager.IsInRoleAsync(user, role.Name))
                         Existing_Users_In_Role.Add(user.Id);
                 }
-                
+
                 var Selected_Users = Input.AllUsersList.Where(user => user.IsSelected == true).Select(s => s.UserId).ToList().ToArray();
                 var Newly_Selected_Users = Selected_Users.Except(Existing_Users_In_Role).ToArray<string>();
                 var Un_Selected_Users = Existing_Users_In_Role.Except(Selected_Users).ToArray<string>();
@@ -156,11 +162,11 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
                         Handle_Error_Response(result);
                         return Page();
                     }
-                }                
+                }
             }
 
             Handle_Success_Response(result);
-            return RedirectToPage("./Edit5", routeValues: new {  id = Input.Id  });
+            return RedirectToPage("./Edit5", routeValues: new { id = Input.Id });
         }
 
         private async Task<bool> Load_Form_Reference_Data(ApplicationRole role)

@@ -45,7 +45,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                return NotFound();
             }
 
             // Gets a flag indicating whether the specified user has a password.
@@ -62,7 +63,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                return NotFound();
             }
 
             // Gets a flag indicating whether the specified user has a password.

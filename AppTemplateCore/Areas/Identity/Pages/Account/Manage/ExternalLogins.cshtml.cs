@@ -46,7 +46,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                return NotFound();
             }
 
             CurrentLogins = await _userManager.GetLoginsAsync(user);
@@ -63,7 +64,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                return NotFound();
             }
 
             var result = await _userManager.RemoveLoginAsync(user, loginProvider, providerKey);
@@ -94,7 +96,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                return NotFound();
             }
 
             var info = await _signInManager.GetExternalLoginInfoAsync(await _userManager.GetUserIdAsync(user));

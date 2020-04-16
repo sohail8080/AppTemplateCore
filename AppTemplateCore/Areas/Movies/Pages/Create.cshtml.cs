@@ -9,10 +9,11 @@ using AppTemplateCore.Areas.Movies.Models;
 using AppTemplateCore.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AppTemplateCore.Areas.AccessControl.Pages.Movies;
 
 namespace AppTemplateCore.Areas.Movies.Pages
 {
-    public class CreateModel : PageModel
+    public class CreateModel : MoviePageModel
     {
         private readonly ApplicationDbContext _context;
 

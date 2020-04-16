@@ -58,7 +58,6 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             [StringLength(15, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             public string UserName { get; set; }
 
-
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -87,14 +86,15 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
 
         public async Task<IActionResult> OnGetAsync(string id)
-        {
+        {          
+            
             if (string.IsNullOrEmpty(id))
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             var user = await UserManager.FindByIdAsync(id);
 
             if (user == null)
-            { return NotFound();}
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             await Load_Form_Reference_Data(user);
 

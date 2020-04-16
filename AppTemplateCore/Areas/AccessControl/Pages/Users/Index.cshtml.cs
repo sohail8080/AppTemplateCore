@@ -40,8 +40,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
        
 
         public async Task OnGetAsync()
-        {
-
+        {          
             var users = await UserManager.Users.ToListAsync();
 
             Input = new List<InputModel>();
@@ -69,15 +68,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         public async Task<IActionResult> OnPostAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             var user = await UserManager.FindByIdAsync(id);
 
             if (user == null)
-            {
-                return NotFound();
-                                
-            }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             IdentityResult result = await UserManager.DeleteAsync(user);
 
@@ -100,15 +96,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         public async Task<IActionResult> OnGetDeleteAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             var user = await UserManager.FindByIdAsync(id);
 
             if (user == null)
-            {
-                return NotFound();
-                                
-            }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
+
 
             IdentityResult result = await UserManager.DeleteAsync(user);
 

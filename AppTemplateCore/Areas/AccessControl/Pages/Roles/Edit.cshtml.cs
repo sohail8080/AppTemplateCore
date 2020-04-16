@@ -59,12 +59,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             var role = await RoleManager.FindByIdAsync(id);
 
             if (role == null)
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
             await Load_Form_Reference_Data(role);
             return Page();
@@ -73,12 +73,12 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
         public async Task<IActionResult> OnPostAsync()
         {
             if (string.IsNullOrEmpty(Input.Id))
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, Input.Id); return NotFound(); }
 
             var role = await RoleManager.FindByIdAsync(Input.Id);
 
             if (role == null)
-            { return NotFound(); }
+            { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, Input.Id); return NotFound(); }
             
             if (!ModelState.IsValid)
             {
