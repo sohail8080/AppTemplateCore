@@ -1,0 +1,25 @@
+Adding Log statement to the Application
+One Statment will log to multiple sources
+Complete Logging Framework availble in in asp.net mvc
+Can be configured upto the requirements.
+At what level we want to log. 
+What we want to see in logs. 
+Where the logs will be stored.
+Third part framework can also hook to the asp.net mvc logging in think.
+I am not shoure
+
+application ==> Asp.net logging framework ==> source a, b, c 
+
+application ==> asp.net logging framework ==> third part framework ==> source a, b, c
+
+in application, where the database state is changed, we need to log errors.
+that mens add, update, delete.
+
+in application, where the maliciour user is attempting the application and operations are 
+failing, log that info.
+
+do not log logical errors those are failed due to the database errors
+
+youo many log errors if error or exception occur fials due to the business logic or doamin logic
+
+if business l

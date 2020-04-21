@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AppTemplateCore.Areas.AccessControl.Models;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using AppTemplateCore.StartupExtensions;
 
 namespace AppTemplateCore
 {
@@ -37,143 +38,31 @@ namespace AppTemplateCore
         // 3- Add Application Services needed in Application Code
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add Services & Configure their Settings needed by Cookie Middleware
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies 
-                //is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+
+            services.Add_Cookie_Policy();
 
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString(DefaultConnection)));
+            services.Add_DBContext_Config(Configuration, _contentRootPath);
 
 
-            string DefaultConnection = Configuration.GetConnectionString("DefaultConnection");
-            if (DefaultConnection.Contains("%CONTENTROOTPATH%"))
-            {
-                DefaultConnection = DefaultConnection.Replace("%CONTENTROOTPATH%", _contentRootPath);
-            }
-
-            // Add UOW Service to DI Container & Configure its Settings
-            // This Service is now available throughout application Pages/Controllers
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                // Hooking UOW to the SQL Server
-                // Configures UOW to connect to a Microsoft SQL Server database.
-                // Set Connection String of the SQL Server we want to hook
-                options.UseSqlServer(DefaultConnection);
-            });
+            services.Add_Identity_Config();
 
 
-            // Add Services & Configure their Settings needed by Identity Middleware
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
-            {
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 1;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireDigit = true;
-
-                options.Lockout = new LockoutOptions()
-                {
-                    AllowedForNewUsers = true,
-                    DefaultLockoutTimeSpan = new TimeSpan(0, 5, 0),
-                    MaxFailedAccessAttempts = 5
-                };
-            })
-                // Adds a default, self-contained UI for Identity to the application using Razor
-                // Pages in an area named Identity.
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                // Adds an Entity Framework implementation of identity information stores.
-                // User EF + this UOW to persist the Identity Info
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                // Different Token Providers are used during Login, Register, 
-                // Email Confirmation, Mob. Ph Confirmation & 2FA, 
-                // following statement add Default Token Providers for above.
-                // We can customize the Token Providers and configure here.
-                .AddDefaultTokenProviders()
-                // Add FirstName & Last Name to the User Claims Collection
-                .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>();
+            services.Add_MVC_Config();
 
 
-            //services.Configure<IdentityOptions>(
-            //    options =>
-            //    {
-            //        options.Password.RequiredLength = 6;
-            //        options.Password.RequiredUniqueChars = 1;
-            //        options.Password.RequireNonAlphanumeric = true;
-            //        options.Password.RequireLowercase = true;
-            //        options.Password.RequireUppercase = true;
-            //        options.Password.RequireDigit = true;
-
-            //        options.Lockout = new LockoutOptions()
-            //        {
-            //            AllowedForNewUsers = true,
-            //            DefaultLockoutTimeSpan = new TimeSpan(0, 5, 0),
-            //            MaxFailedAccessAttempts = 5
-            //        };
-            //    });
+            services.Add_Authentication_Config();
 
 
-            // Add Services & Configure their Settings needed by MVC Middleware
-            services.AddMvc(options =>
-            {
-                // Authorization Policy for All Controllers of Application
-                var policy = new AuthorizationPolicyBuilder()
-                                .RequireAuthenticatedUser()
-                                .Build();
-                // Auth Policy + Auth Filter to MVC Framework
-                // All Controller Actions now need Logged In User.
-                // Anonymouse Users can get access to Controll Action having 
-                // Allow Anonymous Attribute.
-                options.Filters.Add(new AuthorizeFilter(policy));
-            }
-            ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.App_Cookie_Config();
 
 
-            //services.AddAuthentication()
-            //    .AddGoogle(options =>
-            //        {
-            //            options.ClientId = "443892072779-3n0ljac2jnar4kmnnlkn74h4ic1tdq54.apps.googleusercontent.com";
-            //            options.ClientSecret = "7C6TvX2SWEodUuXd3EpsoO1R";
-            //        })
-            //    .AddFacebook(options =>
-            //        {
-            //            options.AppId = "2316662895109472";
-            //            options.AppSecret = "e25c1b8d4145034ed426d7a05efe1481";
-            //        });
+            services.Add_Authorization_Config();
 
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                // If you try to navigate to a URL/Controller/Action not
-                // allowed by Auth Rules, then this Controller Action will be invoked.
-                options.AccessDeniedPath = new PathString("/Error/AccessDenied");
-            });
+            services.Add_AppServices_Config();
 
-
-            services.AddAuthorization(options =>
-            {
-                // Policy is about grouping multiple Authorization Rights under 
-                // One umbrella of Policy. On Controller/Action Method level we 
-                // Only apply that Policy, the whole group of Auth Rules are applied
-                options.AddPolicy("DeleteRolePolicy",
-                    policy => policy.RequireClaim("Delete Role"));
-
-                options.AddPolicy("EditRolePolicy",
-                    policy => policy.RequireClaim("Edit Role"));
-                //policy => policy.AddRequirements(new ManageAdminRolesAndClaimsRequirement()));
-
-                options.AddPolicy("AdminRolePolicy",
-                        policy => policy.RequireRole("Admin"));
-            });
-
-            //services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+            
 
         }
 

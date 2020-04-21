@@ -1,0 +1,41 @@
+Method 1: Assigning claims to the user on the fly
+
+Let’s assume a fictional use case where our API will be used in an eCommerce website, 
+where certain users have the ability to issue refunds for orders 
+if there is incident happen and the customer is not happy.
+
+So certain criteria should be met in order to grant our users the privileges to issue refunds, 
+the users should have been working for the company for more than 90 days, 
+and the user should be in “Admin”Role.
+
+To implement this we need to create a new class which will be responsible 
+to read authenticated user information, and based on the information read, 
+it will create a single claim or set of claims and assign them to the user identity.
+
+If you recall from the first post of this series, 
+we have extended the “ApplicationUser” entity and 
+added a property named “JoinDate” which represent the hiring date of the employee, 
+based on the hiring date, 
+we need to assign a new claim named “FTE” (Full Time Employee) 
+for any user who has worked for more than 90 days. 
+
+To start implementing this let’s add a new class named “ExtendedClaimsProvider” 
+under folder “Infrastructure” and paste the code below:
+
+
+The implementation is simple, the “GetClaims” method will take ApplicationUser object 
+and returns a list of claims. Based on the “JoinDate” field it will add new claim named 
+“FTE” and will assign a value of “1” if the user has been working for than 90 days, 
+and a value of “0” if the user worked for less than this period. 
+Notice how I’m using the method “CreateClaim” which returns a new instance of the claim.
+
+This class can be used to enforce creating custom claims for the user based 
+on the information related to her, you can add as many claims as you want here, 
+but in our case we will add only a single claim.
+
+Now we need to call the method “GetClaims” so the “FTE” claim will be 
+associated with the authenticated user identity, to do this open class 
+“CustomOAuthProvider” and in method “GrantResourceOwnerCredentials” 
+add the highlighted line (line 7) as the code snippet below:
+
+

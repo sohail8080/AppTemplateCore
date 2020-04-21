@@ -95,7 +95,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
         private void Handle_Success_Response(IdentityResult result)
         {
-            Logger.LogError(string.Format(Delete_All_Success_Msg));
+            Logger.LogInformation(string.Format(Delete_All_Success_Msg));
             StatusMessage = string.Format(Delete_All_Success_Msg);
         }
 

@@ -1,0 +1,25 @@
+Options Pattern
+=======================
+
+Options Pattern is a way to specify the dependencies of the Class.
+
+Class has a property of type Options that contains the dependencies of the Class.
+
+Class has a property of type Options that is injected by Constructor Injection.
+
+When this Options Property is not given in constructor, at the time of Object Creation,
+then the default instance of that class is used to provide dependencies.
+
+If not specified, then Default Instance of the Property is used for dependencty resolution.
+
+We can configure and override defaults of this class to have customized behaviour.
+
+All this happens at the Straup Class, magic class. Startup Class does two main jobs.
+1. Compose the RPP, 2. Configure the DI Container.
+
+DI Container also provides depedency resoluiton of Middleware & RPP Composiotno
+
+DI Container also provides dependency resolution for Application.
+
+Once configured and required, the DI Container provides that object, and configured class is used
+

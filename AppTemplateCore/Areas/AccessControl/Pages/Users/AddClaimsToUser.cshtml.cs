@@ -253,7 +253,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         private void Handle_Success_Response(IdentityResult result)
         {
-            Logger.LogError(string.Format(Edit_Success_Msg, Input.Username));
+            Logger.LogInformation(string.Format(Edit_Success_Msg, Input.Username));
             StatusMessage = string.Format(Edit_Success_Msg, Input.Username);
         }
 

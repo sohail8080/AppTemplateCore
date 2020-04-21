@@ -1,0 +1,30 @@
+Straup Class is magic class. 
+Startup Class does two main jobs.
+
+1. Composing & Configuring the RPP by adding Middleware Components
+2. Providing Services needed by Middleware
+3. Configuring Services needed by Middleware
+4. Configuring the DI Container for the Application
+5. Configuring the DI Container for the Application
+6. Providing Dependency Resoluiton for Application Level Services
+7. Providing Dependency Resolution for Middleware needed Services
+
+All above are different types of jobs. 
+We should have seperate Extension Classes for above different jobs.
+This inceases the readibility, management, soc of code.
+Also in seperate classes we can have multiple extension methods
+for differnet flavours/versions of one middleware.
+We can have collection of methods providing all various versions of 
+same middleware.
+Thsi make composition of RPP easy.
+
+DI Container provides 
+
+1.Depedency resolution of Middleware & RPP Composition
+2. It also provides dependency resolution for Application.
+
+Once configured and required, the DI Container provides that object, 
+and configured class is used
+
+We should have seperate Extension Classes for both 
+C

@@ -148,7 +148,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         private void Handle_Success_Response(IdentityResult result)
         {
-            Logger.LogError(string.Format(Delete_Success_Msg, Input.Email));
+            Logger.LogInformation(string.Format(Delete_Success_Msg, Input.Email));
             StatusMessage = string.Format(Delete_Success_Msg, Input.Email);
         }
 

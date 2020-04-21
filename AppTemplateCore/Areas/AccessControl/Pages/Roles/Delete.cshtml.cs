@@ -140,7 +140,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
         private void Handle_Success_Response(IdentityResult result)
         {
-            Logger.LogError(string.Format(Delete_Success_Msg, Input.Name));
+            Logger.LogInformation(string.Format(Delete_Success_Msg, Input.Name));
             StatusMessage = string.Format(Delete_Success_Msg, Input.Name);
         }
 
