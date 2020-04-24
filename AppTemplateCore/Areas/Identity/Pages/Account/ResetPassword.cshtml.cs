@@ -88,8 +88,17 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             // user: The user whose password should be reset.
             // token: The password reset token to verify.
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+
             if (result.Succeeded)
             {
+                // When password reset successfully, then remove lockout if it is there.
+                // I have linked the Lockout & Reset Password. If following check is not there
+                // User still have to wait for LockOutTime expire, even when the Password Reset
+                if (await _userManager.IsLockedOutAsync(user))
+                {
+                    await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
+                }
+
                 // When System State in DB changed, then log that info
                 // ????????????????????????
 

@@ -1,0 +1,16 @@
+Startup class is like the old Web.config file provides place to add the Middleware and Configure the Services needed for the middleware.
+In the startup class we do following things
+1.	Add the Nuget Package of Middleware
+2.	Add the middleware to the RPP
+3.	Add the DEFAULT SERVICES needed for the middleware
+4.	Add the CONFIGURED/CUSTOMIZED SERVICES needed for the middleware.
+
+
+Configuring the Middleware with following aspects
+1.	Providing the Generic Parameters of the ApplicationUser and Identity role/ApplicationRole. We have to customize the Middleware by these genric parameters
+2.	Related Options object can also be passed to configure the Middleware. Password, SignIn and Tokens all these aspects of IdentityFramework/AcccessControl can be configured. We can also configure the OptionsObject separately form the Middleware Services Adding step.
+3.	Adding the default version of the Middleware Services without the Options Object. It will take Default Version of Options object.
+4.	Adding the customized version of the Middleware Services with the Options Object. It will take the customized Options Object. So, we are adding Middleware Services and Customizing Middleware services at the same time.
+5.	Adding the Middleware without specifying the Options Object. Customizing the Options Object separately after adding the Middleware Services.
+6.	Middleware.AddXXXX() to further add more dependencies. These AddXXX() also include Generic Parameters and Options Object and the 
+

@@ -47,6 +47,11 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
         // This is not FormData, but it is RouteData stored in Local Variable
         public string ReturnUrl { get; set; }
 
+
+        [TempData]
+        public string EmailConfirmationToken { get; set; }
+
+
         // This Model need to be Validated on POST
         // This Model is used to Render the View on GET
         public class InputModel
@@ -108,6 +113,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
         {
             // if returnurl is null, set to the root of the application
             returnUrl = returnUrl ?? Url.Content("~/");
+
             if (ModelState.IsValid)
             {
                 // create the user
@@ -121,6 +127,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
 
                 // put new user in the db
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
                 if (result.Succeeded)
                 {
                     // When System State in DB changed, then log that info
@@ -133,25 +140,40 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
                     // LogWarning()
                     _logger.LogInformation("User created a new account with password.");
 
+                    ////////////////////////////EMAIL CONFIRMATION ////////////////////////////////
+
                     // Generate Email Confirmation Token for the User.
                     // This code is send to the User' Email for confirmation
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
                     // UserId & EmailConfirmationToken is included in the Email Confirmation Link
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { userId = user.Id, code = code },
+                        values: new { userId = user.Id, code = emailConfirmationToken },
                         protocol: Request.Scheme);
+
+                    EmailConfirmationToken = callbackUrl;
 
                     // Send Email to the users email.
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
+
+                    return RedirectToPage("./ConfirmEmailInfoAfterLogin");
+
+                    ////////////////////////////EMAIL CONFIRMATION ////////////////////////////////
+
+                    //////////////////////////// NO EMAIL CONFIRMATION NEEDED ////////////////////////////////
+
                     // Sign in the user to the System. This should not be here.
                     // User should be signed in once he Confirms the Email.
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    //return LocalRedirect(returnUrl);
+
+                    //////////////////////////// NO EMAIL CONFIRMATION NEEDED ////////////////////////////////
+
+
                 }
                 foreach (var error in result.Errors)
                 {

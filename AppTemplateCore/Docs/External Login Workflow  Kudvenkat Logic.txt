@@ -1,0 +1,31 @@
+External Login Workflow : Kudvenkat Logic
+=========================================================
+
+New User Goto Facebook Page and Provide valid/invalid UN & PWD
+
+Load the dependcies if Operation fails & we show same page again
+
+If RemoteError happens => Show Login page with error message
+
+Get External Login INFO : If not found => Show Login page with error message
+
+Get Email Claim from INFO object : If IEmail Claim not found  => Show Error Page with Error Message
+
+Check Email Confirmation for the User ==> If Not, send to Login Page
+
+Try to Signin the user with INFO object
+
+SignIn Successfull => Redirect to Return URL
+
+SignIn Failed => 
+
+// CASE ONE: If User is null, user does not exist in the aspnetusers table, signin fails
+// add user in the aspnetusers table
+// send Email Confirmation email to the user
+// redirect to the EmailConfirmation View
+
+// CASE TWO: If User is not null & user does not exist in the aspnetuserlogin table: fails
+// add user in aspnetuserlogins table
+// SignIn the User, Create the Cookie
+// Redirect to Return URL
+

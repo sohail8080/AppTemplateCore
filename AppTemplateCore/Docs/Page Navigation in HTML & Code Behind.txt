@@ -1,0 +1,16 @@
+return RedirectToPage("./Index");
+
+        [TempData]
+        public string StatusMessage { get; set; }
+StatusMessage = string.Format(Create_Success_Msg, Input.Name);
+
+
+
+return RedirectToPage("./Edit5", routeValues: new { id = Input.Id });
+
+
+<a asp-page="./Edit5" asp-route-id="@Model.Input.Id" >Back</a>
+
+<a  asp-area="Identity" asp-page="/Account/Login">Login</a>
+
+<a asp-area="AccessControl" asp-page="/Roles/Index">Roles</a>

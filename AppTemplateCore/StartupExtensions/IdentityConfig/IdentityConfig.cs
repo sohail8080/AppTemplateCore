@@ -26,12 +26,18 @@ namespace AppTemplateCore.StartupExtensions
                 options.Password.RequireUppercase = true;
                 options.Password.RequireDigit = true;
 
-                options.Lockout = new LockoutOptions()
-                {
-                    AllowedForNewUsers = true,
-                    DefaultLockoutTimeSpan = new TimeSpan(0, 5, 0),
-                    MaxFailedAccessAttempts = 5
-                };
+
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+
+                //options.Lockout = new LockoutOptions()
+                //{
+                //    AllowedForNewUsers = true,
+                //    DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15), //new TimeSpan(0, 5, 0),
+                //    MaxFailedAccessAttempts = 5
+                //};
+
             })
                 // Adds a default, self-contained UI for Identity to the application using Razor
                 // Pages in an area named Identity.
@@ -120,7 +126,7 @@ namespace AppTemplateCore.StartupExtensions
                         // Summary:
                         //     Gets or sets the System.TimeSpan a user is locked out for when a lockout occurs.
                         //     Defaults to 5 minutes.
-                        DefaultLockoutTimeSpan = new TimeSpan(0, 5, 0),
+                        DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15),//new TimeSpan(0, 5, 0),
 
                         // Summary:
                         //     Gets or sets the number of failed access attempts allowed before a user is locked

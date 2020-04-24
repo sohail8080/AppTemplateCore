@@ -11,17 +11,18 @@ namespace AppTemplateCore.StartupExtensions
 
         public static void Add_Authentication_Config(this IServiceCollection services)
         {
-            //services.AddAuthentication()
-            //    .AddGoogle(options =>
-            //        {
-            //            options.ClientId = "443892072779-3n0ljac2jnar4kmnnlkn74h4ic1tdq54.apps.googleusercontent.com";
-            //            options.ClientSecret = "7C6TvX2SWEodUuXd3EpsoO1R";
-            //        })
-            //    .AddFacebook(options =>
-            //        {
-            //            options.AppId = "2316662895109472";
-            //            options.AppSecret = "e25c1b8d4145034ed426d7a05efe1481";
-            //        });
+
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                    {
+                        options.ClientId = "778586624168-8ouqb0ndob2fokefn5jbnn9j81halc9b.apps.googleusercontent.com";
+                        options.ClientSecret = "MORpD7PIzC7EFCfS0vwQNTUJ";
+                    })
+                .AddFacebook(options =>
+                    {
+                        options.AppId = "2316662895109472";
+                        options.AppSecret = "e25c1b8d4145034ed426d7a05efe1481";
+                    });
 
 
         }

@@ -3,23 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AppTemplateCore.Areas.AccessControl.Models;
+using AppTemplateCore.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.Identity.Pages.Account
 {
     // Whole Controller is for anonymout user
     [AllowAnonymous]
-    public class ConfirmEmailModel : PageModel
+    public class ConfirmEmailModel : AccountPageModel
     {
 
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public ConfirmEmailModel(UserManager<ApplicationUser> userManager)
+        public ConfirmEmailModel(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<ConfirmEmailModel> logger)
         {
-            _userManager = userManager;
+            Context = context;
+            UserManager = userManager;
+            RoleManager = roleManager;
+            SignInManager = signInManager;
+            Logger = logger;
         }
 
         // This method is called by clicking the Confirm Email send to 
@@ -28,23 +37,27 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
         {
             if (userId == null || code == null)
             {
-                return RedirectToPage("/Index");
-            }
-
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(User)}'.";
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{UserManager.GetUserId(User)}'.";
                 return NotFound();
             }
 
-            //     Validates that an email confirmation token matches the specified user.
-            //     The user to validate the token against.
-            //     The email confirmation token to validate.
-            var result = await _userManager.ConfirmEmailAsync(user, code);
+            var user = await UserManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{UserManager.GetUserId(User)}'.";
+                return NotFound();
+            }
+
+            // Validates that an email confirmation token matches the specified user.
+            // The user to validate the token against.
+            // The email confirmation token to validate.
+            var result = await UserManager.ConfirmEmailAsync(user, code);
+
             if (!result.Succeeded)
             {
                 throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
+
             }
 
             return Page();

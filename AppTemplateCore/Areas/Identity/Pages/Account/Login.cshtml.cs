@@ -10,26 +10,51 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using AppTemplateCore.Areas.AccessControl.Models;
+using AppTemplateCore.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Text.Encodings.Web;
 
 namespace AppTemplateCore.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class LoginModel : PageModel
+    public class LoginModel : AccountPageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
+        private readonly IEmailSender EmailSender;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        //private readonly SignInManager<ApplicationUser> _signInManager;
+        //private readonly ILogger<LoginModel> _logger;
+
+        //public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        //{
+        //    _signInManager = signInManager;
+        //    _logger = logger;
+        //}
+
+        public LoginModel(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<LoginModel> logger,
+            IEmailSender emailSender)
         {
-            _signInManager = signInManager;
-            _logger = logger;
+            Context = context;
+            UserManager = userManager;
+            RoleManager = roleManager;
+            SignInManager = signInManager;
+            Logger = logger;
+            EmailSender = emailSender;
         }
+
 
         [BindProperty]
         public InputModel Input { get; set; }
 
         // Non-Post Back info needed on page
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
+        [TempData]
+        public string EmailConfirmationToken { get; set; }
 
         // Non-Post Back info needed on page
         public string ReturnUrl { get; set; }
@@ -53,6 +78,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
+
+
         // Show the Login Screen
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -71,13 +98,19 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
 
             // Gets a collection of AuthenticationSchemes
             // for the known external login providers.
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
         }
 
+
+
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+
+            ExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             returnUrl = returnUrl ?? Url.Content("~/");
 
             if (ModelState.IsValid)
@@ -100,12 +133,59 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
                 // If 2fa is enabled, this method automatically send the Code to the User Mobile
                 // OR WE NEED TO WRITE CODE HERE FOR EMAIL AND SMS FOR 2FA.?????
 
+                ////////////////////////////EMAIL CONFIRMATION ////////////////////////////////
+                var user = await UserManager.FindByEmailAsync(Input.Email);
 
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                // Email confirmation check added here. Now also add the logic to 
+                // the database seed logic that add default user to the DB
+                if (user != null && !user.EmailConfirmed &&
+                                    (await UserManager.CheckPasswordAsync(user, Input.Password)))
+                {
+                    // Generate Email Confirmation Token for the User.
+                    // This code is send to the User' Email for confirmation
+                    var emailConfirmationToken = await UserManager.GenerateEmailConfirmationTokenAsync(user);
+
+                    // UserId & EmailConfirmationToken is included in the Email Confirmation Link
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { userId = user.Id, code = emailConfirmationToken },
+                        protocol: Request.Scheme);
+
+                    EmailConfirmationToken = callbackUrl;
+
+                    // Send Email to the users email.
+                    await EmailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    return RedirectToPage("./ConfirmEmailInfoAfterLogin");
+
+                    //ModelState.AddModelError(string.Empty, "Email not confirmed yet");
+                    //return Page();
+                }
+                ////////////////////////////EMAIL CONFIRMATION ////////////////////////////////
+
+                var result = await SignInManager.PasswordSignInAsync(
+                                                    Input.Email,
+                                                    Input.Password,
+                                                    Input.RememberMe,
+                                                    lockoutOnFailure: true);
+
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        Logger.LogInformation("User logged in.");
+                        return LocalRedirect(returnUrl);
+                    }
+                    else
+                    {
+                        // If URL is blank/null or URL not local URL, send user to homepage
+                        return LocalRedirect(Url.Content("~/"));
+                        //return RedirectToAction("index", "home");
+                    }
+
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -120,7 +200,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    Logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
                 else
@@ -133,5 +213,10 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
+
+
+
+
     }
 }
