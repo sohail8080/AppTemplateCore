@@ -108,7 +108,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (user == null)
             { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
-            await Load_Form_Reference_Data(user);
+            await Load_Page_Reference_Data(user);
 
             // Show Page
             return Page();
@@ -127,7 +127,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             if (!ModelState.IsValid)
             {
-                await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
+                await Load_Page_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                 return Page();
             }
 
@@ -142,7 +142,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (!result.Succeeded)
             {                
                 Handle_Error_Response(result);
-                await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
+                await Load_Page_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                 return Page();
             }
 
@@ -161,7 +161,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 if (!result.Succeeded)
                 {                    
                     Handle_Error_Response(result);
-                    await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
+                    await Load_Page_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
                 }
                 else
@@ -173,7 +173,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     {
     
                         Handle_Error_Response(result);
-                        await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
+                        await Load_Page_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                         return Page();
                     }
                 }
@@ -187,7 +187,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 {
 
                     Handle_Error_Response(result);
-                    await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
+                    await Load_Page_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
                 }
 
@@ -207,7 +207,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 if (!result.Succeeded)
                 {   
                     Handle_Error_Response(result);
-                    await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
+                    await Load_Page_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
                 }
                 else
@@ -218,7 +218,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                     if (!result.Succeeded)
                     {
                         Handle_Error_Response(result);
-                        await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
+                        await Load_Page_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                         return Page();
                     }
                 }
@@ -231,7 +231,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
                 if (!result.Succeeded)
                 {
                     Handle_Error_Response(result);
-                    await Load_Form_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
+                    await Load_Page_Reference_Data_OnPost_Failed(user, SelectedRoles, SelectedClaims);
                     return Page();
                 }
 
@@ -313,7 +313,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         }
 
 
-        private async Task<bool> Load_Form_Reference_Data(ApplicationUser user)
+        private async Task<bool> Load_Page_Reference_Data(ApplicationUser user)
         {
             Username = user.UserName;
 
@@ -352,7 +352,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             return true;
         }
 
-        private async Task<bool> Load_Form_Reference_Data_OnPost_Failed(ApplicationUser user, string[] SelectedRoles, string[] SelectedClaims)
+        private async Task<bool> Load_Page_Reference_Data_OnPost_Failed(ApplicationUser user, string[] SelectedRoles, string[] SelectedClaims)
         {
             Username = user.UserName;
 

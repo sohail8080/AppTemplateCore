@@ -96,13 +96,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
             if (user == null)
             { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
-            await Load_Form_Reference_Data(user);
+            await Load_Page_Reference_Data(user);
 
             return Page();
         }
 
 
-        private async Task<bool> Load_Form_Reference_Data(ApplicationUser user)
+        private async Task<bool> Load_Page_Reference_Data(ApplicationUser user)
         {
             var userRoles = await UserManager.GetRolesAsync(user);
             var userClaims = await UserManager.GetClaimsAsync(user);

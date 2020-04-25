@@ -65,7 +65,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
                 return NotFound();
             }
 
-            await Load_Form_Reference_Data(role);
+            await Load_Page_Reference_Data(role);
            
             return Page();
         }
@@ -73,7 +73,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 
 
 
-        private async Task<bool> Load_Form_Reference_Data(ApplicationRole role)
+        private async Task<bool> Load_Page_Reference_Data(ApplicationRole role)
         {
 
             Input = new InputModel()

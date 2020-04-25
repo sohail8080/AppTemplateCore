@@ -20,8 +20,8 @@ namespace AppTemplateCore.StartupExtensions
                     })
                 .AddFacebook(options =>
                     {
-                        options.AppId = "2316662895109472";
-                        options.AppSecret = "e25c1b8d4145034ed426d7a05efe1481";
+                        options.AppId = "230842474676553";
+                        options.AppSecret = "c14e4d51561d0ef305c5f255e54c0952";
                     });
 
 

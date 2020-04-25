@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using AppTemplateCore.Areas.AccessControl.Models;
+using AppTemplateCore.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -16,25 +17,31 @@ using Microsoft.Extensions.Logging;
 namespace AppTemplateCore.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class ExternalLoginModel : PageModel
+    public class ExternalLoginModel : AccountPageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<ExternalLoginModel> _logger;
-
         private readonly IEmailSender EmailSender;
 
+
         public ExternalLoginModel(
-            SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager,
-            ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
-        {
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _logger = logger;
-            EmailSender = emailSender;
-        }
+                    ApplicationDbContext context,
+                    UserManager<ApplicationUser> userManager,
+                    RoleManager<ApplicationRole> roleManager,
+                    SignInManager<ApplicationUser> signInManager,
+                    ILogger<ExternalLoginModel> logger,
+                    IEmailSender emailSender)
+            {
+                    Context = context;
+                    UserManager = userManager;
+                    RoleManager = roleManager;
+                    SignInManager = signInManager;
+                    Logger = logger;
+                    EmailSender = emailSender;
+            }
+
+
+
+
+
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -51,8 +58,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
         [TempData]
         public string EmailConfirmationToken { get; set; }
 
-        [TempData]
-        public string ErrorMessage { get; set; }
+        //[TempData]
+        //public string ErrorMessage { get; set; }
 
         // One Property Class
         public class InputModel
@@ -91,7 +98,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             // Summary:
             //     Configures the redirect URL and user identifier for the specified external login
             //     provider.
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            var properties = SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
 
@@ -103,24 +110,38 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             // if null then send to home page
             returnUrl = returnUrl ?? Url.Content("~/");
 
+            Handle_Error_Response(null, $"Dummy String: {returnUrl}");
+                                 
+            Handle_Error_Response(null, "Dummy String: {0}", returnUrl);
+
+            Handle_Error_Response(null, "Dummy String: {ssss}", returnUrl);
+
+            Handle_Success_Response(null, $"Dummy String: {returnUrl}");
+
+            Handle_Success_Response(null, "Dummy String: {0}", returnUrl);
+
+            Handle_Success_Response(null, "Dummy String: {ssss}", returnUrl);
+
             // some error occurred on remote server
             if (remoteError != null)
             {
                 // this ErrorMessage will be shown on login page as we re redirecting
-                ErrorMessage = $"Error from external provider: {remoteError}";
+                //ErrorMessage = $"Error from external provider: {remoteError}";
+                Handle_Error_Response(null, $"Error from external provider: {remoteError}");
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
             // Gets the external login information for the current login attempt
             // no error, then get the external login info
-            var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
+            var externalLoginInfo = await SignInManager.GetExternalLoginInfoAsync();
 
             // no external login info found
             if (externalLoginInfo == null)
             {
                 // this ErrorMessage will be shown on login page as we re redirecting
                 // We may redirect here to specific page that ext login fails
-                ErrorMessage = "Error loading external login information.";
+                //ErrorMessage = "Error loading external login information.";
+                Handle_Error_Response(null, "Error loading external login information.");
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
@@ -132,11 +153,12 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             if (email == null)
             {
                 // Email claim not received
-                ErrorMessage = $"Email claim not received from: {externalLoginInfo.LoginProvider}";
+               // ErrorMessage = $"Email claim not received from: {externalLoginInfo.LoginProvider}";
+                Handle_Error_Response(null, $"Email claim not received from: {externalLoginInfo.LoginProvider}");
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
-            ApplicationUser user = await _userManager.FindByEmailAsync(email);
+            ApplicationUser user = await UserManager.FindByEmailAsync(email);
 
             // if we found email then
             // get the user from local database
@@ -147,7 +169,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
 
                 // Generate Email Confirmation Token for the User.
                 // This code is send to the User' Email for confirmation
-                var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var emailConfirmationToken = await UserManager.GenerateEmailConfirmationTokenAsync(user);
 
                 // UserId & EmailConfirmationToken is included in the Email Confirmation Link
                 var callbackUrl = Url.Page(
@@ -179,7 +201,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             // it also checks user exist in the aspnetusers & aspnetuserlogin tables
             // This creates cookie for the user. 
             // no password verification is done, as it is done already.
-            var result = await _signInManager.ExternalLoginSignInAsync(
+            var result = await SignInManager.ExternalLoginSignInAsync(
                                                 externalLoginInfo.LoginProvider,
                                                 externalLoginInfo.ProviderKey,
                                                 isPersistent: false,
@@ -189,7 +211,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                 // it happens when user is already inserted in aspnetusers, aspnetuserlogins table
-                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", externalLoginInfo.Principal.Identity.Name, externalLoginInfo.LoginProvider);
+                Logger.LogInformation("{Name} logged in with {LoginProvider} provider.", externalLoginInfo.Principal.Identity.Name, externalLoginInfo.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
 
@@ -201,12 +223,12 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             }
             else
             {
-                
-                if(user != null)
+
+                if (user != null)
                 {
                     // Adds an external UserLoginInfo to the specified
                     // user in aspnetuserlogins table
-                    var resultAddLogin = await _userManager.AddLoginAsync(user, externalLoginInfo);
+                    var resultAddLogin = await UserManager.AddLoginAsync(user, externalLoginInfo);
 
                     if (!resultAddLogin.Succeeded)
                     {
@@ -223,12 +245,13 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
 
 
                     // Signs in the specified user. create the cookie
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
+                    await SignInManager.SignInAsync(user, isPersistent: false);
+                    Handle_Success_Response("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
+                    //Logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
                     return LocalRedirect(returnUrl);
                 }
-                
-                
+
+
                 // If the user does not have an account, then ask the user to create an account.
                 // it happens when user is not inserted in aspnetusers, aspnetuserlogins table
                 // show this page again with email
@@ -265,12 +288,12 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
 
             // Get the information about the user from the external login provider
             // Gets the external login information for the current login attempt
-            var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
+            var externalLoginInfo = await SignInManager.GetExternalLoginInfoAsync();
 
             // External login info not found
             if (externalLoginInfo == null)
             {
-                ErrorMessage = "Error loading external login information during confirmation.";
+                Handle_Error_Response(null, "Error loading external login information during confirmation.");               
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
@@ -281,13 +304,12 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            var existingUser = await _userManager.FindByEmailAsync(Input.Email);
+            var existingUser = await UserManager.FindByEmailAsync(Input.Email);
 
             //var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
 
             var user = new ApplicationUser
             {
-
                 UserName = Input.Email,
                 Email = Input.Email,
                 FirstName = Input.FirstName,
@@ -300,16 +322,13 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
             if (existingUser == null)
             {
                 // create user in the aspnetusers table
-                result = await _userManager.CreateAsync(user);
+                result = await UserManager.CreateAsync(user);
 
 
                 if (!result.Succeeded)
                 {
-                    // if we reached this far, some error occured
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    Handle_Error_Response(result, "Error occurred while creating user {0} using {1} provider.",
+                                                   user.UserName, externalLoginInfo.LoginProvider);
 
                     LoginProvider = externalLoginInfo.LoginProvider;
                     ReturnUrl = returnUrl;
@@ -320,7 +339,7 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
 
                 // Generate Email Confirmation Token for the User.
                 // This code is send to the User' Email for confirmation
-                var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var emailConfirmationToken = await UserManager.GenerateEmailConfirmationTokenAsync(user);
 
 
                 // create confirmation link
@@ -351,16 +370,12 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
 
             // Adds an external UserLoginInfo to the specified
             // user in aspnetuserlogins table
-            result = await _userManager.AddLoginAsync(user, externalLoginInfo);
+            result = await UserManager.AddLoginAsync(user, externalLoginInfo);
 
             if (!result.Succeeded)
             {
-                // if we reached this far, some error occured
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-
+                Handle_Error_Response(result, "Error occurred while creating user {0} using {1} provider.",
+                                               user.UserName, externalLoginInfo.LoginProvider );
                 LoginProvider = externalLoginInfo.LoginProvider;
                 ReturnUrl = returnUrl;
                 return Page();
@@ -368,10 +383,39 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
 
 
             // Signs in the specified user. create the cookie
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            _logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
+            await SignInManager.SignInAsync(user, isPersistent: false);            
+            Handle_Success_Response("User {User} created an account using {Name} provider.", 
+                                                user.UserName, 
+                                                externalLoginInfo.LoginProvider);
+
             return LocalRedirect(returnUrl);
 
         }
+
+
+        private void Handle_Success_Response(string  message, params object[] args)
+        {
+            Logger.LogInformation(message, args);
+            StatusMessage = message;
+        }
+
+
+        private void Handle_Error_Response(IdentityResult result, string message, params object[] args)
+        {
+            Logger.LogError(message, args);
+            StatusMessage = message;
+
+            if (result == null) return;
+
+            foreach (var error in result.Errors)
+            { ModelState.AddModelError("", error.Description); }
+        }
+
+
+
+
+
+
+
     }
 }

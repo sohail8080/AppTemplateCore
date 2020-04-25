@@ -83,9 +83,9 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
         // Show the Login Screen
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!string.IsNullOrEmpty(ErrorMessage))
+            if (!string.IsNullOrEmpty(StatusMessage))
             {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
+                ModelState.AddModelError(string.Empty, StatusMessage);
             }
 
             // If returnURL is null, set it to root.

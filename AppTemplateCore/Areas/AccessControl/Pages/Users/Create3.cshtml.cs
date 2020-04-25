@@ -79,7 +79,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
         public async Task<IActionResult> OnGetAsync()
         {
-            await Load_Form_Reference_Data();
+            await Load_Page_Reference_Data();
             return Page();
         }
 
@@ -175,7 +175,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         }
 
 
-        private async Task<bool> Load_Form_Reference_Data()
+        private async Task<bool> Load_Page_Reference_Data()
         {
             Input = new InputModel();
 

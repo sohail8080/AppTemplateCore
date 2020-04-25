@@ -59,7 +59,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             if (role == null)
             { TempData["ErrorMessage"] = string.Format(Record_NotFound_Msg, id); return NotFound(); }
 
-            await Load_Form_Reference_Data(role);
+            await Load_Page_Reference_Data(role);
             return Page();
         }
 
@@ -75,7 +75,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             
             if (!ModelState.IsValid)
             {
-                await Load_Form_Reference_Data(role);
+                await Load_Page_Reference_Data(role);
                 return Page();
             }
 
@@ -86,7 +86,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             if (!result.Succeeded)
             {
                 Handle_Error_Response(result);
-                await Load_Form_Reference_Data(role);
+                await Load_Page_Reference_Data(role);
                 return Page();
             }
 
@@ -94,7 +94,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             return RedirectToPage("./Index");
         }
 
-        private async Task<bool> Load_Form_Reference_Data(ApplicationRole role)
+        private async Task<bool> Load_Page_Reference_Data(ApplicationRole role)
         {
 
             Input = new InputModel()
