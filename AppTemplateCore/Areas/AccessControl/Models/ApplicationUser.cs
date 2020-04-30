@@ -1,6 +1,7 @@
 ﻿using AppTemplateCore.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -82,28 +83,31 @@ namespace AppTemplateCore.Areas.AccessControl.Models
         // This application is UserManager & RoleManager based
         public static async Task InitializeIdentityAsync(IServiceProvider serviceProvider)
         {
-            var logger = serviceProvider.GetService<ILogger<Program>>();
+            var Logger = serviceProvider.GetService<ILogger<Program>>();
+            var Configuration = serviceProvider.GetService<IConfiguration>();
+
+            var AdminUser = Configuration.GetSection("AdminUser").Get<AdminUser>();
 
             try
             {
 
                 var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
                 var roleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
-                
+
 
                 // If Admin User's Role does not exist, create it
-                if (!await roleManager.RoleExistsAsync("Admin"))
+                if (!await roleManager.RoleExistsAsync(RolesStore.Admin))
                 {
                     var appRole = new ApplicationRole
                     {
-                        Name = "Admin"
+                        Name = RolesStore.Admin
                     };
 
                     var result = await roleManager.CreateAsync(appRole);
 
                     if (!result.Succeeded)
                     {
-                        logger.LogError("Error occurred  while seeding Admin Role to the Database");
+                        Logger.LogError("Error occurred  while seeding Admin Role to the Database");
                     }
                 }
 
@@ -113,17 +117,17 @@ namespace AppTemplateCore.Areas.AccessControl.Models
                 {
                     var appUser = new ApplicationUser
                     {
-                        UserName = "admin@abc.com",
-                        Email = "admin@abc.com",
-                        FirstName = "Site",
-                        LastName = "Admin"
+                        UserName = AdminUser.UserName,
+                        Email = AdminUser.Email,
+                        FirstName = AdminUser.FirstName,
+                        LastName = AdminUser.LastName
                     };
 
-                    var result = await userManager.CreateAsync(appUser, "Abc@123");
+                    var result = await userManager.CreateAsync(appUser, AdminUser.Password);
 
                     if (!result.Succeeded)
                     {
-                        logger.LogError("Error occurred  while seeding Admin User to the Database");
+                        Logger.LogError("Error occurred  while seeding Admin User to the Database");
                     }
                 }
 
@@ -132,25 +136,27 @@ namespace AppTemplateCore.Areas.AccessControl.Models
                 // If Admin User is not added in Admin Role, add him
                 var applicationUser = await userManager.FindByNameAsync("admin@abc.com");
 
-                if (!await userManager.IsInRoleAsync(applicationUser, "Admin"))
+                if (!await userManager.IsInRoleAsync(applicationUser, RolesStore.Admin))
                 {
-                    var result = await userManager.AddToRoleAsync(applicationUser, "Admin");
+                    var result = await userManager.AddToRoleAsync(applicationUser, RolesStore.Admin);
 
                     if (!result.Succeeded)
                     {
-                        logger.LogError("Error occurred  while seeding Admin User Role to the Database");
+                        Logger.LogError("Error occurred  while seeding Admin User Role to the Database");
                     }
                 }
 
+
                 // If Admin User is not added in Edit Claim, add him
                 var userClaims = await userManager.GetClaimsAsync(applicationUser);
-                if (! (userClaims.Any(claim => claim.Type == "Edit Role" && claim.Value == "Edit Role")))
+
+                if (!(userClaims.Any(claim => claim.Type == ClaimsStore.Edit_Role && claim.Value == ClaimsStore.Edit_Role)))
                 {
                     var result = await userManager.AddClaimAsync(applicationUser, ClaimsStore.AllClaims[1]);
 
                     if (!result.Succeeded)
                     {
-                        logger.LogError("Error occurred  while seeding Admin User Claim to the Database");
+                        Logger.LogError("Error occurred  while seeding Admin User Claim to the Database");
                     }
                 }
 
@@ -159,7 +165,7 @@ namespace AppTemplateCore.Areas.AccessControl.Models
             }
             catch (Exception ex)
             {
-                logger.LogError("Error occurred  while seeding Admin User data to the Database");
+                Logger.LogError("Error occurred  while seeding Admin User data to the Database");
                 throw ex;
             }
 
@@ -168,6 +174,26 @@ namespace AppTemplateCore.Areas.AccessControl.Models
 
 
     }
+
+
+
+
+    public class AdminUser
+    {
+
+        public string UserName { get; set; } = "admin@abc.com";
+        public string Email { get; set; } = "admin@abc.com";
+        public string FirstName { get; set; } = "Site";
+        public string LastName { get; set; } = "Admin";
+        public string Password { get; set; } = "Abc@123";
+
+        //public const string UserName = "admin@abc.com";
+        //public const string Email = "admin@abc.com";
+        //public const string FirstName = "Site";
+        //public const string LastName = "Admin";
+        //public const string Password = "Abc@123";
+    }
+
 
 
 }

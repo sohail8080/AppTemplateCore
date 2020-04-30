@@ -5,6 +5,9 @@
     ViewData["Title"] = "Edit User";
 }
 
+    @*//Edit User on this screen, Edit Roles & Claims on seperate screen
+    // Seperation of 3 Edit operations on 3 Screens*@
+
 <partial name="_StatusMessage" for="StatusMessage" />
 
 <h1>@ViewData["Title"]</h1>
@@ -110,8 +113,8 @@
                 }
             </table>
 
-            <div class="form-group">                
-                <a asp-page="./AddRolesToUser", asp-route-id="@Model.Input.Id" class="btn btn-primary">Add/Remove Roles</a>
+            <div class="form-group">
+                <a asp-page="./AddRolesToUser" , asp-route-id="@Model.Input.Id" class="btn btn-primary">Add/Remove Roles</a>
             </div>
 
         </div>
@@ -148,7 +151,7 @@
             </table>
 
             <div class="form-group">
-                <a asp-page="./AddClaimsToUser"  asp-route-id="@Model.Input.Id" class="btn btn-primary">Add/Remove Claims</a>
+                <a asp-page="./AddClaimsToUser" asp-route-id="@Model.Input.Id" class="btn btn-primary">Add/Remove Claims</a>
             </div>
 
 

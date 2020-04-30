@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AppTemplateCore.Areas.AccessControl.Models;
+using AppTemplateCore.Areas.Common;
 using AppTemplateCore.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,9 +13,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
-{   
+{
     public class IndexModel : UserPageModel
-    {        
+    {
         public IndexModel(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
@@ -30,22 +31,80 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
         }
 
 
-        public IList<InputModel> Input { get; set; }
+        public string UserNameSort { get; set; }
+        public string FirstNameSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
+
+        public PaginatedList<InputModel> Input { get; set; }
+
+        // public IList<InputModel> Input { get; set; }
 
 
         public class InputModel : ApplicationUser
-        {           
+        {
+
             public IList<string> RolesList { get; set; }
         }
-       
 
-        public async Task OnGetAsync()
-        {          
-            var users = await UserManager.Users.ToListAsync();
 
-            Input = new List<InputModel>();
+        public async Task OnGetAsync(string sortOrder,
+            string currentFilter, string searchString, int? pageIndex)
+        {
+            CurrentSort = sortOrder;
 
-            foreach (var user in users)
+            UserNameSort = String.IsNullOrEmpty(sortOrder) ? "username_desc" : "";
+            FirstNameSort = sortOrder == "FirstName" ? "firstname_desc" : "FirstName";
+
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            CurrentFilter = searchString;
+
+            var users = UserManager.Users;//.ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(u => u.LastName.Contains(searchString)
+                                       || u.FirstName.Contains(searchString)
+                                       || u.Email.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "username_desc":
+                    users = users.OrderByDescending(u => u.UserName);
+                    break;
+                case "FirstName":
+                    users = users.OrderBy(u => u.FirstName);
+                    break;
+                case "firstname_desc":
+                    users = users.OrderByDescending(u => u.FirstName);
+                    break;
+                default:
+                    users = users.OrderBy(u => u.UserName);
+                    break;
+            }
+
+
+            //await users.ToListAsync();
+
+            int pageSize = 3;
+
+            var UsersList = await PaginatedList<ApplicationUser>.CreateAsync(
+                users.AsNoTracking(), pageIndex ?? 1, pageSize);
+
+
+            //Input = new List<InputModel>();
+            var input = new List<InputModel>();
+
+            foreach (var user in UsersList)
             {
                 var userWithRoles = new InputModel();
                 userWithRoles.Id = user.Id;
@@ -58,13 +117,16 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 userWithRoles.RolesList = await UserManager.GetRolesAsync(user);
 
-                Input.Add(userWithRoles);
+                input.Add(userWithRoles);
             }
 
+
+            Input = PaginatedList<InputModel>.CreateAsync(input, UsersList.TotalPages, pageIndex ?? 1, pageSize);
 
         }
 
 
+      
         public async Task<IActionResult> OnPostAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -79,13 +141,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             if (!result.Succeeded)
             {
-                
+
                 foreach (var error in result.Errors)
                 { ModelState.AddModelError("", error.Description); }
                 return Page();
             }
 
-            
+
             Logger.LogInformation($"Role {user.UserName} is deleted successfully.");
 
             return RedirectToPage("./Index");
@@ -108,13 +170,13 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             if (!result.Succeeded)
             {
-                
+
                 foreach (var error in result.Errors)
                 { ModelState.AddModelError("", error.Description); }
                 return Page();
             }
 
-            
+
             Logger.LogInformation($"Role {user.UserName} is deleted successfully.");
 
             return RedirectToPage("./Index");

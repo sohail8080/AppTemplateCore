@@ -15,6 +15,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
+    //Edit Claims on this screen, Edit User on Edit5 Screen
+    // Seperation of 3 Edit operations on 3 Screens
+
     public class AddClaimsToUserModel : UserPageModel
     {
 
@@ -229,7 +232,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 AllClaimsList = ClaimsStore.AllClaims.Select(claim => new UserHasClaims()
                 {
-                    IsSelected = userClaims.Any(uc => uc.Value == claim.Value),
+                    IsSelected = userClaims.Any(uc => uc.Type == claim.Type && uc.Value == claim.Value),
                     ClaimType = claim.Type,
                     ClaimValue = claim.Value,
                 }).ToList()

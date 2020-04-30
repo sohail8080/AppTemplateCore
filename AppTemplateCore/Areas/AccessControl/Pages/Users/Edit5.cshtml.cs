@@ -14,7 +14,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
-{    
+{
+    //Edit User on this screen, Edit Roles & Claims on seperate screen
+    // Seperation of 3 Edit operations on 3 Screens
+
     public class EditModel5 : UserPageModel
     {
         

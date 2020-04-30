@@ -7,6 +7,16 @@
 
 @{
     ViewData["Title"] = "Roles List";
+
+    string EnableDisableButton(int pageindex, int currentPageIndex)
+    {
+        if (pageindex == currentPageIndex)
+        { return "disabled"; }
+        else
+        { return string.Empty; }
+    }
+
+
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
@@ -17,6 +27,19 @@
     @*Show Page by calling OnGet() both page at same level *@
     <a asp-page="Create" class="btn btn-primary">Add Role</a>
 </p>
+
+
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+
 
 @{
     if (Model.Input.Count() <= 0)
@@ -30,7 +53,13 @@
 <table id="roles" class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>Roles</th>
+            <th>
+
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort" asp-route-currentFilter="@Model.CurrentFilter">
+                    Roles
+                </a>
+
+            </th>
             <th>Details</th>
             <th>Users</th>
             @if ((await authorizationService.AuthorizeAsync(User, "EditRolePolicy")).Succeeded)
@@ -77,10 +106,10 @@
 
                 @if ((await authorizationService.AuthorizeAsync(User, "EditRolePolicy")).Succeeded)
                 {
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
-                    <a asp-page="./Edit5" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
-                </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                        <a asp-page="./Edit5" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                    </td>
                 }
 
                 <td>
@@ -191,6 +220,38 @@
     </tbody>
 </table>
 
+
+@{
+    var prevDisabled = !Model.Input.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Input.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Input.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Input.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
+
+
+@for (int i = 1; i <= Model.Input.TotalPages; i++)
+{
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@i"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-primary @EnableDisableButton(i, Model.Input.PageIndex)">
+        @i
+    </a>
+}
 
 
 @section Scripts {

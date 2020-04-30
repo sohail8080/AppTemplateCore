@@ -15,6 +15,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 {
+    //Edit Roles on this screen, Edit User on Edit5 Screen
+    // Seperation of 3 Edit operations on 3 Screens
+
     public class AddRolesToUserModel : UserPageModel
     {
 

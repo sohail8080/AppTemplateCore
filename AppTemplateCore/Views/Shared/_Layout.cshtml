@@ -59,7 +59,7 @@
 
 
                         @*Access Control*@
-                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole(RolesStore.Admin))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink"

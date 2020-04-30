@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 
+//Edit Role in this screen & Adding Users to Role on seperate screen
+
 namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 {    
     public class EditModel5 : RolePageModel

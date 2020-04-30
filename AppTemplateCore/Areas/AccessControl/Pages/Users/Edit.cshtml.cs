@@ -333,7 +333,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
                 AllClaimsList = ClaimsStore.AllClaims.Select(claim => new UserHasClaims()
                 {
-                    IsSelected = userClaims.Any(uc => uc.Value == claim.Value),
+                    IsSelected = userClaims.Any(uc => uc.Type == claim.Type && uc.Value == claim.Value),
                     ClaimType = claim.Type,
                     ClaimValue = claim.Value,
                 }).ToList()

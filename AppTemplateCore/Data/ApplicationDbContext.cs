@@ -45,7 +45,7 @@ namespace AppTemplateCore.Data
             // Configures the schema needed for the identity framework tables.
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.SeedRoleData();
+           //modelBuilder.SeedRoleData();
 
             // Applies configuration that is defined in an IEntityTypeConfiguration
             // instance.

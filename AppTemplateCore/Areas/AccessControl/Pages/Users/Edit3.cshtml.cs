@@ -297,7 +297,7 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Users
 
             Input.AllClaimsList = ClaimsStore.AllClaims.Select(claim => new SelectListItem()
             {
-                Selected = userClaims.Any(uc => uc.Value == claim.Value),
+                Selected = userClaims.Any(uc => uc.Type == claim.Type && uc.Value == claim.Value),
                 Text = claim.Type,
                 Value = claim.Value,
             }).ToList();

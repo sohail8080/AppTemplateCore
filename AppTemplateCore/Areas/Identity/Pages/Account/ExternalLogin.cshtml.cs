@@ -246,8 +246,8 @@ namespace AppTemplateCore.Areas.Identity.Pages.Account
 
                     // Signs in the specified user. create the cookie
                     await SignInManager.SignInAsync(user, isPersistent: false);
-                    Handle_Success_Response("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
-                    //Logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
+                    //Handle_Success_Response("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
+                    Logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
                     return LocalRedirect(returnUrl);
                 }
 

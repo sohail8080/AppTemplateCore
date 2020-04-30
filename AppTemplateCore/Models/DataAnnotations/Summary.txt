@@ -1,0 +1,246 @@
+﻿Validation Attribute	Description
+CompareAttribute	Compares two properties
+CustomValidationAttribute	Specifies a custom validation method
+DataTypeAttribute
+Data type of the data field
+MaxLengthAttribute
+Max. length of array or string data allowed
+MinLengthAttribute
+Min. length of array or string data allowed
+RangeAttribute
+Numeric range constraints for the data field value
+RegularExpressionAttribute
+Data field value must match the specified regular expression
+RequiredAttribute
+Data field value is required
+StringLengthAttribute
+Min. and max. length of characters that are allowed in a data field
+
+===========================================
+
+Attribute	Description
+Required	Indicates that the property is a required field
+StringLength	Defines a maximum length for string field
+Range	Defines a maximum and minimum value for a numeric field
+RegularExpression	Specifies that the field value must match with specified Regular Expression
+CreditCard	Specifies that the specified field is a credit card number
+CustomValidation	Specified custom validation method to validate the field
+EmailAddress	Validates with email address format
+FileExtension	Validates with file extension
+MaxLength	Specifies maximum length for a string field
+MinLength	Specifies minimum length for a string field
+Phone	Specifies that the field is a phone number using regular expression for phone numbers
+
+
+The System.ComponentModel.DataAnnotations assembly has many built-in validation attributes, for example:
+Required
+Range
+RegularExpression,
+Compare
+StringLength
+Data type
+Along with the above build-in validation attributes, there are also many data types the user can select to validate the input. Using this data type attribute, the user can validate for the exact data type as in the following:
+
+Credit Card number
+Currency
+Custom
+Date
+DateTime
+Duration
+Email Address
+HTML
+Image URL
+Multiline text
+Password
+Phone number
+Postal Code
+Upload
+
+
+======================
+
+
+Types of Data Annotation Attributes
+DisplayName: 
+
+
+Provides a general-purpose attribute that lets you specify localizable strings to display. E.g
+ 
+[DisplayName("StudentName")]
+
+Required: 
+
+A value is required. E.g
+
+[Required(ErrorMessage = "Enter Student Name")]
+DataType: 
+
+The data type annotation can be used to specify the data type for validation. E.g
+
+[DataType(DataType.Password)]
+StringLength: 
+
+Max. Length of array or string data allowed. E.g
+
+[StringLength(50, ErrorMessage = "Only 50 character are allowed")]
+
+DisplayFormat: 
+
+Specify the display format for a property like various formats for a Date property. E.g
+
+[DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
+Regular Expression: 
+
+Validate the value of a property by a specified Regular Expression pattern. E.g
+
+ [RegularExpression(@"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}", ErrorMessage = "Please enter Valid Email ID")]
+Range: 
+
+Numeric range constraints for the data field value. E.g
+
+[Range(5000, 15000, ErrorMessage = "Please enter valid range")]
+Bind: 
+
+Specify fields to include or exclude when adding a parameter or form values to model properties. E.g
+
+[Bind(Exclude = "StudentID")]
+Compare: 
+
+The Compares property compares two properties. E.g
+
+[DataType(DataType.Password)]
+
+[Required(ErrorMessage = "Please enter password")]
+
+public string Password { get; set; }
+
+[Required(ErrorMessage = "Please enter ConfirmPassword")]
+
+[DataType(DataType.Password)]
+
+[Compare("Password", ErrorMessage = "Password not matching")]
+
+public string ConfirmPassword { get; set; }
+
+Key: 
+
+Denotes one or more properties that uniquely identify an entity.
+
+[Key]
+
+public int StudentID { get; set; }
+
+================================
+
+DataAnnotations is used to configure your model classes, which will highlight the most commonly needed configurations. DataAnnotations are also understood by a number of .NET applications, such as ASP.NET MVC, which allows these applications to leverage the same annotations for client-side validations. DataAnnotation attributes override default Code-First conventions.
+
+System.ComponentModel.DataAnnotations includes the following attributes that impacts the nullability or size of the column.
+
+Key
+Timestamp
+ConcurrencyCheck
+Required
+MinLength
+MaxLength
+StringLength
+System.ComponentModel.DataAnnotations.Schema namespace includes the following attributes that impacts the schema of the database.
+
+Table
+Column
+Index
+ForeignKey
+NotMapped
+InverseProperty
+
+==============================
+
+Data Annotations are attributes which are applied to the class or members that specify validation rules, specify how the data is displayed, and set relationships between classes.
+The System.ComponentModel.DataAnnotations namespace contains the classes that are used as data attributes. By applying these attributes on the data class or member, you centralize the data definition and do not have to re-apply the same rules in multiple places. The data annotation attributes fall into three categories: validation attributes, display attributes, and data modeling attributes.
+Validation Attribute
+These attributes are used to enforce validation rules for data applied to the class or member. All validation attributes derive from the ValidationAttribute class.
+When the validation occurs ?
+Validation occurs after the model binder is finished updating the model properties with new values, the model binder uses the current model metadata and ultimately obtains all the validators for the model.The MVC runtime provides a validator to work with data annotations (DataAnnotationsModelValidator).This model validator can find all the validation attributes and execute the validation logic .The model binder catches the failed validation rules and place them in model state.
+Not only model state contain all the values a user attempted to put into model properties,but model state also contains all the errors associated with each property.
+ModelState.IsValid==false
+ModelState.IsValidField(“LastName”)==false
+ModelState[“LastName”].Errors.Count>0
+Following are majorly used validation attributes:
+-RequiredAttribute: Specifies that a value must be provided.
+[Required(ErrorMessage="Required")]
+-RangeAttribute: Designates minimum and maximum constraints.
+[Range(0 , double.MaxValue, ErrorMessage = "The value must be greater than 0")]
+-RegularExpressionAttribute: Uses a regular expression to determine valid values.
+-DataTypeAttribute: Specifies a particular type of data, such as e-mail address or phone number.
+[DataType(DataType.Date)]
+public DateTime BirthDate { get; set; }
+-EnumDataTypeAttribute: Ensures that the value exists in an enumeration.
+-StringLengthAttribute: Designates maximum and minimum number of characters.
+-CompareAttribute: Provides an attribute that compares two properties.
+-MinLengthAttribute: Specifies the minimum length of array or string data allowed in a property.
+-RemoteAttribute: Makes an Ajax call to the server and checks whether the value is acceptable.Example:No two users should have same UserName,with Remote attribute you can send the UserName value to the server and compare the value against the values in the database.
+[Remote(“CheckUserName”,”Account”)]
+public string UserName{get;set;}
+public JsonResult CheckUserName(string username){
+var result=Membership.FindUserByName(username).Count==0;
+return Json(result,JsonRequestBehavior.AllowGet);
+}
+-CustomValidationAttribute:
+Display Attributes:
+A model metadata provider picks up the following display(and edit) annotations and makes their information available to HTML helpers and other components in the MVC runtime.The HTML helpers use any available metadata to change the characteristics of a display and edit UI for a model.
+Following are majorly used validation attributes:
+-DataTypeAttribute: Specifies a particular type of data, such as e-mail address or phone number.
+-DisplayAttribute: It sets the friendly display name for a model property.and also enables you to control the order in which properties will appear in the UI.
+[Display(Name=”Last Name”,Order=15001)]
+public string Lastname{get;set;}
+[Display(Name=”First Name”,Order=15000)]
+public string Firstname{get;set;}
+-DisplayColumnAttribute: Designates display and sorting properties when a table is used as a parent table in a foreign key relationship.
+-DisplayFormatAttribute: Specifies how data fields are displayed and formatted.you can provide alternate text for display when the property contains a null value and turn off HTML encoding for properties containing markup.
+[DisplayFormat(ApplyFormatInEditMode=true,DataFormatString=”{0:c}”)]
+public decimal Total{get;set;}
+-FilterUIHintAttribute: Designates the filtering behavior for a column.
+-UIHintAttribute: It gives the MVC runtime the name of template to use when rendering output with the templated helper.
+[UIHint(“MultilineText”)]
+public string FirstName { get; set; }
+-ScaffoldColumnAttribute: It hides a property from HTML helpers such as EditorForModel() and DisplayForModel().
+-ReadOnly: you want to make sure the default model binder does not set the property with a new value from the request
+-HiddenInput: It tells the runtime to render an input element with a type of hidden.
+When we use the Html.EditorForModel helper , a hidden input will be created so that the value for that property will be included in any form submissions. This has the effect of hiding the property from the user.
+Data Modeling Attributes:
+These attributes are used to specify the intended use of data members and the relationships between data classes.
+Following are majorly used validation attributes:
+-AssociationAttribute: Specifies that an entity member represents a data relationship, such as a foreign key relationship.
+-ConcurrencyCheckAttribute: Designates that a property participates in optimistic concurrency checks. It allows you to flag one or more properties to be used for concurrency checking in the database, when a user edits or deletes an entity. Code First will include Title column in update command to check for optimistic concurrency
+public class Course{
+ public int CourseID { get; set; }
+ [ConcurrencyCheck]
+ public string Title { get; set; }
+ ..
+}
+-EditableAttribute: Specifies whether users should be able to change the value of the entity property.
+-KeyAttribute: Specifies one or more entity properties to use as the unique identity for the entity.
+public class Student{// primary key
+   [Key]
+   public int StdntID { get; set; }
+   ...
+}
+public class DrivingLicense{ //composite key
+   [Key, Column(Order = 1)]
+   public int LicenseNumber { get; set; }	
+   [Key, Column(Order = 2)]
+   public string IssuingCountry { get; set; }
+    ...
+}
+-TimestampAttribute: Designates a member as a time stamp value for data versioning. It’s more common to use rowversion or timestamp fields for concurrency checking. But rather than using the ConcurrencyCheck annotation, you can use the more specific TimeStamp annotation as long as the type of the property is byte array. You can only have one timestamp property in a given class.
+public class Course{
+   public int CourseID { get; set; }
+   [Timestamp]
+   public byte[] TStamp { get; set; }
+   ..
+}
+TableAtrribute,ColumnAttribute: let you change the name of the tables and columns it is creating with CodeFirst.
+[Table(“InternalBlogs”)]
+ public class Blog{}
+ [Column(“FirstName”)] 
+public string FirstMidName { get; set; }
+

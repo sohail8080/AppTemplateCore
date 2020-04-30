@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
 {    
+
+    //Multiple Roles Delete Operation by Check Box List in One Step
+
     public class DeleteListModel : RolePageModel
     {
         

@@ -34,6 +34,18 @@ namespace AppTemplateCore.StartupExtensions
 
         public static void Add_MVC_Config2(this IServiceCollection services)
         {
+
+            services.AddMvc(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
+
+
+
+
             // Add Services & Configure their Settings needed by MVC Middleware
             services.AddMvc(options =>
             {

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace AppTemplateCore.StartupExtensions
 {
-    public class ManageAdminRolesAndClaimsRequirement : IAuthorizationRequirement
+    public class EnterBuildingRequirement : IAuthorizationRequirement
     {
+
+
     }
 }

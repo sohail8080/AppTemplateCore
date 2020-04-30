@@ -51,7 +51,7 @@ namespace AppTemplateCore
             services.Add_MVC_Config();
 
 
-            services.Add_Authentication_Config();
+            services.Add_Authentication_Config(Configuration);
 
 
             services.App_Cookie_Config();

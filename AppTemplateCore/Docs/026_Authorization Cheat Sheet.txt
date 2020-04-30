@@ -1,0 +1,47 @@
+@using Microsoft.AspNetCore.Identity
+[Authorize]
+[Authorize(Policy = "EmployeeOnly")]
+[AllowAnonymous]
+Roles with OR Contidtion [Authorize(Roles = "SuperAdministrator, ChannelAdministrator")]
+
+This controller would be only accessible by users who are members of 
+the HRManager role or the Finance role.
+[Authorize(Roles = "HRManager,Finance")]
+
+a user must be a member of both the PowerUser and ControlPanelUser role.
+[Authorize(Roles = "PowerUser")]
+[Authorize(Roles = "ControlPanelUser")]
+
+==================================================
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+
+}
+
+If you want the authorization service in every view, place the @inject directive into the 
+_ViewImports.cshtml file of the Views directory
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService authorizationService
+
+@if ((await AuthorizationService.AuthorizeAsync(User, "PolicyName")).Succeeded)
+{
+    
+}
+
+
+@if ((await authorizationService.AuthorizeAsync(User, "EditRolePolicy")).Succeeded)
+{
+
+}
+
+
+if (User.Identity.IsAuthenticated)
+    {
+        return new ForbidResult();
+    }
