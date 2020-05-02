@@ -244,3 +244,19 @@ TableAtrribute,ColumnAttribute: let you change the name of the tables and column
  [Column(“FirstName”)] 
 public string FirstMidName { get; set; }
 
+===================================================
+
+
+Methods available for property configuration are detailed below. Note that a number of additional provider-specific methods may also become available depending on the database provider that you use.
+
+HasAnnotation	Provides a means to apply annotations via the Fluent API
+HasColumnName	Specifies the name of the database column that the property should map to
+HasColumnType	Specifies the data type of the database column that the property should map to
+HasDefaultValue	Configures the default value of the database column that the property maps to
+HasDefaultValueSql	Configures the default value expression for the database column that the property maps to
+HasMaxLength	Specifies maximum length of data that can be stored for strings or binary data (arrays)
+IsConcurrencyToken	Denotes that the property takes part in concurrency management
+IsRequired	Configures the database column as not nullable
+ValueGeneratedNever	Specifies that the database should not automatically generate values for the property
+ValueGeneratedOnAdd	Specifies that values should only be generated automatically when new data is added
+ValueGeneratedOnAddOrUpdate	Specifies that values should be generated automatically when data is added or updated

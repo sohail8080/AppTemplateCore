@@ -7,29 +7,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppTemplateCore.Models.Configuring_DBSchema.OneToMany_Relationship.ByFluentAPIs__RequiredRelationship10
+namespace AppTemplateCore.Models.Configuring_DBSchema.OneToMany_Relationship.ByFluentAPIs__RequiredRelationship1045
 {
-    //We should always start with the configuration by Convention
-    // Use Data Annotations for the validation configuration
-    // For Validation always prefer Data Annotations over Fluent API approach
-    // easy to see which validation rule is related to which property 
-    // we should use Fluent API approach for everything else.
-    // use this approach for the configuration that we can’t do otherwise
-    // we want to hide the configuration setup from the model class
-    // indexes, composite keys, relationships
 
-
-
-    // For Required Relationship
-    // PKey (StudentId) & FKey (StudentId) names should be same
-    // HasForeignKey should be used in Model Builder configurations
-
-    //For the database model like we’ve defined, we don’t need to have 
-    //the HasForeignKey method.That’s because the foreign key property 
-    //in the Evaluation class has the same type and the same name as the primary key 
-    //in the Student class. This means that by Convention this relation would still 
-    //be the required one. But if we had a foreign key with a different name, 
-    //StudId for example, then the HasForeignKey method would be needed
+    // For Required Relationship 
+    // 1. PKey (StudentId) & FKey (StudId) names should be same
+    // If FKeyName == PKeyName Then by Convention F.Key defined &
+    // relationship will become Required. HasForeignKey is optional in this case
+    // 2. HasForeignKey should be used in Model Builder configurations to define FKey
+    // When FKeyName != PKeyName
+   
+    // Use of HasForeignKey method is optional if foreign key & primary key
+    // has the same type and the same name by Convention this relation will be required
+    // But if we had a foreign key with a different name
+    // then the HasForeignKey method would be needed
 
 
     // DbSet Property in DbContext
@@ -45,9 +36,7 @@ namespace AppTemplateCore.Models.Configuring_DBSchema.OneToMany_Relationship.ByF
 
         public int? Age { get; set; }
         public bool IsRegularStudent { get; set; }
-
-        public StudentDetails StudentDetails { get; set; }
-
+     
         //navigation property in the principal entity
         // FluentAPI make relationships in the presence of 
         // Navigation Properties
@@ -69,7 +58,7 @@ namespace AppTemplateCore.Models.Configuring_DBSchema.OneToMany_Relationship.ByF
 
         // Followoing F.Key is needed for Required Relationship by Conventions
         // These Conventions may overriden by Fluent APIs
-        // F.Key name is same for Required Relationship
+        // F.Key name is same as P.Key for Required Relationship
         public Guid StudentId { get; set; }
 
         //Following is the navigation property in dependent entity 
@@ -88,10 +77,22 @@ namespace AppTemplateCore.Models.Configuring_DBSchema.OneToMany_Relationship.ByF
             // Evaluation is related to one Student entity.
             // foreign key is StudentId in this relationship.
 
+            // Use Method One: Same Relationship
             modelBuilder.Entity<Student>()
                 .HasMany(e => e.Evaluations) // From Student table
                 .WithOne(s => s.Student) // From Evaluations table
-                .HasForeignKey(s => s.StudentId);// From Evaluations table, needed for required relationship
+                .HasForeignKey(s => s.StudentId)// From Evaluations table, needed for required relationship
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Or Use Method Two: Same Relationship
+            modelBuilder.Entity<Evaluation>()
+                .HasOne<Student>(s => s.Student) // Evaluation is related to One Student
+                .WithMany(e => e.Evaluations) // Student has many Evaluations
+                .HasForeignKey(s => s.StudentId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
 
         }
     }
@@ -111,6 +112,29 @@ namespace AppTemplateCore.Models.Configuring_DBSchema.OneToMany_Relationship.ByF
             builder.HasMany(e => e.Evaluations) // From Student table
                 .WithOne(s => s.Student) // From Evaluations table
                 .HasForeignKey(s => s.StudentId) // From Evaluations table, needed for required relationship
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+
+
+
+    // By Entity Configuration Class
+    public class EvaluationConfiguration : IEntityTypeConfiguration<Evaluation>
+    {
+        public void Configure(EntityTypeBuilder<Evaluation> builder)
+        {
+            // builder object is of type EntityTypeBuilder<Student>
+            //Student is related to many Evaluation entities.
+            // Evaluation is related to one Student entity.
+            // foreign key is StudentId in this relationship.
+
+            // Or Use Method Two: Same Relationship
+            builder
+                .HasOne<Student>(s => s.Student) // Evaluation is related to One Student
+                .WithMany(e => e.Evaluations) // Student has many Evaluations
+                .HasForeignKey(s => s.StudentId)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

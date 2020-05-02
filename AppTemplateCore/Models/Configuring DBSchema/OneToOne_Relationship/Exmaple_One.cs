@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace AppTemplateCore.Models.Configuring_DBSchema.OneToOne_Relationship
 {
+    // ONE TO ONE RELATION SHIP WITH DEPENDENT ENTITY HAVING ITS OWN PRIMARY KEY
+    // AND SEPERATE FORIENKEY
+
     //Principal entity, main entity in a relationship, contains a primary key
     //Dependent entity.refers primary key as foreign key, entity that holds the foreign key
     // entity classes will contain Navigational properties(single class or a collection), 
@@ -43,7 +46,7 @@ namespace AppTemplateCore.Models.Configuring_DBSchema.OneToOne_Relationship
     public class StudentDetails
     {
         [Column("StudentDetailsId")]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; }// Primary key
         public string Address { get; set; }
         public string AdditionalInformation { get; set; }
 

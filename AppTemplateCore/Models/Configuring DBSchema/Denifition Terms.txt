@@ -1,0 +1,150 @@
+﻿Definition of terms
+
+//Principal entity, main entity in a relationship, contains a primary key
+//Dependent entity.refers primary key as foreign key, entity that holds the foreign key
+//entity classes will contain Navigational properties(single class or a collection), 
+//used to link to other entity classes.
+//Required Relationship: where a foreign key cannot be null, principal entity must exis
+//Optional relationship: where a foreign key could be null, principal entity can be missing
+
+//We should always start with the configuration by Convention
+// Use Data Annotations for the validation configuration
+// For Validation always prefer Data Annotations over Fluent API approach
+// easy to see which validation rule is related to which property 
+// we should use Fluent API approach for everything else.
+// use this approach for the configuration that we can’t do otherwise
+// we want to hide the configuration setup from the model class
+// indexes, composite keys, relationships
+// FluentAPI make relationships in presence of Navigation Properties
+// I think Nullability cannot be defined with ? in case of Fluent APIs
+// Nullability with ? only works with Data Annotations
+// FluentAPI make relationships in the presence of 
+// Navigation Properties
+
+/Restrict – can’t delete principal entity if it has related dependent entity.
+
+/SetNull – principal entity is deleted & dependent entity is not deleted and its 
+/fkey is set to null, optional relationship
+
+/ClientSetNull – If EF Core tracks dependent entity,  when principal entity is deleted, 
+/ its foreign key is set to null and dependent entity is not deleted
+/ If EF Core does not tracks dependent entity, when principal entity is deleted,
+/ then database rules apply to decide what to do with dependent entity
+
+/Cascade – The dependent entity is deleted with the principal entity.
+
+
+There is no >>Data Annotation equivalent to the >>OnDelete method.
+
+By convention, cascade delete will be set to 
+>>Cascade for required relationships and 
+>>ClientSetNull for optional relationships. 
+
+Cascade means dependent entities are also deleted. 
+
+ClientSetNull means that >>dependent entities that are not loaded into memory 
+will remain unchanged and must be manually deleted, 
+or updated to point to a valid principal entity. 
+
+For entities that are loaded into memory, 
+EF Core will attempt to set the foreign key properties to null.
+
+Required and optional properties
+
+A property is considered >>optional if it is valid for it to contain >>null. 
+If null is not a valid value to be assigned to a property then 
+it is considered to be a required property. 
+
+When mapping to a relational database schema, 
+>>required properties are created as >>non-nullable columns, 
+and >>optional properties are created as >>nullable columns.
+
+Conventions
+By convention, a property whose .NET type can contain null 
+will be configured as optional, 
+
+whereas properties whose .NET type cannot contain null 
+will be configured as required. 
+
+For example, all properties with .NET value types (int, decimal, bool, etc.) 
+are configured as required, 
+
+and all properties with nullable .NET value types (int?, decimal?, bool?, etc.) 
+are configured as optional.
+
+C# 8 introduced a new feature called 
+>>>nullable reference types, 
+which allows >>reference types to be >>annotated, FOR NULL OR NOT NULL
+indicating whether it is valid for them to contain null or not. 
+
+This feature is disabled by default, and if enabled, 
+it modifies EF Core's behavior in the following way:
+
+If nullable reference types FEATURE IS disabled (the default), 
+all properties with .NET REFERENCE TYPES are configured as optional by convention (e.g. string).
+
+If nullable reference types FEATURE IS enabled, 
+properties with .NET REFERENCE TYPES will be configured based on the 
+C# nullability of their .NET type: 
+STRING? will be configured as optional, 
+whereas STRING will be configured as required.
+
+The following example shows an entity type with required and optional properties, 
+with the nullable reference feature disabled (the default) and enabled:
+
+
+The Has/With Pattern For Configuring Relationships
+When configuring relationships with the Fluent API, 
+you will use the Has/With pattern. 
+
+The Has side of the pattern is represented by the HasOne and HasMany methods. 
+The With side of the relationship is represented by the WithOne and WithMany methods.
+
+The HasOne/WithOne method is used for >>reference navigation properties. 
+
+The HasMany/WithMany methods are used for >>>collection navigation properties.
+
+A Has* method must be combined with a With* method to configure a valid relationship.
+
+By default, a relationship will be created when 
+there is a navigation property discovered on a type. 
+
+A property is considered a navigation property 
+if the type it points to can not be mapped as a scalar type 
+by the current database provider.
+
+There are a number of terms used to describe relationships
+
+Dependent entity: 
+This is the entity that contains the foreign key properties. 
+Sometimes referred to as the 'child' of the relationship.
+
+Principal entity: 
+This is the entity that contains the primary/alternate key properties. 
+Sometimes referred to as the 'parent' of the relationship.
+
+Principal key: 
+The properties that uniquely identify the principal entity. 
+This may be the primary key or an ALTERNATE KEY.???????
+
+Foreign key: 
+The properties in the dependent entity that are used to 
+store the principal key values for the PRINCIPAL entity.
+
+Navigation property: 
+A property defined on the principal and/or dependent entity 
+that references the OTHER entity.
+
+Collection navigation property: 
+A navigation property that contains references to many related entities.
+
+Reference navigation property: 
+A navigation property that holds a reference to a SINGLE related entity.
+
+Inverse navigation property: 
+When discussing a particular navigation property, 
+this term refers to the NAVIGATION PROPERTY on the other end of the relationship.
+
+Self-referencing relationship: 
+A relationship in which the DEPENDENT and the PRINCIPAL entity types are the same.
+
