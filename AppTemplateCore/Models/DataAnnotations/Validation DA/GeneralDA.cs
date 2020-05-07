@@ -9,7 +9,6 @@ namespace AppTemplateCore.Models.DataAnnotations
 {
     public class GeneralDA
     {
-
         //It set a property to read-only.
 
         [ReadOnly(true)]
@@ -17,10 +16,6 @@ namespace AppTemplateCore.Models.DataAnnotations
 
         [Compare("Email", ErrorMessage = "Email Not Matched")]
         public string ConfirmEmail { get; set; }
-
-
-
-
 
 
     }

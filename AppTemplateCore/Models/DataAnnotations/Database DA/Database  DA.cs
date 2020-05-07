@@ -7,14 +7,6 @@ using System.Threading.Tasks;
 
 namespace AppTemplateCore.Models.DataAnnotations
 {
-    public class DatabaseDA
-    {
-
-
-
-    }
-
-
     public class DrivingLicense
     {
         [Key, Column(Order = 1)]
