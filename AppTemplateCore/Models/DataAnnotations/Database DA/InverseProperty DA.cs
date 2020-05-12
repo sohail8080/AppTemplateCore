@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -75,11 +76,9 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
 
         public string Name { get; set; }
 
-
         // related to OnlineTeacher
         [InverseProperty("OnlineTeacher")]
         public ICollection<Course> OnlineCourses { get; set; }
-
 
         // related to ClassRoomTeacher
         [InverseProperty("ClassRoomTeacher")]
@@ -113,6 +112,7 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
         public Department Department { get; set; }
     }
 
+
     public class Departmentttttttttttt
     {
         public int DepartmentID { get; set; }
@@ -121,7 +121,6 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
 
         public virtual ICollection<Employee> Employees { get; set; }
     }
-
 
 
     public class Employeegggggggggg
@@ -134,6 +133,7 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
 
         public Department Department { get; set; }// NP
     }
+
 
     public class Departmentnnnnnnnnnnn
     {
@@ -165,6 +165,7 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
 
         public Airport ArrivalAirport { get; set; }// REL TWO NP
     }
+
 
     public class Airport
     {
@@ -202,6 +203,7 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
     public class Airportuuuuuuuuuuuuuu
     {
         public int AirportID { get; set; }
+
         public string Name { get; set; }
 
         // SAME STRING DepartureAirport IS USED TO RELATE NAV PROPERTIES
@@ -253,6 +255,104 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
         [InverseProperty("ArrivingFlights")]
         public Airport ArrivalAirport { get; set; }
     }
+
+
+
+    //InverseProperty Attribute
+
+    //A relationship in the Entity Framework always has two ends, a navigation property on each side and an Entity Framework that maps them together automatically by convention.If there are multiple relationships between the two entities, Entity Framework cannot handle the relationships.This is because Entity Framework doesn't know which navigation property map with which properties on other side. For example, Employee is bound with two departments one is the primary and the other is the secondary. In this scenario, Entity Framework does not know which navigation properties on the opposite side should be returned.
+
+
+    //Using an InverseProperty attribute, we can specify which navigation property should be returned.
+
+    //Example
+
+//    [Table("Department", Schema = "dbo")]
+//    public class DepartmentMaster
+//    {
+//        [Key]
+//        public int DepartmentId { get; set; }
+//        [Required]
+//        public string Code { get; set; }
+//        [MinLength(5)]
+//        [MaxLength(100)]
+//        //[Index("IX_Name_DepartmentMaster", IsClustered = false, Order = 2)]
+//        public string Name { get; set; }
+//        public ICollection<Employee> PrimaryEmployees { get; set; }
+//        public ICollection<Employee> SecondaryEmployees { get; set; }
+//    }
+
+//    [Table("Employee", Schema = "dbo")]
+//    public class Employee666666666666666669999
+//    {
+//        [Column("ID", Order = 1)]
+//        public int EmployeeId { get; set; }
+//        [Column("Name", Order = 2, TypeName = "Varchar(100)")]
+//        public string EmployeeName { get; set; }
+
+//        [InverseProperty("PrimaryEmployees")]
+//        public DepartmentMaster PrimaryDepartment { get; set; }
+
+//        [InverseProperty("SecondaryEmployees")]
+//        public DepartmentMaster SecondaryDepartment { get; set; }
+//    }
+
+//    InverseProperty
+//InverseProperty is used when you have multiple relationships between classes.In the Enrollment class, you may want to keep track of who enrolled a Current Course and Previous Course.Let’s add two navigation properties for the Enrollment class.
+
+//public class Enrollment
+//    {
+//        public int EnrollmentID { get; set; }
+//        public int CourseID { get; set; }
+//        public int StudentID { get; set; }
+//        public Grade? Grade { get; set; }
+
+//        public virtual Course CurrCourse { get; set; }
+//        public virtual Course PrevCourse { get; set; }
+//        public virtual Student Student { get; set; }
+//    }
+//    Similarly, you’ll also need to add in the Course class referenced by these properties.The Course class has navigation properties back to the Enrollment class, which contains all the current and previous enrollments.
+
+//public class Course
+//    {
+
+//        public int CourseID { get; set; }
+//        public string Title { get; set; }
+//        [Index]
+
+//        public int Credits { get; set; }
+//        public virtual ICollection<Enrollment> CurrEnrollments { get; set; }
+//        public virtual ICollection<Enrollment> PrevEnrollments { get; set; }
+//    }
+//    Code First creates {Class Name}
+//_{Primary Key} foreign key column, if the foreign key property is not included in a particular class as shown in the above classes.When the database is generated, you will see the following foreign keys.
+
+//As you can see that Code first is not able to match up the properties in the two classes on its own.The database table for Enrollments should have one foreign key for the CurrCourse and one for the PrevCourse, but Code First will create four foreign key properties, i.e.
+
+//CurrCourse _CourseID
+//PrevCourse _CourseID
+//Course_CourseID, and
+//Course_CourseID1
+//To fix these problems, you can use the InverseProperty annotation to specify the alignment of the properties.
+
+//public class Course
+//    {
+
+//        public int CourseID { get; set; }
+//        public string Title { get; set; }
+//        [Index]
+
+//        public int Credits { get; set; }
+//        [InverseProperty("CurrCourse")]
+
+//        public virtual ICollection<Enrollment> CurrEnrollments { get; set; }
+//        [InverseProperty("PrevCourse")]
+
+//        public virtual ICollection<Enrollment> PrevEnrollments { get; set; }
+//    }
+//    As you can see the InverseProperty attribute is applied in the above Course class by specifying which reference property of Enrollment class it belongs to.Now, Code First will generate a database and create only two foreign key columns in Enrollments table as shown in the following image.
+
+
 
 
 }

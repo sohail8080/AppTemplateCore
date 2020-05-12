@@ -324,4 +324,69 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
 
 
 
+    //ForeignKey Attribute
+
+    //This attribute specifies the foreign key for the Navigation property.
+
+    //Example
+
+    [Table("Employee", Schema = "dbo")]
+    public class Employeeffffffffffffffffffff
+    {
+        [Column("ID", Order = 1)]
+        public int EmployeeId { get; set; }
+
+        [Column("Name", Order = 2, TypeName = "Varchar(100)")]
+        public string EmployeeName { get; set; }
+
+        [ForeignKey("Department ")]
+        public int DepartmentId { get; set; }
+
+        [ForeignKey("DepartmentId")]
+        public DepartmentMaster Department { get; set; }
+    }
+
+
+    //    ForeignKey
+    //Code First convention will take care of the most common relationships in your model, but there are some cases where it needs help.For example, by changing the name of the key property in the Student class created a problem with its relationship to Enrollment class.
+
+    //public class Enrollment
+    //    {
+    //        public int EnrollmentID { get; set; }
+    //        public int CourseID { get; set; }
+    //        public int StudentID { get; set; }
+    //        public Grade? Grade { get; set; }
+
+    //        public virtual Course Course { get; set; }
+    //        public virtual Student Student { get; set; }
+    //    }
+
+    //    public class Student
+    //    {
+    //        [Key]
+    //        public int StdntID { get; set; }
+    //        public string LastName { get; set; }
+    //        public string FirstMidName { get; set; }
+    //        public DateTime EnrollmentDate { get; set; }
+
+    //        public virtual ICollection<Enrollment> Enrollments { get; set; }
+    //    }
+    //    While generating the database, Code First sees the StudentID property in the Enrollment class and recognizes it, by the convention that it matches a class name plus “ID”, as a foreign key to the Student class. However, there is no StudentID property in the Student class, but it is StdntID property is Student class.
+
+    //The solution for this is to create a navigation property in the Enrollment and use the ForeignKey DataAnnotation to help Code First understand how to build the relationship between the two classes as shown in the following code.
+
+    //public class Enrollment
+    //    {
+    //        public int EnrollmentID { get; set; }
+    //        public int CourseID { get; set; }
+    //        public int StudentID { get; set; }
+
+    //        public Grade? Grade { get; set; }
+    //        public virtual Course Course { get; set; }
+    //        [ForeignKey("StudentID")]
+
+    //        public virtual Student Student { get; set; }
+    //    }
+    //    You can see now that the ForeignKey attribute is applied to the navigation property.
+
 }

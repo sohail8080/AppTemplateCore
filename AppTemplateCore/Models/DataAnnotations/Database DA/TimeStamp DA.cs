@@ -106,4 +106,45 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
     //Timestamp columns are the preferred way of using for CONCURRENCY CHECKS
 
 
+    //Timestamp Attribute
+
+    //The Timestamp attribute specifies the byte array(byte[]) property / column that has a concurrency mode of "Fixed" in the model and it should be a Timestamp column in the stored model(database).
+
+    //Example
+
+    //[Timestamp]
+    //public Byte[] TimeStamp { get; set; }
+
+
+
+
+
+
+//    Timestamp
+//Code First will treat Timestamp properties the same as ConcurrencyCheck properties, but it will also ensure that the database field that code first generates is non-nullable.
+
+//It's more common to use rowversion or timestamp fields for concurrency checking.
+
+//Rather than using the ConcurrencyCheck annotation, you can use the more specific TimeStamp annotation as long as the type of the property is byte array.
+
+//You can only have one timestamp property in a given class.
+
+//Let’s take a look at a simple example by adding the TimeStamp property to the Course class −
+
+//public class Course
+//    {
+
+//        public int CourseID { get; set; }
+//        public string Title { get; set; }
+//        public int Credits { get; set; }
+//        [Timestamp]
+//        public byte[] TStamp { get; set; }
+
+//        public virtual ICollection<Enrollment> Enrollments { get; set; }
+//    }
+//    As you can see in the above example, Timestamp attribute is applied to Byte[] property of the Course class. So, Code First will create a timestamp column TStamp in the Courses table.
+
+
+
+
 }

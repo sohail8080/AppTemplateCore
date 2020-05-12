@@ -104,4 +104,93 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
         public DateTime DOB { get; set; }
     }
 
+
+
+    //NotMapped Attribute
+
+    //In the Code First model approach, every property of the model is represented as a table's column in the database. This is not always the case, we might require some property in a model or entity that is not present in the database table. For example my Department entity has a property called DepartmentCodeName, this property returns a combination of code and name separated by a colon(:) . This property can be created dynamically and there is no need to store it into the database. We can mark this property with NotMapped annotation. In short if we decorate any property or class with this attribute then they should be excluded from database mapping.
+
+    //Example
+
+    public class DepartmentMaster
+    {
+        [NotMapped]
+        public string DepartmentCodeName
+        {
+            get
+            {
+                return string.Empty;//Code + ":" + Name;
+            }
+        }
+
+    }
+
+    [NotMapped]
+    public class InternalClass
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+
+
+
+    //    NotMapped
+    //By default conventions of Code First, every property that is of a supported data type and which includes getters and setters are represented in the database.But this isn’t always the case in your applications. NotMapped attribute overrides this default convention.For example, you might have a property in the Student class such as FatherName, but it does not need to be stored.You can apply NotMapped attribute to a FatherName property which you do not want to create a column of in the database as shown in the following code.
+
+    //public class Student
+    //    {
+    //        [Key]
+    //        public int StdntID { get; set; }
+    //        public string LastName { get; set; }
+    //        public string FirstMidName { get; set; }
+
+    //        public DateTime EnrollmentDate { get; set; }
+    //        [NotMapped]
+
+    //        public int FatherName { get; set; }
+    //        public virtual ICollection<Enrollment> Enrollments { get; set; }
+    //    }
+    //    You can see that NotMapped attribute is applied to the FatherName property.When the table is generated you will see that FatherName column will not be created in a database, but it is present in Student class.
+
+
+    //Code First will not create a column for a property, which does not have either getters or setters as shown in the following example of Address and Age properties of Student class.
+
+
+
+    //    InverseProperty
+    //InverseProperty is used when you have multiple relationships between classes.In the Enrollment class, you may want to keep track of who enrolled a Current Course and Previous Course.Let’s add two navigation properties for the Enrollment class.
+
+    //public class Enrollment
+    //    {
+    //        public int EnrollmentID { get; set; }
+    //        public int CourseID { get; set; }
+    //        public int StudentID { get; set; }
+    //        public Grade? Grade { get; set; }
+
+    //        public virtual Course CurrCourse { get; set; }
+    //        public virtual Course PrevCourse { get; set; }
+    //        public virtual Student Student { get; set; }
+    //    }
+    //    Similarly, you’ll also need to add in the Course class referenced by these properties.The Course class has navigation properties back to the Enrollment class, which contains all the current and previous enrollments.
+
+    //public class Course
+    //    {
+
+    //        public int CourseID { get; set; }
+    //        public string Title { get; set; }
+    //        [Index]
+
+    //        public int Credits { get; set; }
+    //        public virtual ICollection<Enrollment> CurrEnrollments { get; set; }
+    //        public virtual ICollection<Enrollment> PrevEnrollments { get; set; }
+    //    }
+    //    Code First creates {Class Name}
+    //_{Primary Key} foreign key column, if the foreign key property is not included in a particular class as shown in the above classes.When the database is generated, you will see the following foreign keys.
+
+
+
+
+
+
 }

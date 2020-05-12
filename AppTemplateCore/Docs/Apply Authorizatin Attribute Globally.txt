@@ -1,0 +1,230 @@
+This should work (put in Application_Start):
+
+not work 
+GlobalFilters.Filters.Add(new AuthorizeAttribute() { Roles = "Admin, SuperUser" });
+
+working
+FilterConfig.cs
+public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+    {
+        ... existing filters
+
+        // use the [AllowAnonymous] attribute to open up individual Actions/Controllers
+        filters.Add(new System.Web.Mvc.AuthorizeAttribute());
+        filters.Add(new RequireHttpsAttribute());
+    }
+
+=========================================
+
+You can then override the base AuthorizeAttribute 
+on child classes with specific Roles, Users etc.
+
+[Authorize]
+public class BaseController : Controller{}
+
+public class ChildController: BaseController{}
+
+[Authorize(Role = "Role A")]
+public class AnotherChildController: BaseController{}
+
+================================================
+
+You can initialize those controllers derived from your base controller. 
+namely put your attribute on a controller base class and to ensure 
+that each controller within derived from base class.
+
+[Authorize(Role="Class A")]
+public class CustomBaseController : Controller{}
+
+public class AController: CustomBaseController{}
+
+public class BController: CustomBaseController{}
+
+==================================================
+
+
+Approach 1). Create your own BaseController class extending from Controller, 
+apply Filter on that class, and 
+then extend all your other Controllers from your newly created BaseController.
+
+Approach 2). Using GlobalFilters sample code :in App_Start\FilterConfig.cs
+
+public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+    {
+        ... existing filters
+
+        // use the [AllowAnonymous] attribute to open up individual Actions/Controllers
+        filters.Add(new System.Web.Mvc.AuthorizeAttribute());
+        filters.Add(new RequireHttpsAttribute());
+    }
+
+
+=================================================
+Here we go through how authentication can be required across an ASP.NET Core application. 
+Requiring authentication globally makes it impossible to forget it. 
+Instead of saying that this and this require authentication, 
+you will say this and this do not require authentication.
+
+There are at least two big scenarios which we will go through:
+
+1-A single authorization policy should be used for everything
+An app with a single authentication scheme 
+
+Different authorization policies for different parts
+For example, an MVC front-end and an API in the same app 
+that use different authentication schemes 
+(the API also needs to validate existence of a claim)
+
+================================================
+Single authorization policy used globally
+This is the easy case.
+
+We can require authentication with the default authentication scheme with:
+
+=====================
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc(o =>
+    {
+        var policy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .Build();
+        o.Filters.Add(new AuthorizeFilter(policy));
+    });
+}
+
+==============================
+
+public void ConfigureServices(IServiceCollection services)
+{
+    // Other Code
+
+    services.AddMvc(config => {
+        var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+        config.Filters.Add(new AuthorizeFilter(policy));
+    });
+
+    // Other Code
+}
+
+Now all controller actions which are not marked with [AllowAnonymous] 
+will require the user is authenticated with the default authentication scheme.
+
+================================
+
+
+Different authorization in different parts
+Let's say we have an app that is split like this:
+
+1-A front-end that uses MVC
+2-An API
+
+We do not want to use the same authentication scheme for these. 
+MVC should use something like Cookies + OpenId Connect, 
+and the Web API should use JWT Bearer tokens.
+
+We can't apply a global filter in this case. 
+Since authorization filters stack, 
+and in this case we really have two distinct pieces 
+where we need to define the authorization filters on the same level.
+
+Now we could specify 
+[Authorize("apipolicy")] on every API controller and 
+[Authorize("defaultpolicy")] on every MVC controller. 
+
+
+What if you forgot? 
+
+
+This is where a custom convention can help a great deal. 
+In this application all the API controllers have "Api" in their name, 
+while the MVC controllers do not.
+
+So based on that we can build the following convention:
+
+These Conventions are applied to all Controller in the Application
+For every controller in the applicatin following code will execute.
+=======
+public class AddAuthorizeFiltersControllerConvention : IControllerModelConvention
+{
+    public void Apply(ControllerModel controller)
+    {
+        if (controller.ControllerName.Contains("Api"))
+        {
+	// Adding Filters to the Controllers
+            controller.Filters.Add(new AuthorizeFilter("apipolicy"));
+        }
+        else
+        {
+	// Adding Filters to the Controllers
+            controller.Filters.Add(new AuthorizeFilter("defaultpolicy"));
+        }
+    }
+}
+
+============
+
+Then we add it to the >>>MVC conventions in Startup:
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc(o =>
+    {
+        o.Conventions.Add(new AddAuthorizeFiltersControllerConvention());
+    });
+}
+
+And we are done! :)
+
+Now all controllers will automatically have the 
+correct authorization policy applied on them.
+
+Here are the policies as I defined them as well:
+
+services.AddAuthorization(o =>
+{
+    o.AddPolicy("defaultpolicy", b =>
+    {
+        b.RequireAuthenticatedUser();
+    });
+    o.AddPolicy("apipolicy", b =>
+    {
+        b.RequireAuthenticatedUser();
+        b.RequireClaim(ClaimTypes.Role, "Access.Api");
+        b.AuthenticationSchemes = new List<string>{JwtBearerDefaults.AuthenticationScheme};
+    });
+});
+
+The default authentication schemes were set up to be MVC-specific, 
+so there is no need to define them for the default policy. 
+
+For the API policy, we have defined it to use JWT Bearer authentication.
+
+You can use this strategy for other things as well of course. 
+
+In this case we needed to use different authentication schemes, 
+but it would also allow you to require different claims for different areas of the app.
+
+DIFFERENT CLAIMS FOR DIFFERENT AREAS OF APPLICATION
+
+Though if you build an API where each controller/action requires different claims,
+it is probably easier to apply the attributes on the controllers/actions. 
+
+You can then make unit tests which confirm the 
+existence of an authorization filter on each action. 
+
+This can be achieved by accessing the action descriptor collection 
+as shown in a previous article: 
+Discovering controller actions and Razor Pages in ASP.NET MVC Core.
+
+Conclusions
+
+If an app uses authentication, 
+it is usually the best option to require authentication by default, 
+and make exceptions for the cases where it is not required.
+
+The fact that ASP.NET Core is so extensible is really great :)
+

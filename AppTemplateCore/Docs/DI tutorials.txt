@@ -1,0 +1,368 @@
+Dependency Injection
+1.  Dependency Injection
+
+Dependency injection has now become the first class citizen in ASP.NET Core. 
+It helps us to build loosely coupled, easily readable and maintainable code. 
+In this tutorial, we will learn the basics of the dependency injection by building a simple application.
+
+Introduction to dependency injection in ASP.NET Core
+
+The Dependency injection is now part of the ASP.NET Core. 
+All the Framework services are now injected as services wherever you need them.
+
+But before going further, we need to understand why dependency injection is needed 
+in the first place.
+
+Consider the following controller action method. 
+Which gets the list of products from the ProductService.
+
+
+public class HomeController : Controller
+{
+    public IActionResult Index()
+    {
+        _productService = new ProductService();
+         return View(_productService.getAll());
+    }
+}
+
+ 
+The Index action method has a dependency on the ProductService. 
+Hence it creates an instance of it and invokes its getAll method to get a list of Products.
+
+The ProductService is now tightly coupled to the Index Action method of the HomeController class.
+
+What if we created a better ProductService and wanted to replace the old ProductService 
+with the betterProductService.
+
+
+public IActionResult Index()
+{
+    _productService = new BetterProductService();
+    return View(_productService.getAll());
+}
+ 
+public IActionResult Index()
+{
+    _productService = new BetterProductService();
+    return View(_productService.getAll());
+}
+ 
+We need to do this in every controller, service, where we used ProductService.
+
+What if we wanted to use testProductService and wanted to use it only in the testing 
+and use the productService in the Production. No easy solution here.
+
+Consider the case where ProductService depends on another service, 
+which depends on yet another service. 
+
+It is not uncommon that such a chain of dependencies to exist in our application.
+
+The Dependency Injection system solves all these problems.
+
+What is dependency injection
+Dependency injection (also known as DI) is a design pattern in which an object 
+does not create it dependent classes, but asks for it.
+
+Let’s change our HomeController a bit.
+
+public class HomeController : Controller
+{
+    private IProductService _productService;
+
+    public HomeController(IProductService productService)
+    {
+        _productService = productService;
+    }
+
+    public IActionResult Index()
+    {
+        return View(_productService.All());
+    }
+}
+ 
+The difference between the above code and here is that we are not creating the 
+instance of ProductService in the Index action method. 
+
+We are asking for it in the constructor of the HomeController.
+
+The problem is still not solved right?. 
+Someone has to create the instance of the ProductService and pass it to the HomeController.
+
+This is where the ASP.NET Cores Dependency injection framework comes in. 
+The Responsibility of creating the ProductService is now rests with the framework. 
+The object that does this is called DI Container or Ioc Container.
+
+Dependency injection is a design pattern. 
+Dependency injection framework implements that design pattern. 
+There are many frameworks are available like 
+Autofac, Unity  etc. which you can use with the ASP.NET Core.
+
+DI Container
+DI Container is the object, which is responsible for CREATING the dependencies (productService) 
+and PASSING it to the object that requests (HomeController) it.
+
+
+
+How does DI Container know which object create?
+We need to configure DI Container with the classes that 
+you want to participate in dependency injection. 
+
+This we do it in the startup class under the ConfigureServices method as shown below.
+
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc();
+    services.AddTransient<IProductService, ProductService>();
+}
+
+ 
+ 
+The second line of code registers the ProductService to the service collection using the 
+method AddTransient. 
+
+The other two methods available are AddSingleton & AddScoped. 
+The three methods define the lifetime of the services. 
+We will discuss this in the next tutorial.
+
+Example of Dependency Injection System
+
+Adding the Service
+Create the folder Services and add a class with the name ProductService.cs.
+
+
+using DependencyInjection.Models;
+using System.Collections.Generic;
+
+namespace DependencyInjection.Service
+{
+
+    public interface IProductService
+    {
+        List<ProductViewModel> getAll();
+    }
+
+    public class ProductService : IProductService
+    {
+        public List<ProductViewModel> getAll()
+        {
+            return new List<ProductViewModel>
+            {
+                new ProductViewModel {Id = 1, Name = "Pen Drive" },
+                new ProductViewModel {Id = 2, Name = "Memory Card" },
+                new ProductViewModel {Id = 3, Name = "Mobile Phone" },
+                new ProductViewModel {Id = 4, Name = "Tablet" },
+                new ProductViewModel {Id = 5, Name = "Desktop PC" } ,
+            };
+        }
+     }
+}
+
+
+using DependencyInjection.Service;
+using Microsoft.AspNetCore.Mvc;
+
+namespace DependencyInjection.Controllers
+{
+    public class HomeController : Controller
+    {
+        private IProductService _productService;
+
+        public HomeController(IProductService productService)
+        {
+            _productService = productService;
+        }
+
+        public IActionResult Index()
+        {
+            return View(_productService.getAll());
+        }
+    }
+}
+
+The constructor of the HomeController asks for ProductService and stores the instance 
+in local variable _productService.
+
+
+register the Service
+The last step is to register the service in the Dependency Injection container.
+
+Open thestartup.cs and goto toConfigureServices method. 
+This is where all services are configured for dependency injection.
+
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc();
+    services.AddTransient<IProductService, ProductService>();
+}
+
+We have registered the ProductService using the AddTransient method. 
+The other method available is AddScoped & AddSingleton. 
+You will learn about these methods in Dependency Injection Lifetime: 
+Transient, Singleton & Scoped tutorial
+
+Now, run the application and you should be able to see the list of products.
+
+How Dependencies are injected
+The following image shows how ProductService was 
+injected into the HomeController.
+
+DI FRAMEWORK
+DI CONTAINER
+DI RESOLVER
+
+Dependency Injection ASP.NET Core
+
+DI CONTAINER PROVIDES THE INSTANCE OF HOME CONTROLLER.
+
+When the new HomeController is requested, 
+the MVC asks the Dependency injection framework 
+to provide an instance of the HomeController class.
+
+The DI Container inspects the constructor of the HomeController 
+and determines its dependencies.
+
+DEPENDENCIES OF HOME CONTROLLER.
+CREATE THE DEPENDENCIES OF HOME CONROLLER FIRST AND 
+THEN CREATE THE HOME CONTROLLER
+
+It then searches for the dependencies in the services registered in the 
+SERVICE COLLECTION and finds the matching service and 
+creates an instance of IT.
+
+Then it CREATES the HomeController and passes the dependencies in its constructor.
+
+Creating the BetterProductService
+Now, let us build another service called BetterProductService and want to use this 
+service instead of the ProductService.
+
+public class BetterProductService : IProductService
+{
+    public List<ProductViewModel> getAll()
+    {
+        return new List<ProductViewModel>
+        {
+            new ProductViewModel {Id = 1, Name = "Television" },
+            new ProductViewModel {Id = 2, Name = "Refrigerator" },
+            new ProductViewModel {Id = 3, Name = "IPhone" },
+            new ProductViewModel {Id = 4, Name = "Laptop" },
+        };
+    }
+}
+
+All you have to do is to go to ConfigureServices and change the 
+ProductService to BetterProductService.
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc();
+
+    services.AddTransient<IProductService, BetterProductService>();
+}
+ 
+You do not have to go to each controller & services and change the reference. 
+You can manage it from one central location.
+
+Similarly, you can create the TestProductService use it for testing
+
+SELECTING SERVICES BASED ON ENVIROMENT
+Changing the service based on the environment
+For Example, you can use the environment and 
+switch between the various services as shown below.
+
+In the constructor of the startup class, 
+ask for IHostingEnvironment service as shown below.
+
+
+IHostingEnvironment _env;
+public Startup(IHostingEnvironment env)
+{
+    _env = env;
+}
+
+ 
+Next, in theconfigureServices check the environment. 
+The following code configures the BetterProductService in Production and ProductService 
+in all other environments.
+
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddMvc();
+
+    if (_env.IsProduction())
+    {
+        services.AddTransient<IProductService, BetterProductService>();
+    }
+    else
+    {
+        services.AddTransient<IProductService, ProductService>();
+    }
+}
+ 
+To change the environment select the Project, 
+Right click and go to properties. 
+Select the debug tab. Change the ASPNETCORE_ENVIRONMENT to whatever you want it to be.
+
+Constructor Injection vs Action injection
+
+You can inject the services in the controller in two ways.
+
+Construction Injection
+Action Injection
+
+Constructor Injection
+When the dependency is injected through the constructor then the method is 
+known as constructor injection.
+
+public class HomeController : Controller
+{
+
+    private IProductService _productService;
+
+    public HomeController(IProductService productService)
+    {
+        _productService = productService;
+    }
+
+    public IActionResult Index()
+    {
+        return View(_productService.All());
+    }
+}
+ 
+Action Injection
+If the dependencies are injected to an action method, 
+then the method is known as Action Injection.
+
+The Action Injection is done using the [FromServices] attribute to an argument in an 
+action method as shown below. 
+Use this method, if the service is used only in a single action method.
+
+
+public class HomeController : Controller
+{
+    public HomeController()
+    {
+    }
+
+    public IActionResult Index( [FromServices] IProductService productService)
+    {
+       return View(_productService.All());
+    } 
+}
+
+
+Benefits of Dependency injection
+Dependency injection facilitates loose coupling of software components
+The Code is clean and more readable
+Improves the testability and maintainability of the applications
+
+Allows you to change your implementations without having to change the classes
+
+Summary
+In this tutorial, we learned the basics of the ASP.NET Core dependency injection system. 
+In the next tutorial, we learn 
+how to manage the lifetime of the services using AddTransient, AddSingleton & AddScoped.

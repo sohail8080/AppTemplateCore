@@ -1,0 +1,87 @@
+Am I Safe Now?
+ASP.NET applications configured for forms authentication use an authentication 
+ticket that is transmitted between web server and browser 
+either in a cookie or in a URL query string. 
+
+The authentication ticket is generated when the user first logs on 
+and it is subsequently used to represent the authenticated user.  
+
+It contains a user identifier and often a set of roles to which the user belongs. 
+The browser passes the authentication ticket on all subsequent requests 
+that are part of the same session to the web server. 
+
+Along with the user identity store, you must protect this ticket to prevent compromise 
+of your authentication mechanism.
+
+Failing to properly protect forms authentication is a common vulnerability 
+that can lead to the following:
+
+Elevation of privileges. 
+An attacker could elevate privileges within your application by 
+updating the user name or the list of roles contained in the ticket 
+prior to posting it back to the server. 
+
+An attacker who can upload malicious code to your application 
+can also successfully create and modify the form’s authentication tickets.
+
+Session hijacking. 
+An attacker could capture another user's authentication ticket and 
+use it to access your application. 
+
+There are a number of ways that this could happen:
+
+As a result of a cross-site scripting vulnerability.
+If the transport is not being protected using a security mechanism 
+such as Secure Sockets Layer (SSL).
+If the ticket is stored in the browser cache.
+
+Session usage after sign-out. 
+Even after the user has logged out of the application and 
+the application has called FormsAuthentication.SignOut, 
+the authentication ticket remains valid until its time-to-live (TTL) expires, 
+so it can be used by an attacker to impersonate another user.
+
+Eavesdropping. 
+An attacker could look inside a form’s authentication ticket to obtain any 
+sensitive information it contains and use this information 
+to compromise your application.
+
+Compromise of the user identity store. 
+An attacker with access to the user identity store may obtain 
+access to user names and passwords, either directly 
+from the data store or by using a SQL injection attack.
+
+To protect against these threats, you can apply the RequireHttpsAttribute  
+to the global filters collection in the global.asax file.
+
+code
+
+Copy
+ public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+{
+    filters.Add(new HandleErrorAttribute());
+    filters.Add(new System.Web.Mvc.AuthorizeAttribute());
+    filters.Add(new RequireHttpsAttribute());
+}
+Many web sites log in via SSL and redirect back to HTTP 
+after you’re logged in, which is absolutely the wrong thing to do.  
+Your login cookie is just as secret as your username + password, 
+and now you’re sending it in clear-text across the wire.  
+Besides, you’ve already taken the time to perform the handshake 
+and secure the channel (which is the bulk of what makes HTTPS slower than HTTP) 
+before the MVC pipeline is run, 
+so redirecting back to HTTP after you’re logged in won’t make 
+the current request or future requests much faster.  
+If you’re hosting static content (youtube for example), 
+change your embedding to use HTTPS rather than HTTP. 
+If you drop down to HTTP from HTTPS without correctly 
+signing out 
+(see http://msdn.microsoft.com/en-us/library/system.web.
+security.formsauthentication.signout.aspx ) 
+your username + password is wide open. 
+It's not enough to call FormsAuthentication.SignOut().
+
+For information on setting up SSL on ASP.NET MVC, 
+see my blog entry Better, Faster, Easier SSL testing 
+for ASP.NET MVC & WebForms. 
+IIS Express (the new default web server for Visual Studio 11) supports SSL.

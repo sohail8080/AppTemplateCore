@@ -24,4 +24,8 @@ https://www.pragimtech.com/
 http://csharp-video-tutorials.blogspot.com/
 https://asp.mvc-tutorial.com/
 https://dotnet-helpers.com/
+https://www.entityframeworktutorial.net/
+https://www.learnentityframeworkcore.com/
+https://entityframework.net/
+https://www.tektutorialshub.com/
 

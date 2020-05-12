@@ -59,4 +59,32 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA66666666666666666666
         public string Phone { get; set; }
     }
 
+
+
+    //ComplexType Attribute
+
+    //The Complex types are the non-scalar properties of an entity that enable scalar properties to be organized within the entities.A Complex type may have scalar properties or other complex type properties.Complex types do not have a key and Identity, so that Entity Framework cannot manage these objects apart from the parent entity.A Complex type entity can be also used for a Stored Procedure result.
+
+
+    //Example
+    //[ComplexType]
+    //public class UserInfo
+    //    {
+    //        public DateTime CreatedDate { get; set; }
+    //        public string CreatedBy { get; set; }
+    //    }
+
+    //    [Table("Department", Schema = "dbo")]
+    //    public class DepartmentMaster
+    //    {
+    //        [Key]
+    //        public int DepartmentId { get; set; }  
+    //….  
+    //….  
+    //   public UserInfo User { get; set; }
+
+
+
+
+
 }

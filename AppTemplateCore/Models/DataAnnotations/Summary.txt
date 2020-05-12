@@ -260,3 +260,59 @@ IsRequired	Configures the database column as not nullable
 ValueGeneratedNever	Specifies that the database should not automatically generate values for the property
 ValueGeneratedOnAdd	Specifies that values should only be generated automatically when new data is added
 ValueGeneratedOnAddOrUpdate	Specifies that values should be generated automatically when data is added or updated
+===================================
+
+
+introduction
+
+The Entity Framework Code First approach allows us to use our POCO (domain) classes as a model and 
+Entity Framework can use the classes to query data, change tracking and other update functions.
+
+Entity Framework Code First provides a set of data annotation attributes that can be applied on 
+domain classes or the properties of domain classes.
+
+Normally we can divide these data annotations into the following two categories:
+
+Database Schema related Attributes
+
+Table
+Column
+Key
+Timestamp
+ConcurrencyCheck
+ForeignKey
+InverseProperty
+Index
+DatabaseGenerated
+ComplexType
+NotMapped
+
+Validation Attributes
+
+Required
+MinLength
+MaxLength
+StringLength
+
+
+==================================================
+
+DataAnnotations is used to configure the classes which will highlight the most commonly needed configurations. DataAnnotations are also understood by a number of .NET applications, such as ASP.NET MVC which allows these applications to leverage the same annotations for client-side validations. DataAnnotation attributes override default CodeFirst conventions.
+
+System.ComponentModel.DataAnnotations includes the following attributes that impacts the nullability or size of the column.
+
+Key
+Timestamp
+ConcurrencyCheck
+Required
+MinLength
+MaxLength
+StringLength
+System.ComponentModel.DataAnnotations.Schema namespace includes the following attributes that impacts the schema of the database.
+
+Table
+Column
+Index
+ForeignKey
+NotMapped
+InverseProperty

@@ -1,0 +1,9 @@
+﻿Fluent API is an advanced way of specifying model configuration that covers everything that data annotations can do in addition to some more advanced configuration not possible with data annotations. Data annotations and the fluent API can be used together, but Code First gives precedence to Fluent API > data annotations > default conventions.
+
+Fluent API is another way to configure your domain classes.
+
+The Code First Fluent API is most commonly accessed by overriding the OnModelCreating method on your derived DbContext.
+
+Fluent API provides more functionality for configuration than DataAnnotations. Fluent API supports the following types of mappings.
+
+In this chapter, we will continue with the simple example which contains Student, Course and Enrollment classes and one context class with MyContext name as shown in the following code.

@@ -56,6 +56,7 @@
     <Folder Include="Areas\foo\Models\" />
     <Folder Include="Areas\foo\Views\" />
     <Folder Include="Areas\Identity\Models\" />
+    <Folder Include="Models\LINQ\Set Operators Union\" />
   </ItemGroup>
 
 </Project>

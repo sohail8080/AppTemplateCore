@@ -1,0 +1,171 @@
+Unobtrusive Client Side Validation in ASP.NET Core
+ 
+In the tutorial, we will learn how to perform client side validation using Javascript. 
+We learnt how to perform server-side model validation in the previous tutorial. 
+The Unobtrusive client side validation in ASP.NET Cores uses the 
+same validation attribution that used by the Model Validator. 
+We will learn all these in this tutorial.
+
+
+Table of Content [hide]
+
+Client Side Validation
+Unobtrusive client-side validation
+How to use unobtrusive client-side validation
+Load the required javascript libraries
+Add Validation Attributes to input properties
+How does it work
+Summary
+Client Side Validation
+
+Consider an example, where you need to check if the Name property is not empty. 
+We can easily achieve this by adding Required validation attribute on the model Name property.
+
+
+[Required]
+Public string Name {get;set;}
+
+
+The Model Validator performs this validation on the server side, 
+which requires a round trip to the server.
+
+This may not be preferable from the point of user experience as 
+there is a time lag before the user gets the error message from the server. 
+
+It also wastes server resources for a simple validation.
+
+This is a simple use case for client side validation.
+
+The client side validation can be performed in many ways. You can use
+
+Use Javascript Libraries like 
+JQuery validation and 
+Javascript unobtrusive library
+
+HTML5 Built-in Validation
+
+Write your own Javascript
+
+
+Unobtrusive client-side validation
+
+The ASP.NET core includes unobtrusive client-side validation libraries, 
+which makes it easier to add client side validation code, without writing a single line of code.
+
+In the previous tutorial on server side validation, 
+we looked at how data annotations attributes are used by the Model Validator 
+to validate the Model. 
+
+The unobtrusive client side validation uses the same attributes to 
+validate the properties on the client side. 
+The difference is that it uses the Javascript instead of C# code.
+
+The unobtrusive validation is done using the jquery.validate.unobtrusive.js library. 
+This library is built over the top of jquery.validate.js library, 
+which in turns uses the jQuery. Hence we need to import all these in our views.
+
+How to use unobtrusive client-side validation
+Load the required javascript libraries
+
+First, we need to add the JQuery,jquery.validate & jquery.validate.unobtrusive in our views.
+
+These scripts are added in the layout file (_Layout.cshtml), 
+which defines the layout of our application so that they are available for all the views.
+
+jquery-2.2.0.min.js
+jquery.validate.min.js
+jquery.validate.unobtrusive.min.js
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+
+
+Add Validation Attributes to input properties
+
+Next, we need to add Validation Attributes to the model properties, 
+which we already learnt in the tutorial on Model validation.
+
+The attributes we add when we set up the server side validations, 
+also used by the client side validation.
+
+In the view remember to specify the layout file to use using the following directive
+
+
+@{ 
+Layout = "_Layout"; 
+}
+
+
+Example
+
+The model
+
+[Required(AllowEmptyStrings = false, ErrorMessage = "Please enter the name")]
+[StringLength(maximumLength: 25, MinimumLength = 10, ErrorMessage = "Length must be between 10 to 25")]
+public string Name { get; set; }
+
+View
+
+
+<form asp-controller="home" asp-action="create" method="post">
+
+    <div asp-validation-summary="ModelOnly">
+        <span>Please correct the following errors</span>
+    </div>
+
+    <label asp-for="Name"></label>
+    <input asp-for="Name"/>
+    <span asp-validation-for="Name"></span>
+    <br />
+    <input type="submit" name="submit" />
+</form>
+
+Controller
+
+
+[HttpPost]
+public IActionResult Create(ProductEditModel model, [FromQuery] string test)
+{
+    string message = "";
+    if (ModelState.IsValid){
+        message = "product " + model.Name + " created successfully";
+    }
+    else {
+        return View(model);
+    }
+    return Content(message);
+}
+ 
+We have not made any changes in the server side code, except for loading javascript libraries.
+
+Run the application and check it.
+
+How does it work
+The input tag helper generates the following HTML.
+
+
+<label for="Name">Name</label>
+<input type="text" data-val="true" data-val-length="Length must be between 10 to 25" data-val-length-max="25" data-val-length-min="10" data-val-required="Please enter the name" id="Name" name="Name" value="" />
+<span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+<br />
+
+ 
+You could see that it has added the several attributes starting with data-*.
+
+The data-* attributes are part of the HTML5, 
+which allow us the add extra information (metadata) to the HTML element.
+
+The Javascript unobtrusive library reads the data-val attributes and 
+performs the client side validation in the browser when the user submits the form. 
+
+These Validations are done before the form is sent over an HTTP. 
+If there is a validation error, then the request will not be sent.
+
+Click on F12 to open the Chrome developer console and go to Network tab. 
+You can see it verify that the no HTTP Request is sent when you click on Submit 
+button with an invalid input.
+
+Summary
+In this tutorial, we looked at how to use Javascript unobtrusive library to take advantage 
+of validation attribute to perform client side validation.

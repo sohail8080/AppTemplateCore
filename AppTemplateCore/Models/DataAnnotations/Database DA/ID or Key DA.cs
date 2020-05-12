@@ -198,7 +198,77 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
 
 
 
+    //Key Attribute
 
+    //Entity Framework believes that every entity has a primary key and that key is used for tracking the entities.The Key Attribute specifies the property/column that is the part of the primary key of the entity and it applies only to scalar properties.
+
+    //Example
+
+
+    [Table("Department", Schema = "dbo")]
+    public class DepartmentMasterm6666
+    {
+        [Key]
+        public int DepartmentId { get; set; }
+    }
+
+    //Composite keys
+
+    //An Entity Framework Code First model also supports a composite primary key(a composite primary key has more than one property).
+
+    //Example
+
+    [Table("Department", Schema = "dbo")]
+    public class DepartmentMasterllllllllllllllllll
+    {
+        [Key]
+        public int DepartmentId { get; set; }
+        [Key]
+        public int CompanyId { get; set; }
+    }
+
+
+
+    //    Key
+    //Entity Framework relies on every entity having a key value that it uses for tracking entities.One of the conventions that Code First depends on is how it implies which property is the key in each of the Code First classes.
+
+    //Convention is to look for a property named “Id” or one that combines the class name and “Id”, such as “StudentId”.
+
+    //The property will map to a primary key column in the database.
+
+    //The Student, Course and Enrollment classes follow this convention.
+
+    //Now let’s suppose Student class used the name StdntID instead of ID.When Code First does not find a property that matches this convention, it will throw an exception because of Entity Framework’s requirement that you must have a key property.You can use the key annotation to specify which property is to be used as the EntityKey.
+
+    //Let’s take a look at the following code of a Student class which contains StdntID, but it doesn’t follow the default Code First convention.So to handle this, a Key attribute is added which will make it a primary key.
+
+    //public class Student
+    //    {
+
+    //        [Key]
+    //        public int StdntID { get; set; }
+    //        public string LastName { get; set; }
+    //        public string FirstMidName { get; set; }
+    //        public DateTime EnrollmentDate { get; set; }
+
+    //        public virtual ICollection<Enrollment> Enrollments { get; set; }
+    //    }
+    //    When you run your application and look into your database in SQL Server Explorer you will see that the primary key is now StdntID in Students table.
+
+
+//    Entity Framework also supports composite keys.Composite keys are also primary keys that consist of more than one property. For example, you have a DrivingLicense class whose primary key is a combination of LicenseNumber and IssuingCountry.
+
+//public class DrivingLicense
+//    {
+
+//        [Key, Column(Order = 1)]
+//        public int LicenseNumber { get; set; }
+//        [Key, Column(Order = 2)]
+//        public string IssuingCountry { get; set; }
+//        public DateTime Issued { get; set; }
+//        public DateTime Expires { get; set; }
+//    }
+//    When you have composite keys, Entity Framework requires you to define an order of the key properties.You can do this using the Column annotation to specify an order.
 
 
 

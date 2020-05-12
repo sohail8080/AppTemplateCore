@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace AppTemplateCore.Models.DataAnnotations.Database_DA
 {
     using System.ComponentModel.DataAnnotations;
+
     //Data Annotations - Column Attribute in EF 6 & EF Core
     //The Column attribute can be applied to one or more properties in an entity class 
     //to configure the corresponding 
@@ -148,5 +149,48 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
     }
 
 
+    //Column Attribute
+
+    //The same as the table attribute, this attribute specifies the name of the column and the data type of the column. This means that this attribute is very useful when the entity's property name and the table's column name are different.
+
+    //The following are some important properties of the Column Attribute:
+
+    //Order: Order in which a column appears in the table
+    //TypeName: Name database type of the column
+    //Example:
+
+    //[Table("Employee", Schema = "dbo")]
+    //public class Employee
+    //{
+    // [Column("ID", Order = 1)]
+    //  public int EmployeeId { get; set; }
+    //  [Column("Name", Order = 2, TypeName = "Varchar(100)")]
+    //   public string EmployeeName { get; set; }
+
+
+
+//    Column
+//It is also the same as Table attribute, but Table attribute overrides the table behavior while Column attribute overrides the column behavior.Default Code First convention creates a column name similar to the property name. If you are letting Code First create the database, and also want to change the name of the columns in your tables. Then −
+
+//Column attribute overrides the default convention.
+
+//EF Code First will create a column with a specified name in the Column attribute for a given property.
+
+//Let’s take a look at the following example in which the property is named FirstMidName and by convention, Code First presumes this will map to a column named FirstMidName.
+
+//If that's not the case you can specify the name of the column with the Column attribute as shown in the following code.
+
+//public class Student
+//    {
+
+//        public int ID { get; set; }
+//        public string LastName { get; set; }
+//        [Column("FirstName")]
+//        public string FirstMidName { get; set; }
+//        public DateTime EnrollmentDate { get; set; }
+
+//        public virtual ICollection<Enrollment> Enrollments { get; set; }
+//    }
+//    You can see that Column attribute specifies the column as FirstName.When the table is generated, you will see the column name FirstName as shown in the following image.
 
 }

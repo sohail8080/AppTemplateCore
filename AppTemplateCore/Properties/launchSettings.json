@@ -7,6 +7,7 @@
       "sslPort": 44347
     }
   },
+  //Development, Production
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",

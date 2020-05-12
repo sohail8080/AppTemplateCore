@@ -46,4 +46,38 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
     //ASP.NET MVC also uses this attribute to Validate the model in the User interface
 
 
+    //Required Attribute
+
+    //The Required attribute tells the Entity Framework that this property must have a value and this attribute will force the Entity Framework to ensure that this has data in it.This attribute will also participate in database creation (by marking this column as “not nullable”).
+
+    //Example
+
+    //[Required]
+    // public string Code { get; set; }
+
+
+
+    //    Required Annotation
+    //The Required annotation tells EF that a particular property is required.Let’s take a look at the following Student class in which Required id is added to the FirstMidName property.Required attribute will force EF to ensure that the property has data in it.
+
+    //public class Student
+    //    {
+
+    //        [Key]
+    //        public int StdntID { get; set; }
+
+    //        [Required]
+    //        public string LastName { get; set; }
+
+    //        [Required]
+    //        public string FirstMidName { get; set; }
+    //        public DateTime EnrollmentDate { get; set; }
+
+    //        public virtual ICollection<Enrollment> Enrollments { get; set; }
+    //    }
+    //    As seen in the above example, Required attribute is applied to FirstMidName and LastName.So, Code First will create a NOT NULL FirstMidName and LastName columns in the Students table as shown in the following image.
+
+
+
+
 }

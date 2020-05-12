@@ -101,4 +101,67 @@ namespace AppTemplateCore.Models.DataAnnotations
     //which is used by the ASP.NET MVC for validating the model.
     //This attribute is covered in the next tutorial StringLength attribute.
 
+
+
+    //    MinLength Attribute
+
+    //This attribute is used to validate a property, whether the property has a minimum length of string.
+
+    //Example
+    //[MinLength(5)]
+    //public string Name { get; set; }
+    //    MaxLength Attribute
+
+    //The MaxLength attribute allows us to specify additional property validations to set the maximum length of the string. This attribute will also participate in database creation(by setting the length of the property).
+
+    //Example
+
+    //[MinLength(5)]
+    //[MaxLength(100)]
+    //public string Name { get; set; }
+
+
+
+    //    MaxLength
+    //The MaxLength attribute allows you to specify additional property validations.It can be applied to a string or array type property of a domain class. EF Code First will set the size of a column as specified in MaxLength attribute.
+
+    //Let’s take a look at the following Course class in which MaxLength(24) attribute is applied to Title property.
+
+    //public class Course
+    //    {
+
+    //        public int CourseID { get; set; }
+    //        [ConcurrencyCheck]
+    //        [MaxLength(24)]
+    //        public string Title { get; set; }
+    //        public int Credits { get; set; }
+
+    //        public virtual ICollection<Enrollment> Enrollments { get; set; }
+    //    }
+    //    When you run the above application, Code First will create a nvarchar(24) column Title in the CourseId table as shown in the following image.
+
+
+
+//    When the user sets the Title which contains more than 24 characters, then EF will throw EntityValidationError.
+
+//MinLength
+//The MinLength attribute also allows you to specify additional property validations, just as you did with MaxLength.MinLength attribute can also be used with MaxLength attribute as shown in the following code.
+
+//public class Course
+//    {
+
+//        public int CourseID { get; set; }
+//        [ConcurrencyCheck]
+//        [MaxLength(24), MinLength(5)]
+//        public string Title { get; set; }
+//        public int Credits { get; set; }
+
+//        public virtual ICollection<Enrollment> Enrollments { get; set; }
+//    }
+//    EF will throw EntityValidationError, if you set a value of Title property less than the specified length in MinLength attribute or greater than specified length in MaxLength attribute.
+
+
+
+
+
 }

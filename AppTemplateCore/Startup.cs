@@ -22,14 +22,16 @@ namespace AppTemplateCore
 {
     public class Startup
     {
+        private string _contentRootPath = "";
+        public IConfiguration Configuration { get; }
+        public IHostingEnvironment HostingEnvironment { get; }
+
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            HostingEnvironment = env;
             _contentRootPath = env.ContentRootPath;
         }
-
-        private string _contentRootPath = "";
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. 
         // Use this method to add services to the container.
@@ -60,7 +62,7 @@ namespace AppTemplateCore
             services.Add_Authorization_Config();
 
 
-            services.Add_AppServices_Config();
+            services.Add_AppServices_Config(HostingEnvironment);
 
             
 

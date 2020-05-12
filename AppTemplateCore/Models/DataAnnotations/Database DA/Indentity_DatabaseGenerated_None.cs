@@ -120,4 +120,14 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
     }
 
 
+    //DatabaseGenerated Attribute
+
+    //The DatabaseGenerated attribute specifies that the property of the model will be used for either an identity or Computed column of the database table, so that this property will be read-only and the Entity Framework does not try to update this field into the database table.The Entity Framework will update this field from the database after the insert or update.
+
+    //Example
+
+    //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    //public DateTime DateCreated { get; set; }
+
+
 }

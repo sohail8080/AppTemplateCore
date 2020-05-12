@@ -55,5 +55,35 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
     //if the string exceeds Max Length or size is less than Min length specified in 
     //this attribute.
 
+    //StringLength Attribute
+
+    //StringLength is used to specify the maximum length of the string. This attribute is applied only to string type properties.We can also specify a minimum length of characters that are allowed in the data field.This attribute will also participate in database creation(by setting the length of the property).
+
+    //Example
+
+    //[StringLength(100, MinimumLength = 5)]
+    //public string Name { get; set; }
+
+
+
+
+    //    StringLength
+    //StringLength also allows you to specify additional property validations like MaxLength.The only difference is that StringLength attribute can only be applied to a string type property of Domain classes.
+
+    //public class Course
+    //    {
+
+    //        public int CourseID { get; set; }
+    //        [StringLength(24)]
+    //        public string Title { get; set; }
+    //        public int Credits { get; set; }
+
+    //        public virtual ICollection<Enrollment> Enrollments { get; set; }
+    //    }
+    //    Entity Framework also validates the value of a property for StringLength attribute.If the user sets the Title which contains more than 24 characters, then EF will throw EntityValidationError.
+
+
+
+
 
 }

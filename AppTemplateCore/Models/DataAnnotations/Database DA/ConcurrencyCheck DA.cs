@@ -134,6 +134,44 @@ namespace AppTemplateCore.Models.DataAnnotations.Database_DA
     //There is NO RESTRICTION ON DATA TYPE for this attribute
 
 
+    //ConcurrencyCheck Attribute
+
+    //The ConcurrencyCheck Attribute is used to specify a property/column that has a concurrency mode of “fixed” in the EDM model.This attribute can be used with scalar properties only.A fixed concurrency mode means that this property is being a part of the concurrency check during save operations.
+
+    //Example
+
+    //[ConcurrencyCheck]
+    //public string Name { get; set; }
+
+
+
+//    ConcurrencyCheck
+//The ConcurrencyCheck annotation allows you to flag one or more properties to be used for concurrency checking in the database when a user edits or deletes an entity.If you've been working with the EF Designer, this aligns with setting a property's ConcurrencyMode to Fixed.
+
+//Let’s take a look at a simple example of how ConcurrencyCheck works by adding it to the Title property in Course class.
+
+//public class Course
+//    {
+
+//        public int CourseID { get; set; }
+//        [ConcurrencyCheck]
+//        public string Title { get; set; }
+//        public int Credits { get; set; }
+//        [Timestamp, DataType("timestamp")]
+//        public byte[] TimeStamp { get; set; }
+
+//        public virtual ICollection<Enrollment> Enrollments { get; set; }
+//    }
+//    In the above Course class, ConcurrencyCheck attribute is applied to the existing Title property.Now, Code First will include Title column in update command to check for optimistic concurrency as shown in the following code.
+
+//    exec sp_executesql N'UPDATE [dbo].[Courses]
+
+//       SET[Title] = @0
+
+//       WHERE (([CourseID] = @1) AND([Title] = @2))
+//   ',N'@0 nvarchar(max) ,@1 int,@2 nvarchar(max) ',@0=N'Maths',@1=1,@2=N'Calculus'
+//go
+
 
 
 }
