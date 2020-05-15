@@ -13,7 +13,7 @@ namespace AppTemplateCore.Models.LINQ
 
     class Programjkkk
     {
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             List<object> dataSource = new List<object>()
             {

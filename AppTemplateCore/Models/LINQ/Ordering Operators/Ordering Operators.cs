@@ -28,9 +28,9 @@ namespace AppTemplateCore.Models.LINQ.OrderByOperators
     //Reverse
 
 
-    class Program
+    class Program2
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             //You can use the OrderBy method on any data type i.e. 
             //you can use character, string, decimal, integer, etc.

@@ -7,9 +7,9 @@ namespace AppTemplateCore.Models.LINQ.Except.AnonymousType
 {
     //In this approach, we need to select all the individual properties to an anonymous type. 
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             List<Student> AllStudents = new List<Student>()
             {

@@ -39,9 +39,9 @@ namespace AppTemplateCore.Models.LINQ.Join_Operators.GroupJoinOperator
 
 
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             var departments = Department.GetAllDepartments();
             var employees = Employee.GetAllEmployees();

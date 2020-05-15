@@ -38,9 +38,9 @@ namespace AppTemplateCore.Models.LINQ.Join_Operators
     //But here we need to fetch only the elements which are present in both the data sources.
 
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             var employees = Employee.GetAllEmployees();
             var addresses = Address.GetAllAddresses();

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace AppTemplateCore.Models.LINQ.Union.AnonymousType
 {
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             List<Student> s1 = new List<Student>()
             {

@@ -11,9 +11,9 @@ namespace AppTemplateCore.Models.LINQ.GroupBy
     //(i.e. IGrouping<TKey, TSource>) based on a given key.
 
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             var students = Student.GetStudents();
 

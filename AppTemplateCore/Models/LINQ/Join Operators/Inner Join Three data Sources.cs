@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace AppTemplateCore.Models.LINQ.Join_Operators.ThreeDS
 {
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             //Data Source1
             //Joining with Address Data Source (Data Source2)

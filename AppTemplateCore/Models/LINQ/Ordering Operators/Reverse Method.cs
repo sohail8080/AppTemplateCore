@@ -17,9 +17,9 @@ namespace AppTemplateCore.Models.LINQ.ReverseOperator
 
     //Example1: System.Linq namespace Reverse method
 
-    class Program
+    class Program2
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             int[] intArray = new int[] { 10, 30, 50, 40, 60, 20, 70, 100 };
 

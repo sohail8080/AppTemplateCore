@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace AppTemplateCore.Models.LINQ.Union.HashCode
 {
 
-    class Program
+    class Program2
     {
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             List<Student> s1 = new List<Student>()
             {

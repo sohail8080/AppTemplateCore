@@ -32,7 +32,7 @@ namespace AppTemplateCore.Models.LINQ.SelectMany
         //That means the SelectMany operator combines the records from a sequence of results and then 
         //converts it into one result.
 
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
 
             List<string> nameList = new List<string>() { "Pranaya", "Kumar" };

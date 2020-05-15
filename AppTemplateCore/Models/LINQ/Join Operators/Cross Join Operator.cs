@@ -21,9 +21,9 @@ namespace AppTemplateCore.Models.LINQ.Join_Operators.CrossJoin
 
     //Cross Join Using Query Syntax
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             var students = Student.GetAllStudnets();
             var subjects = Subject.GetAllSubjects();

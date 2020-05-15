@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace AppTemplateCore.Models.LINQ.Exception.Compartor
 {
-
-    class Program
+    
+    class Program2
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
 
             List<Student> AllStudents = new List<Student>()

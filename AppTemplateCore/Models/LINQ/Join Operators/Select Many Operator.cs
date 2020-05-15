@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 namespace AppTemplateCore.Models.LINQ.SelectMany.JOin
 {
 
-    class Program2
+    class Program22
     {
         //The SelectMany in LINQ is used to project each element of a sequence to an IEnumerable<T> 
         //and then flatten the resulting sequences into one sequence.
         //That means the SelectMany operator combines the records from a sequence of results and then 
         //converts it into one result.
 
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
 
             List<string> nameList = new List<string>() { "Pranaya", "Kumar" };

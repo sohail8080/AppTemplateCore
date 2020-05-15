@@ -8,9 +8,9 @@ namespace AppTemplateCore.Models.LINQ.Intersect.Annonymouse
     //Using Anonymous Type for Intersect Operation in C#:
     //In this approach, we need to select all the individual properties to an anonymous type. 
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             List<Student> s1 = new List<Student>()
             {

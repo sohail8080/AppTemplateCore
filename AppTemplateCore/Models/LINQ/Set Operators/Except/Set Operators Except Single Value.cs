@@ -12,7 +12,7 @@ namespace AppTemplateCore.Models.LINQ.Except.SingleValue
 
     class Programeewwqq
     {
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             List<int> dataSource1 = new List<int>() { 1, 2, 3, 4, 5, 6 };
             List<int> dataSource2 = new List<int>() { 1, 3, 5, 8, 9, 10 };

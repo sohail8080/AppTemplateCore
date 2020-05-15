@@ -31,9 +31,9 @@ namespace AppTemplateCore.Models.LINQ.QuantifierOperation.All
     //whether all or some of the elements in a data source satisfy a condition.
 
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             var students = Student.GetAllStudnets();
 

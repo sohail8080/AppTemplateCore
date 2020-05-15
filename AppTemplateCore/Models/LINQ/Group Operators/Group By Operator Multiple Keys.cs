@@ -17,12 +17,12 @@ namespace AppTemplateCore.Models.LINQ.GroupByMultipleKeys
     //Finally, the students in each group are sorted by their names in ascending order. 
 
 
-    class Program
+    class Program22
     {
 
         
 
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             var students = Student.GetStudents();
 

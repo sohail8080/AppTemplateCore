@@ -18,7 +18,7 @@ namespace AppTemplateCore.Models.LINQ.Distinct.OverrideEqualsGetHashCode
 
     class Program4445
     {
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             var students = Studentppp.GetStudents();
 

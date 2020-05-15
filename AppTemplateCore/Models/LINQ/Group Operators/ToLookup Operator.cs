@@ -14,9 +14,9 @@ namespace AppTemplateCore.Models.LINQ.LookupOperator
     //to that particular branch.
 
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             var students = Student.GetStudents();
 

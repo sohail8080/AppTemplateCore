@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppTemplateCore.Models.LINQ.AggregateFunction
+namespace AppTemplateCore.Models.LINQ.AggregateFunction.XXX
 {
     //What are Linq Aggregate Functions in C#?
     //The Linq aggregate functions are used to group together the values of multiple rows.
@@ -30,9 +30,9 @@ namespace AppTemplateCore.Models.LINQ.AggregateFunction
 
     //The Linq Sum() Method belongs to the category of Aggregate Functions. The Linq Sum method in C# is used to calculates the total or sum of numeric values in the collection. 
 
-    class Program
+    class Program2
     {
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             int[] intNumbers = new int[] { 10, 30, 50, 40, 60, 20, 70, 90, 80, 100 };
 

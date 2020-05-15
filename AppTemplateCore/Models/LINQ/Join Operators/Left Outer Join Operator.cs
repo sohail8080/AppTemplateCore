@@ -42,9 +42,9 @@ namespace AppTemplateCore.Models.LINQ.Join_Operators.LeftOuterJoin
     //Note: The default value for a reference type is null. So, you need to check for the null reference before accessing each element of Address collection.
 
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             var employees = Employee.GetAllEmployees();
             var addresses = Address.GetAddress();

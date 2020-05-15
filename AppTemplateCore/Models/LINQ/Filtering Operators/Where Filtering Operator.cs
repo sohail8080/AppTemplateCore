@@ -35,7 +35,7 @@ namespace AppTemplateCore.Models.LINQ
 
     class Program333
     {
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             List<int> intList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 

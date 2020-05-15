@@ -8,9 +8,9 @@ namespace AppTemplateCore.Models.LINQ.Union.SingleValue
     //The LINQ Union Method in C# is used to combine the multiple data sources into 
     //one data source by removing the duplicate elements. 
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             List<int> dataSource1 = new List<int>() { 1, 2, 3, 4, 5, 6 };
             List<int> dataSource2 = new List<int>() { 1, 3, 5, 8, 9, 10 };

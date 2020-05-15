@@ -9,9 +9,9 @@ namespace AppTemplateCore.Models.LINQ.Intersect.SingValue
     //The elements that are present in both the data sources. 
 
 
-    class Program
+    class Program22
     {
-        static void Main(string[] args)
+        static void Main22(string[] args)
         {
             //Note: In query syntax, there is no such operator call Intersect, so here we need to use 
             //the mixed syntax i.e. both the query and method syntax to achieve the same.

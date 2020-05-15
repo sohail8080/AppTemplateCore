@@ -8,9 +8,9 @@ namespace AppTemplateCore.Models.LINQ.Concatmethod
 
     //The Linq Concat Method in C# is used to concatenate two sequences into one sequence. 
 
-    class Program
+    class Program2
     {
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             List<int> sequence1 = new List<int> { 1, 2, 3, 4 };
             List<int> sequence2 = new List<int> { 2, 4, 6, 8 };

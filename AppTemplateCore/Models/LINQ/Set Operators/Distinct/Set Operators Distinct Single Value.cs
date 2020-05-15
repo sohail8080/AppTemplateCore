@@ -14,7 +14,7 @@ namespace AppTemplateCore.Models.LINQ.Distinch.SigleValue
 
     class Program56565
     {
-        static void Main(string[] args)
+        static void Main2(string[] args)
         {
             List<int> intCollection = new List<int>() { 1, 2, 3, 2, 3, 4, 4, 5, 6, 3, 4, 5 };
 
