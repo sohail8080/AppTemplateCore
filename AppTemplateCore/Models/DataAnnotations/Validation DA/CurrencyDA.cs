@@ -14,13 +14,11 @@ namespace AppTemplateCore.Models.DataAnnotations
         [Required(ErrorMessage = "Please enter Student Fees")]
         public decimal StudentFees { get; set; }
 
-
         [DisplayName("Salary")]
         [Required(ErrorMessage = "The Salary is required.")]
         [Range(10000, 20000)]
         [DisplayFormat(DataFormatString = "{0:#.####}")]
         public float Salary { get; set; }
-
 
         [DisplayName("Sale Price")]
         [Required(ErrorMessage = "The Sale Price field is required.")]
@@ -32,8 +30,6 @@ namespace AppTemplateCore.Models.DataAnnotations
         [Range(1, 100), DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Pricepop { get; set; }
-
-
 
         [DisplayName("Employee salary")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]

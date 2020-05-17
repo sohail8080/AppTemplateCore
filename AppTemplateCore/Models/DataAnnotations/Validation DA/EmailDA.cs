@@ -11,6 +11,26 @@ namespace AppTemplateCore.Models.DataAnnotations
     public class EmailDA
     {
 
+        //4. Regex for Email Validation
+
+        //For validating multiple emails, we can use the following regular expressions.We are separating emails by using delimiter ';'
+
+        //^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;]{0,1}\s*)+$
+
+        //If you want to use delimiter ',' then use this
+
+        //^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[,]{ 0,1}\s*)+$
+
+        //and if you want to use both delimiter ',' and ';' then use this
+
+        //^((\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\s*[;,.]{ 0,1}\s*)+$
+
+
+        [DataType(DataType.EmailAddress)]
+        [Required(ErrorMessage = "Please enter Email ID")]
+        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Email is not valid.")]
+        public string Email444 { get; set; }
+
         [Compare("Email", ErrorMessage = "Email Not Matched")]
         public string ConfirmEmail { get; set; }
 

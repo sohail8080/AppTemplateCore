@@ -1,0 +1,321 @@
+Special Characters  [\^$.|?*+()
+
+\ followed by any of Special Characters [\^$.|?*+(){}	
+Backslash escapes a Special Characters
+.	Any character
+
+Repetition Operators
+===============
+? match the preceding token zero or one time
+* match the preceding token zero or more times. 
++ match the preceding token one or more.
+
+
+Characters
+
+
+\d	one digit from 0 to 9     file_\d\d	file_25
+
+\w	word character   	\w-\w\w\w	A-b_1
+
+\s	"whitespace character": space, a\sb\sc	   a b
+
+//+	One or more		Version \w-\w+	Version A-b1_1
+
+{3}	Exactly three times		\D{3}		ABC
+
+{2,4}	Two to four times	\d{2,4}	156
+
+{3,}	Three or more times	\w{3,}	regex_tutorial
+
+*	Zero or more times	A*B*C*	AAACC
+
+?	Once or none	plurals?	plural
+
+======================================================
+
+Logic	Legend			Example			Sample Match
+|	Alternation / OR operand	22|33			33
+( … )	Capturing group		A(nt|pple)			Apple (captures "pple")
+\1	Contents of Group 1		r(\w)g\1x			regex
+\2	Contents of Group 2		(\d\d)\+(\d\d)=\2\+\1	12+65=65+12
+(?: … )	Non-capturing group		A(?:nt|pple)		Apple
+
+=================================================
+
+Boolean "or"
+A vertical bar separates alternatives. 
+For example, gray|grey can match "gray" or "grey".
+
+Grouping
+Parentheses are used to define the scope and precedence of the operators (among other uses).
+ For example, gray|grey and gr(a|e)y are equivalent patterns which both describe 
+the set of "gray" or "grey".
+
+Quantification
+A quantifier after a TOKEN (such as a character) or GROUP specifies 
+HOW OFTEN that a preceding element is allowed to occur. 
+The most common quantifiers are the question mark ?, the asterisk *
+
+?	zero or one occurrences of the preceding element. 
+	For example, colou?r matches both "color" and "colour".
+
+*	zero or more occurrences of the preceding element. 
+	For example, ab*c matches "ac", "abc", "abbc", "abbbc", and so on.
+
++	one or more occurrences of the preceding element. 
+	For example, ab+c matches "abc", "abbc", "abbbc", and so on, but not "ac".
+
+{n}	The preceding item is matched exactly n times.
+
+{min,}	The preceding item is matched alteast min or more times.
+
+{min,max}	The preceding item is matched at least min times, but not more than max times.
+
+Wildcard
+The wildcard . matches any character. 
+For example, 
+a.b matches any string that contains an "a", then ANYCHARACTER and then a "b", 
+aANYCHARATERb
+
+a.*b matches any string that contains an "a" and a "b" at some later point.
+aANYCHARACTER(zero or more)b
+ab, a444b, a#b, all are matching
+
+Examples:
+
+a|b* denotes {e, "a", "b", "bb", "bbb", ...}
+
+(a|b)* denotes the set of all strings with no symbols other than "a" and "b", including the empty string: 
+{e, "a", "b", "aa", "ab", "ba", "bb", "aaa", ...}
+
+ab*(c|e) denotes the set of strings starting with "a", then zero or more "b"s and finally optionally a "c": 
+{"a", "ac", "ab", "abc", "abb", "abbc", ...}
+
+
+^	Matches the STARTING POSTION within the string. I
+.	Matches any single character
+
+[ ]	A bracket expression. 
+	Matches a single character that is contained within the brackets. 
+	For example, [abc] matches "a", "b", or "c". 
+	[a-z] specifies a RANGE which matches any lowercase letter from "a" to "z". 
+	These forms can be mixed: 
+	[abcx-z] matches "a", "b", "c", "x", "y", or "z", 
+	[a-cx-z] matches "a", "b", "c", "x", "y", or "z", 	
+
+[^ ]	Matches a single character that is not contained within the brackets. 
+	For example, [^abc] matches any character other than "a", "b", or "c". 
+	[^a-z] matches any single character that is not a lowercase letter from "a" to "z". 
+	Likewise, literal characters and ranges can be mixed.
+
+$	Matches the ending position of the string or the position just before a string-ending 
+	newline. In line-based tools, it matches the ending position of any line.
+
+( )	Defines a marked subexpression. 
+	The string matched within the parentheses can be recalled later (see the next entry, \n). 
+	A marked subexpression is also called a block or capturing group. 
+	BRE mode requires \( \).
+
+\n	Matches what the nth marked subexpression matched, where n is a digit from 1 to 9. 
+	
+*	Matches the preceding element zero or more times. 
+	For example, ab*c matches "ac", "abc", "abbbc", etc. 
+	[xyz]* matches "", "x", "y", "z", "zx", "zyx", "xyzzy", and so on. 
+	(ab)* matches "", "ab", "abab", "ababab", and so on.
+
+{m,n}	Matches the preceding element at least m and not more than n times. 
+	For example, a{3,5} matches only "aaa", "aaaa", and "aaaaa". 
+
+Examples:
+
+.at matches any three-character string ending with "at", including "hat", "cat", and "bat".
+
+[hc]at matches "hat" and "cat".
+
+[^b]at matches all strings matched by .at except "bat".
+
+[^hc]at matches all strings matched by .at other than "hat" and "cat".
+
+^[hc]at matches "hat" and "cat", but only at the BEGINING of the string or line.
+
+[hc]at$ matches "hat" and "cat", but only at the END of the string or line.
+
+\[.\] matches any single character surrounded by "[" and "]" since the brackets are escaped, 
+for example: "[a]" and "[b]".
+
+s.* matches s followed by zero or more characters, 
+for example: "s" and "saw" and "seed".
+
+?	Matches the preceding element zero or one time. 
+	For example, ab?c matches only "ac" or "abc".
+
++	Matches the preceding element one or more times. 
+	For example, ab+c matches "abc", "abbc", "abbbc", and so on, but not "ac".
+
+|	The choice operator matches either the 
+	expression before or the expression after the operator. 
+	For example, abc|def matches "abc" or "def".
+
+Examples:
+
+	[hc]?at 		matches "at", "hat", and "cat".
+
+	[hc]*at 		matches "at", "hat", "cat", "hhat", "chat", "hcat", "cchchat", 
+			and so on.
+
+	[hc]+at 		matches "hat", "cat", "hhat", "chat", "hcat", "cchchat", 
+			and so on, but not "at".
+
+	cat|dog matches "cat" or "dog".
+
+
+
+
+^ (at the beginning only)		beginning of line
+
+.				any single character
+
+[abc]				any SINGLE character that belongs to the set abc
+
+[^abc]				any single character that does not belong to the set abc
+
+*				zero or more occurrences of the preceding character
+
++				one or more occurrences of the preceding character
+
+\t				a tab character
+
+\s				a space character
+
+\w				white space (a tab or a space character)
+
+$				the end of the line
+
+[<character list>]
+eg. [abcde]
+
+Matches any character within the set. The set can be any number of characters long.
+
+[x-y]
+eg. [a-z]
+
+Matches on any character within the range of x through y, inclusively. The ASCII value of x must be less than that of y.
+
+combination;
+eg. [WXYa-z0-9]
+
+Character lists and ranges may be combined.
+
+=======================================
+[ character_group ]	
+Matches any single character in character_group. 
+By default, the match is case-sensitive.	
+[ae] "a", "e"
+=====================================
+[^ character_group ]	
+Negation: Matches any single character that is not in character_group. 
+By default, characters in character_group are case-sensitive.	
+[^aei]	
+"r", "g", "n" 
+===========================
+[ first - last ]	
+Character range: 
+Matches any single character in the range from first to last.	
+[A-Z]	"A", "B" 
+====================================
+.	
+Wildcard: Matches any single character except \n.
+To match a literal period character (. or \u002E), 
+you must precede it with the escape character (\.).	
+a.e	"ave" 
+"ate" 
+========================================
+\w	
+Matches any word character.	
+\w	
+"I", "D", "A", "1", "3"
+============================
+\W	
+Matches any non-word character.	
+\W	
+" ", "." 
+===========================
+\s	
+Matches any white-space character.	
+\w\s	
+"D " 
+==============================
+\d	
+Matches any decimal digit.	
+\d	"4" 
+==================================
+^	
+By default, the match must start at the beginning of the string; in multiline mode, 
+it must start at the beginning of the line.	
+^\d{3}	
+"901" 
+=========================
+$	
+By default, the match must occur at the end of the string or 
+before \n at the end of the string; in multiline mode, 
+it must occur before the end of the line or before \n at the end of the line.	
+-\d{3}$	
+"-333"
+===============================
+\z	
+The match must occur at the end of the string.	
+-\d{3}\z	
+"-333"
+===============================
+*	
+Matches the previous element zero or more times.	
+\d*\.\d	
+".0", "19.9", "219.9"
+=======================================
++	
+Matches the previous element one or more times.	
+"be+"	
+"bee" 
+"be"
+========================
+?	
+Matches the previous element zero or one time.	
+"rai?n"	
+"ran", "rain"
+============================
+
+{ n }	
+Matches the previous element exactly n times.
+	
+",\d{3}"	
+
+",043" in "1,043.6", 
+",876", 
+",543", and 
+",210"
+==============================
+{ n ,}	
+Matches the previous element at least n times.	
+"\d{2,}"	
+"166", "29", "1930"
+================================
+{ n , m }	
+Matches the previous element at least n times, 
+but no more than m times.	
+"\d{3,5}"	"166", "17668"
+================================
+{ n }?	
+Matches the preceding element exactly n times.	
+",\d{3}?"	
+",043" 
+",876", 
+",543", 
+",210"
+===========================
+|	
+Matches any one element separated by the vertical bar (|) character.	
+th(e|is|at)
+"the", "this" 
+==========================
+

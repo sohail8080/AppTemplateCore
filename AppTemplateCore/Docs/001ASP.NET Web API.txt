@@ -1,0 +1,41 @@
+ASP.NET Web API Tutorials For Begineers and Professionals
+ASP.NET Web API Tutorials
+In this ASP.NET Web API Tutorials series, I will cover all the features of ASP.NET Web API. 
+You will learn from the basic to advance level features of ASP.NET Web API as we progress. 
+The term API stands for “Application Programming Interface” and 
+ASP.NET Web API is a framework provided by Microsoft which makes it easy 
+to build Web API’s, i.e. it is used to develop 
+HTTP based web services on the top of .NET Framework.
+
+Today, a web-based application is not enough to reach all its customers or users. 
+Now a day, Peoples become very smart that means they are using iPhone, mobile, tablets, etc. 
+devices in their daily life. 
+
+These devices are having a lot of useful apps for making their life easy. 
+Actually, in the simple word we can say that we are moving from the web towards the apps world.
+
+So, if we like to expose our service data to the browsers 
+as well as to all these modern devices apps in a fast, secure and simple way, 
+we should have an API which is compatible with all browsers 
+as well as all these modern days devices.
+
+Why We Need ASP.NET Web API?
+The ASP.NET Web API is a great framework provided by Microsoft for 
+building HTTP services that can be consumed by a 
+broad range of clients including browsers, mobiles, iPhone, and tablets, etc.  
+
+Moreover, ASP.NET Web API is open source and 
+an ideal platform for building REST-full services over the .NET Framework.
+
+These sets of articles are suitable for beginners as well as experienced 
+ASP.NET Web API developers who want to learn ASP.NET Web API from scratch 
+with real-time examples.
+
+The articles start from the very basics of ASP.NET Web API and 
+cover advanced concepts as we progress. 
+
+develop any real-time applications using ASP.NET Web API.
+
+SUMMARY
+In this ASP.NET Web API Tutorials article serious I am going to discuss 
+ASP.NET Web API Framework from basics to advance. 

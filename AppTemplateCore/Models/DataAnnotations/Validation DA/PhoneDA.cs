@@ -10,6 +10,22 @@ namespace AppTemplateCore.Models.DataAnnotations
 {
     public class PhoneDA
     {
+        //555-1234 ext. 1234 or 555-1234 x1234
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^(\+\s?)?((?<!\+.*)\(\+?\d+([\s\-\.]?\d+)?\)|\d+)([\s\-\.]?(\(\d+([\s\-\.]?\d+)?\)|\d+))*(\s?(x|ext\.?)\s?\d+)?$", ErrorMessage = "The PhoneNumber field is not a valid phone number")]
+        public string PhoneNumber444 { get; set; }
+
+        [Display(Name = "Mobile Number:")]
+        [Required(ErrorMessage = "Mobile Number is required.")]
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Mobile Number.")]
+        public string MobileNumber { get; set; }
+
+
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "CONTACT_NUMBER ")]
+        [Required(ErrorMessage = "CONTACT_NUMBER Required!")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered CONTACT_NUMBER format is not valid.")]
+        public string CONTACT_NUMBER { get; set; }
 
         //specifies that an input field value is well-formed phone number 
         // using Regular Expression.
@@ -42,10 +58,7 @@ namespace AppTemplateCore.Models.DataAnnotations
         public int Mobile { get; set; }
 
         
-        [DataType(DataType.EmailAddress)]
-        [Required(ErrorMessage = "Please enter Email ID")]
-        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Email is not valid.")]
-        public string Email { get; set; }
+
 
 
         [Required(ErrorMessage = "Phone Number Required")]
