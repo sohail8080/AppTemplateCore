@@ -4,14 +4,16 @@ using AppTemplateCore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AppTemplateCore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200518070340_AddPersonNCountryTables")]
+    partial class AddPersonNCountryTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,7 +132,7 @@ namespace AppTemplateCore.Data.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("AppTemplateCore.Areas.Persons.Models.Country", b =>
+            modelBuilder.Entity("AppTemplateCore.Areas.Person.Models.Country", b =>
                 {
                     b.Property<int>("CountryID")
                         .ValueGeneratedOnAdd()
@@ -146,21 +148,7 @@ namespace AppTemplateCore.Data.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("AppTemplateCore.Areas.Persons.Models.Hobby", b =>
-                {
-                    b.Property<int>("HobbyID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("HobbyID");
-
-                    b.ToTable("Hobbies");
-                });
-
-            modelBuilder.Entity("AppTemplateCore.Areas.Persons.Models.Person", b =>
+            modelBuilder.Entity("AppTemplateCore.Areas.Person.Models.Person", b =>
                 {
                     b.Property<int>("PersonID")
                         .ValueGeneratedOnAdd()
@@ -191,8 +179,6 @@ namespace AppTemplateCore.Data.Migrations
 
                     b.Property<string>("HiddenField")
                         .IsRequired();
-
-                    b.Property<int>("HobbyID");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -232,19 +218,6 @@ namespace AppTemplateCore.Data.Migrations
                     b.HasIndex("CountryID");
 
                     b.ToTable("Persons");
-                });
-
-            modelBuilder.Entity("AppTemplateCore.Areas.Persons.Models.PersonHobby", b =>
-                {
-                    b.Property<int>("PersonID");
-
-                    b.Property<int>("HobbyID");
-
-                    b.HasKey("PersonID", "HobbyID");
-
-                    b.HasIndex("HobbyID");
-
-                    b.ToTable("PersonHobbies");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -333,24 +306,11 @@ namespace AppTemplateCore.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("AppTemplateCore.Areas.Persons.Models.Person", b =>
+            modelBuilder.Entity("AppTemplateCore.Areas.Person.Models.Person", b =>
                 {
-                    b.HasOne("AppTemplateCore.Areas.Persons.Models.Country", "Country")
+                    b.HasOne("AppTemplateCore.Areas.Person.Models.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AppTemplateCore.Areas.Persons.Models.PersonHobby", b =>
-                {
-                    b.HasOne("AppTemplateCore.Areas.Persons.Models.Hobby", "Hobby")
-                        .WithMany("PersonHobbies")
-                        .HasForeignKey("HobbyID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AppTemplateCore.Areas.Persons.Models.Person", "Person")
-                        .WithMany("PersonHobbies")
-                        .HasForeignKey("PersonID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

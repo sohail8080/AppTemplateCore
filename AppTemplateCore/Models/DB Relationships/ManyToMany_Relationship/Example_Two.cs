@@ -20,7 +20,7 @@ namespace AppTemplateCore.Models.Configuring_DBSchema.ManyToMany_Relationship454
         public string StudentName { get; set; }
 
         // navigation property
-        public ICollection<StudentCourse> StudentCourse { get; set; }
+        public ICollection<StudentCourse> StudentCourses { get; set; }
     }
 
 
@@ -31,7 +31,7 @@ namespace AppTemplateCore.Models.Configuring_DBSchema.ManyToMany_Relationship454
         public string CourseName { get; set; }
 
         // navigation property
-        public ICollection<StudentCourse> StudentCourse { get; set; }
+        public ICollection<StudentCourse> StudentCourses { get; set; }
     }
 
 
@@ -59,12 +59,12 @@ namespace AppTemplateCore.Models.Configuring_DBSchema.ManyToMany_Relationship454
 
             // configure one end
             modelBuilder.Entity<StudentCourse>().HasOne(sc => sc.Student)
-                .WithMany(s => s.StudentCourse)
+                .WithMany(s => s.StudentCourses)
                 .HasForeignKey(sc => sc.StudentId);
 
             // configure second end
             modelBuilder.Entity<StudentCourse>().HasOne(sc => sc.Course)
-                .WithMany(c => c.StudentCourse)
+                .WithMany(c => c.StudentCourses)
                 .HasForeignKey(ss => ss.CourseId);
         }
     }
@@ -80,12 +80,12 @@ namespace AppTemplateCore.Models.Configuring_DBSchema.ManyToMany_Relationship454
 
             // configure one end
             builder.HasOne(sc => sc.Student)
-                .WithMany(s => s.StudentCourse)
+                .WithMany(s => s.StudentCourses)
                 .HasForeignKey(sc => sc.StudentId);
 
             // configure second end
             builder.HasOne(sc => sc.Course)
-                .WithMany(c => c.StudentCourse)
+                .WithMany(c => c.StudentCourses)
                 .HasForeignKey(ss => ss.CourseId);
 
         }

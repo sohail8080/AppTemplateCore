@@ -3,14 +3,50 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AppTemplateCore.Areas.Student.Models
+namespace AppTemplateCore.Areas.Persons.Models
 {
-    public class Student
+    public class Person
     {
-        public int StudentID { get; set; }
+        //// Ref Data
+        //[NotMapped]
+        //public List<Country> CountriesList { get; set; }
+
+        //// Ref Data
+        //[NotMapped]
+        //public List<Hobby> HobbiesList { get; set; }
+
+        public int PersonID { get; set; }
+
+        // one to one, not nullable, database drop down
+        [DisplayName("Country")]
+        [Required(ErrorMessage = "Country is required.")]
+        public int CountryID { get; set; }// UI Control is generated against this field        
+        public Country Country { get; set; }
+
+
+        //  one to many, not nullable, database, checkbox list
+        [DisplayName("Hobby")]
+        [Required(ErrorMessage = "Hobby is required.")]
+        public int HobbyID { get; set; } // UI Control is generated against this field        
+        public List<PersonHobby> PersonHobbies { get; set; }
+
+
+        // one to one, not nullable, enum drop down
+        [DisplayName("Religion")]
+        [Required(ErrorMessage = "Religion is required.")]
+        public Religion? Religion { get; set; }
+        // ? is used to make field nullable, by Required we make it Required
+        // this is done to make the validation message appear & make select first option
+
+
+        //one to one, nullable, enum drop down
+        [DisplayName("Province")]        
+        public Province? Province { get; set; }
+
 
         [DisplayName("Name")]
         [Required(ErrorMessage = "Name is required.")]
@@ -93,13 +129,13 @@ namespace AppTemplateCore.Areas.Student.Models
         [DisplayName("Picture")]
         [Required(ErrorMessage = "Picture is required.")]
         [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif)$", ErrorMessage = "Only Image files allowed.")]
-        public Object PostedFile { get; set; }
+        public string PostedFile { get; set; }
 
 
-        [DisplayName("Country")]
-        [Required(ErrorMessage = "Country is required.")]
-        [StringLength(15, MinimumLength = 3, ErrorMessage = "Country Name between 3 to 15 characters is required.")]
-        public string Country { get; set; }
+        //[DisplayName("Country")]
+        //[Required(ErrorMessage = "Country is required.")]
+        //[StringLength(15, MinimumLength = 3, ErrorMessage = "Country Name between 3 to 15 characters is required.")]
+        //public string Country { get; set; }
 
         // [ReadOnly(true)]
 
@@ -119,10 +155,10 @@ namespace AppTemplateCore.Areas.Student.Models
         // [RegularExpression(@"^[0-9]*$", ErrorMessage = "Pls Enter Only Numbers")]
         // [RegularExpression("^[0-9]{8}$")]
         //Output format: 91-1234-567-890
+        //[Phone] 
         [Display(Name = "Phone")]
         [Required(ErrorMessage = "Phone Number is required.")]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = "Phone Number between 8 to 255 characters is required.")]
-        [Phone]       
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Phone Number between 8 to 255 characters is required.")]              
         [DataType(DataType.PhoneNumber)]       
         [RegularExpression(@"^\(?([0-9]{2})[-. ]?([0-9]{4})[-. ]?([0-9]{3})[-. ]?([0-9]{3})$", ErrorMessage = "Not a valid Phone number")]
         public string PhoneNumber { get; set; }

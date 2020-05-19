@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AppTemplateCore.Areas.AccessControl.Models;
 using AppTemplateCore.Areas.Movies.Models;
+using AppTemplateCore.Areas.Persons.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,10 @@ namespace AppTemplateCore.Data
         }
 
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Hobby> Hobbies { get; set; }
+        public DbSet<PersonHobby> PersonHobbies { get; set; }
 
         // Model Classes do not specify COMPLETE DB Schema details
         // Conventions do not specify COMPLETE DB Schema details
@@ -50,6 +55,7 @@ namespace AppTemplateCore.Data
             // Applies configuration that is defined in an IEntityTypeConfiguration
             // instance.
             modelBuilder.ApplyConfiguration(new ApplicationRoleConfigurations());
+            modelBuilder.ApplyConfiguration(new PostTagConfiguration());
 
             //foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
             //    .SelectMany(e => e.GetForeignKeys()))
@@ -58,6 +64,20 @@ namespace AppTemplateCore.Data
             //}
 
         }
+
+        // Model Classes do not specify COMPLETE DB Schema details
+        // Conventions do not specify COMPLETE DB Schema details
+        // Data Annotations do not specify COMPLETE DB Schema details
+        // We need something more, and that more is Fluent API for 
+        // Configuring the MODEL that matches the DB Schema.
+        // These Configurations when applied they generated the 
+        // required Database Schema by Code First Schema.
+        // Secondly when the DATA is loaded in Memory, and different 
+        // Database Operations are performed, the Operations are executed
+        // as desired. Big examples includes the Configuration of RELATIONSHIPS
+        // in the MODE and BEHAVIOUR of those RELATIONSHIPS during Database
+        // operations.
+        
 
     }
 

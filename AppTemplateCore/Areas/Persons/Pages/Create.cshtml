@@ -1,0 +1,226 @@
+﻿@page
+@model AppTemplateCore.Areas.Persons.Pages.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Person</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+            @*one to one, not nullable, database drop down*@
+            @* select list in view bag *@
+            <div class="form-group">
+                <label asp-for="Person.CountryID" class="control-label"></label>
+                <select asp-for="Person.CountryID" class="form-control" asp-items="ViewBag.CountriesList2">
+                    <option value="">Select Country</option>
+                </select>
+                <span asp-validation-for="Person.CountryID" class="text-danger"></span>
+            </div>
+
+            @* list in view bag *@
+            <div class="form-group">
+                <label asp-for="Person.CountryID" class="control-label"></label>
+                <select asp-for="Person.CountryID" class="form-control"
+                        asp-items="@(new SelectList(@ViewBag.CountriesList1,"CountryID", "Name"))">
+                    <option value="">Select Country</option>
+                </select>
+                <span asp-validation-for="Person.CountryID" class="text-danger"></span>
+            </div>
+
+            @* list in model *@
+            <div class="form-group">
+                <label asp-for="Person.CountryID" class="control-label"></label>
+                <select asp-for="Person.CountryID" class="form-control"
+                        asp-items="@(new SelectList(Model.Person.CountriesList,"CountryID", "Name"))">
+                    <option value="">Select Country</option>
+                </select>
+                <span asp-validation-for="Person.CountryID" class="text-danger"></span>
+            </div>
+
+
+
+            @* list in Enum *@
+            <div class="form-group">
+                <label asp-for="Person.CountryID" class="control-label"></label>
+                <select asp-for="Person.CountryID" class="form-control"
+                        asp-items="Html.GetEnumSelectList<CountryEnum>()">
+                    <option value="">Select Country</option>
+                </select>
+                <span asp-validation-for="Person.CountryID" class="text-danger"></span>
+            </div>
+
+
+
+
+            @*one to many, not nullable, database, checkbox list *@
+            @* select list in view bag *@
+            <div class="form-group">
+                <label asp-for="Person.HobbyID" class="control-label"></label>
+                <select asp-for="Person.HobbyID" class="custom-select mr-sm-2"
+                        asp-items="ViewBag.HobbiesList2">
+                    <option value="">Select Hobby</option>
+                </select>
+                <span asp-validation-for="Person.HobbyID" class="text-danger"></span>
+            </div>
+
+
+            @* list in view bag *@
+            <div class="form-group">
+                <label asp-for="Person.HobbyID" class="control-label"></label>
+                <select asp-for="Person.HobbyID" class="custom-select mr-sm-2"
+                        asp-items="@(new SelectList(@ViewBag.HobbiesList1,"HobbyID", "Name"))">
+                    <option value="">Select Hobby</option>
+                </select>
+                <span asp-validation-for="Person.HobbyID" class="text-danger"></span>
+            </div>
+
+
+            @* list in model *@
+            <div class="form-group">
+                <label asp-for="Person.HobbyID" class="control-label"></label>
+                <select asp-for="Person.HobbyID" class="custom-select mr-sm-2"
+                        asp-items="@(new SelectList(Model.Person.HobbiesList,"HobbyID", "Name"))">
+                    <option value="">Select Hobby</option>
+                </select>
+                <span asp-validation-for="Person.HobbyID" class="text-danger"></span>
+            </div>
+
+
+
+
+            @*one to one, not nullable, enum drop down*@
+            <div class="form-group">
+                <label asp-for="Person.Religion" class="control-label"></label>
+                <select asp-for="Person.Religion" class="custom-select mr-sm-2"
+                        asp-items="Html.GetEnumSelectList<Religion>()">
+                    <option value="">Select Religion</option>
+                </select>
+                <span asp-validation-for="Person.Religion" class="text-danger"></span>
+            </div>
+
+
+            @*one to one, nullable, enum drop down*@
+            <div class="form-group">
+                <label asp-for="Person.Province" class="control-label"></label>
+                <select asp-for="Person.Province" class="custom-select mr-sm-2"
+                        asp-items="Html.GetEnumSelectList<Province>()">
+                    <option value="">Select Province</option>
+                </select>
+                <span asp-validation-for="Person.Province" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Person.Name" class="control-label"></label>
+                <input asp-for="Person.Name" class="form-control" />
+                <span asp-validation-for="Person.Name" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Person.Password" class="control-label"></label>
+                <input asp-for="Person.Password" class="form-control" />
+                <span asp-validation-for="Person.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.ConfirmPassword" class="control-label"></label>
+                <input asp-for="Person.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Person.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.Email" class="control-label"></label>
+                <input asp-for="Person.Email" class="form-control" />
+                <span asp-validation-for="Person.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.ConfirmEmail" class="control-label"></label>
+                <input asp-for="Person.ConfirmEmail" class="form-control" />
+                <span asp-validation-for="Person.ConfirmEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Person.Gender" /> @Html.DisplayNameFor(model => model.Person.Gender))
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.CreditCard" class="control-label"></label>
+                <input asp-for="Person.CreditCard" class="form-control" />
+                <span asp-validation-for="Person.CreditCard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.PostalCode" class="control-label"></label>
+                <input asp-for="Person.PostalCode" class="form-control" />
+                <span asp-validation-for="Person.PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.Fees" class="control-label"></label>
+                <input asp-for="Person.Fees" class="form-control" />
+                <span asp-validation-for="Person.Fees" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.Salary" class="control-label"></label>
+                <input asp-for="Person.Salary" class="form-control" />
+                <span asp-validation-for="Person.Salary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.DateOfBirth" class="control-label"></label>
+                <input asp-for="Person.DateOfBirth" class="form-control" />
+                <span asp-validation-for="Person.DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.PostedFile" class="control-label"></label>
+                <input asp-for="Person.PostedFile" class="form-control" />
+                <span asp-validation-for="Person.PostedFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.Age2" class="control-label"></label>
+                <input asp-for="Person.Age2" class="form-control" />
+                <span asp-validation-for="Person.Age2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.PhoneNumber" class="control-label"></label>
+                <input asp-for="Person.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Person.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.Remarks" class="control-label"></label>
+                <textarea asp-for="Person.Remarks" class="form-control"></textarea>
+                <span asp-validation-for="Person.Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.WebSite" class="control-label"></label>
+                <input asp-for="Person.WebSite" class="form-control" />
+                <span asp-validation-for="Person.WebSite" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.ZipCode" class="control-label"></label>
+                <input asp-for="Person.ZipCode" class="form-control" />
+                <span asp-validation-for="Person.ZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.HiddenField" class="control-label"></label>
+                <input asp-for="Person.HiddenField" class="form-control" />
+                <span asp-validation-for="Person.HiddenField" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

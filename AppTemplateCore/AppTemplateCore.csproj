@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Persons\Pages\Scaffold\**" />
+    <Content Remove="Areas\Persons\Pages\Scaffold\**" />
+    <EmbeddedResource Remove="Areas\Persons\Pages\Scaffold\**" />
+    <None Remove="Areas\Persons\Pages\Scaffold\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Data\Migrations\20200321064533_AddDrivingLicenseNPhoneColumnsToUserTable.cs" />
     <Compile Remove="Data\Migrations\20200321064533_AddDrivingLicenseNPhoneColumnsToUserTable.Designer.cs" />
     <Compile Remove="Data\Migrations\20200321081307_AddDrivingLicNPhoneColumnsToUserTable.cs" />
@@ -39,6 +46,12 @@
     <Compile Remove="Data\Migrations\20200414220940_AgainAdjustingFkeyOfUserRoleTable.Designer.cs" />
     <Compile Remove="Data\Migrations\20200414223532_print.cs" />
     <Compile Remove="Data\Migrations\20200414223532_print.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200518065808_AddPersonNCountryTables.cs" />
+    <Compile Remove="Data\Migrations\20200518065808_AddPersonNCountryTables.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Areas\Persons\Pages\_ViewImports.cshtml" />
   </ItemGroup>
 
 
@@ -56,8 +69,12 @@
     <Folder Include="Areas\foo\Models\" />
     <Folder Include="Areas\foo\Views\" />
     <Folder Include="Areas\Identity\Models\" />
-    <Folder Include="Areas\Student\Pages\" />
     <Folder Include="Models\LINQ\Set Operators\Union\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="Areas\Persons\Pages\_ViewImports.cshtml" />
   </ItemGroup>
 
 </Project>
