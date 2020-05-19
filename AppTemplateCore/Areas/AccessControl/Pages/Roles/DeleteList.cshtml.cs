@@ -92,6 +92,22 @@ namespace AppTemplateCore.Areas.AccessControl.Pages.Roles
             }
 
             Handle_Success_Response(result);
+
+            var roles = await RoleManager.Roles.ToListAsync();
+
+            Input = new List<InputModel>();
+
+            foreach (var role in roles)
+            {
+                var roleWithUsers = new InputModel();
+                roleWithUsers.Id = role.Id;
+                roleWithUsers.Name = role.Name;
+                roleWithUsers.IsSelected = false;
+                roleWithUsers.UserList = await UserManager.GetUsersInRoleAsync(role.Name);
+                Input.Add(roleWithUsers);
+            }
+
+
             return Page();
         }
 

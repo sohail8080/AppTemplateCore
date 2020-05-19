@@ -85,9 +85,9 @@ namespace AppTemplateCore.Areas.Persons.Models
 
 
         // Radio Buttons
-        [DisplayName("Gender")]
-        [Required(ErrorMessage = "Gender is required.")]
-        public bool Gender { get; set; }
+        [DisplayName("Registration Status")]
+        [Required(ErrorMessage = "Registration Status is required.")]
+        public bool IsRegistered { get; set; }
 
 
         [DisplayName("Credit Card")]

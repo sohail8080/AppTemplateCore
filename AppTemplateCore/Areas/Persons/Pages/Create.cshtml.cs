@@ -35,9 +35,17 @@ namespace AppTemplateCore.Areas.Persons.Pages
             ViewData["CountriesList2"] = new SelectList(_context.Countries, "CountryID", "Name");
 
             // ref data as list
-            ViewData["HobbiesList1"] = _context.Hobbies.ToList();           
+            ViewData["HobbiesList1"] = _context.Hobbies.ToList();
             // ref data as select list
             ViewData["HobbiesList2"] = new SelectList(_context.Hobbies, "HobbyID", "Name");
+
+
+            Person.AllHobbiesList = _context.Hobbies.Select(x => new PersonHasHobby()
+            {
+                IsSelected = false,
+                HobbyID = x.HobbyID,
+                Name = x.Name
+            }).ToList();
 
             //ViewData["CountryID"] = new SelectList(_context.Countries, "CountryID", "Name");
             return Page();
@@ -49,6 +57,94 @@ namespace AppTemplateCore.Areas.Persons.Pages
 
         public class PersonViewModel
         {
+
+            public PersonViewModel()
+            {
+                // Setting following model element will select corresponding values in drop down.
+                // in case of edit, value from db will be set to this model element
+                CountryID = 1;
+
+                CountriesCodeList = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "MX", Text = "Mexico" },
+                    new SelectListItem { Value = "CA", Text = "Canada" },
+                    new SelectListItem { Value = "US", Text = "USA"    },
+                    new SelectListItem { Value = "FR", Text = "France" },
+                    new SelectListItem { Value = "ES", Text = "Spain"  },
+                    new SelectListItem { Value = "DE", Text = "Germany"}
+                };
+
+
+                //model.Insert(0, new SelectListItem("<none>", ""));
+
+                Countries = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "MX", Text = "Mexico" },
+                    new SelectListItem { Value = "CA", Text = "Canada" },
+                    new SelectListItem { Value = "US", Text = "USA"  },
+                };
+
+                var NorthAmericaGroup = new SelectListGroup { Name = "North America" };
+                var EuropeGroup = new SelectListGroup { Name = "Europe" };
+
+                HieraricalCountriesList = new List<SelectListItem>
+                    {
+                        new SelectListItem
+                        {
+                            Value = "MEX",
+                            Text = "Mexico",
+                            Group = NorthAmericaGroup
+                        },
+                        new SelectListItem
+                        {
+                            Value = "CAN",
+                            Text = "Canada",
+                            Group = NorthAmericaGroup
+                        },
+                        new SelectListItem
+                        {
+                            Value = "US",
+                            Text = "USA",
+                        Group = NorthAmericaGroup
+                        },
+                        new SelectListItem
+                        {
+                            Value = "FR",
+                            Text = "France",
+                            Group = EuropeGroup
+                        },
+                        new SelectListItem
+                        {
+                            Value = "ES",
+                            Text = "Spain",
+                            Group = EuropeGroup
+                        },
+                        new SelectListItem
+                        {
+                            Value = "DE",
+                            Text = "Germany",
+                            Group = EuropeGroup
+                        }
+                    };
+            }
+
+
+            // Model Element in which we get the multiple selection fo country code
+            //The Select Tag Helper will automatically generate the multiple = "multiple" attribute 
+            //if the property specified in the asp-for attribute is an IEnumerable
+            [DisplayName("Country Code")]
+            [Required(ErrorMessage = "Country Code is required.")]
+            public IEnumerable<string> CountryCodes { get; set; }
+
+            // Ref Data 
+            public List<SelectListItem> CountriesCodeList { get; } 
+
+            // Ref Data 
+            public List<SelectListItem> Countries { get; }
+
+            // Ref Data 
+            public List<SelectListItem> HieraricalCountriesList { get; }            
+
             // Ref Data           
             public List<Country> CountriesList { get; set; }
 
@@ -57,6 +153,9 @@ namespace AppTemplateCore.Areas.Persons.Pages
 
             public int PersonID { get; set; }
 
+            // Setting following model element will select corresponding values in drop down.
+            // in case of edit, value from db will be set to this model element
+            //value is set in constructor
             // one to one, not nullable, database drop down
             [DisplayName("Country")]
             [Required(ErrorMessage = "Country is required.")]
@@ -121,9 +220,9 @@ namespace AppTemplateCore.Areas.Persons.Pages
 
 
             // Radio Buttons
-            [DisplayName("Gender")]
-            [Required(ErrorMessage = "Gender is required.")]
-            public bool Gender { get; set; }
+            [DisplayName("Registration Status")]
+            [Required(ErrorMessage = "Registration Status is required.")]
+            public bool IsRegistered { get; set; }
 
 
             [DisplayName("Credit Card")]
@@ -225,9 +324,17 @@ namespace AppTemplateCore.Areas.Persons.Pages
             [Required(ErrorMessage = "Hidden value is required")]
             public string HiddenField { get; set; }
 
+            public List<PersonHasHobby> AllHobbiesList { get; set; }
+
         }
 
+        public class PersonHasHobby
+        {
+            public int HobbyID { get; set; }           
+            public string Name { get; set; }
+            public bool IsSelected { get; set; }
 
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {

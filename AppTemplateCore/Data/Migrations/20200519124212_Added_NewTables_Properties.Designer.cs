@@ -4,14 +4,16 @@ using AppTemplateCore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AppTemplateCore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200519124212_Added_NewTables_Properties")]
+    partial class Added_NewTables_Properties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,12 +189,12 @@ namespace AppTemplateCore.Data.Migrations
 
                     b.Property<decimal>("Fees");
 
+                    b.Property<bool>("Gender");
+
                     b.Property<string>("HiddenField")
                         .IsRequired();
 
                     b.Property<int>("HobbyID");
-
-                    b.Property<bool>("IsRegistered");
 
                     b.Property<string>("Name")
                         .IsRequired()

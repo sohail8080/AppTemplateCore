@@ -122,6 +122,7 @@
 
             </div>
 
+            @*Alternative representation of the Roles Block*@
 
             @*<div class="form-group">
 
@@ -189,9 +190,9 @@
                         for (int i = 0; i < Model.Input.AllClaimsList.Count; i++)
                         {
                             @*@Html.HiddenFor(m => m.Input.AllClaimsList[i].ClaimType)
-                                @Html.HiddenFor(m => m.Input.AllClaimsList[i].ClaimValue)
-                                @Html.CheckBoxFor(m => m.Input.AllClaimsList[i].IsSelected, new { @class = "form-check-input" })
-                                <label>  @Model.Input.AllClaimsList[i].ClaimType </label>*@
+                        @Html.HiddenFor(m => m.Input.AllClaimsList[i].ClaimValue)
+                        @Html.CheckBoxFor(m => m.Input.AllClaimsList[i].IsSelected, new { @class = "form-check-input" })
+                        <label>  @Model.Input.AllClaimsList[i].ClaimType </label>*@
 
                             <tr>
                                 <td>
@@ -211,50 +212,51 @@
                     }
 
                     @*<div class="card-footer">
-                        </div>*@
+                </div>*@
 
                 </table>
 
             </div>
 
+            @*Alternative representation of the Claims Block*@
 
             @*<div class="form-group">
 
-                    <div class="card">
+            <div class="card">
 
-                        <div class="card-header">
-                            <b>Select User's Claims</b>
-                        </div>
+                <div class="card-header">
+                    <b>Select User's Claims</b>
+                </div>
 
-                        <div class="card-body">
-                            @if (!Model.Input.AllClaimsList.Any())
-                            {
-                                <span class="card-title">  No Claims exist in system.  </span>
-                            }
-                            else
-                            {
+                <div class="card-body">
+                    @if (!Model.Input.AllClaimsList.Any())
+                    {
+                        <span class="card-title">  No Claims exist in system.  </span>
+                    }
+                    else
+                    {
 
-                                for (int i = 0; i < Model.Input.AllClaimsList.Count; i++)
-                                {
-                                    <div>
-                                        <input hidden asp-for="@Model.Input.AllClaimsList[i].ClaimType" />
-                                        <input hidden asp-for="@Model.Input.AllClaimsList[i].ClaimValue" />
+                        for (int i = 0; i < Model.Input.AllClaimsList.Count; i++)
+                        {
+                            <div>
+                                <input hidden asp-for="@Model.Input.AllClaimsList[i].ClaimType" />
+                                <input hidden asp-for="@Model.Input.AllClaimsList[i].ClaimValue" />
 
-                                        <span class="checkbox">
-                                            <label>
-                                                <input asp-for="@Model.Input.AllClaimsList[i].IsSelected" />
-                                                @Model.Input.AllClaimsList[i].ClaimType
-                                            </label>
-                                        </span>
-                                    </div>
-                                }
+                                <span class="checkbox">
+                                    <label>
+                                        <input asp-for="@Model.Input.AllClaimsList[i].IsSelected" />
+                                        @Model.Input.AllClaimsList[i].ClaimType
+                                    </label>
+                                </span>
+                            </div>
+                        }
 
-                            }
-                        </div>
+                    }
+                </div>
 
-                    </div>
+            </div>
 
-                </div>*@
+        </div>*@
 
         </div>
 

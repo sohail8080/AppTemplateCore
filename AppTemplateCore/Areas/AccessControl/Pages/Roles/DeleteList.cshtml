@@ -11,8 +11,6 @@
 
 <h1>@ViewData["Title"]</h1>
 
-
-
 @{
     if (Model.Input.Count() <= 0)
     {
@@ -24,14 +22,17 @@
 <form method="post">
 
     <p>
-        <button type="submit" class="btn btn-danger">Delete Roles</button>
+        <button type="submit" class="btn btn-danger js-submit">Delete Roles</button>
     </p>
 
-    <table id="roles" class="table table-bordered table-hover">
+    <table id="rolestable" class="table table-bordered table-hover">
 
         <thead>
             <tr>
-                <th>Roles</th>
+                <th>
+                    <input type="checkbox" class="selectall" id="selectall" value="false" />
+                    Roles
+                </th>
             </tr>
         </thead>
 
@@ -56,8 +57,14 @@
 
     </table>
 
+    <span id="role_delete_error" style="display:none" class="text-danger field-validation-error" data-valmsg-replace="true">
+        Please select any role to delete.
+    </span>
+
+    <div style="margin:5px">&nbsp;</div>
+
     <p>
-        <button type="submit" class="btn btn-danger">Delete Roles</button>
+        <button type="submit" class="btn btn-danger js-submit">Delete Roles</button>
     </p>
 
 </form>
@@ -69,7 +76,88 @@
 
     <script>
 
+        $(document).ready(function () {
+
+            $(".js-submit").on("click", function (e) {
+
+                var isAnyCheckBoxChecked = false;
+
+                // all input elements within root tag
+                //var checkBoxes = document.getElementById("hobbytable").getElementsByTagName("input");
+                //var checkBoxes = $("#hobbytable input"); // all input elements within root tag
+                //var checkBoxes = $("#hobbytable").find("input"); // all input elements within root tag
+                var checkBoxes = $("#rolestable input[type='checkbox']");
+
+                //alert(checkBoxes.length);
+
+                for (var i = 0; i < checkBoxes.length; i++) {
+                    if (checkBoxes[i].type == "checkbox") {
+                        if (checkBoxes[i].checked) {
+                            isAnyCheckBoxChecked = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isAnyCheckBoxChecked) {
+
+                    e.preventDefault();// stop form processing by post back
+
+                    // either show following messeage or show bootbox dialog
+                    //$('#role_delete_error').show();
+
+                    //// either show following messeage or show bootbox dialog
+                    bootbox.alert({
+                        message: "Please select any role to delete.",
+                        size: 'small',
+                        backdrop: true,
+                        centerVertical: true,
+                        callback: function () {
+
+                        }
+                    });
+
+                }
+                else {
+                    //// either show following messeage or show bootbox dialog
+                    //$('#role_delete_error').hide();
+                }
+
+                //e.preventDefault();
+                // $("p").hide();
+                // $("p").show();
+                //document.getElementById("userinfo").style.display="block";
+                //document.getElementById("userinfo").style.display="none";
+                //$('#danceforme').hide();
+                // $('#danceforme').show();
+
+
+            });
+
+       
+            $("#selectall").click(function () {
+
+                //this is a reference to the html DOM element that is the source of the event.
+                //$(this) is a jQuery wrapper around that element that enables usage of jQuery methods.
+
+                var checkBoxes = $("#rolestable input[type='checkbox']");
+
+                for (var i = 0; i < checkBoxes.length; i++) {
+                    if (checkBoxes[i].type == "checkbox") {
+                        if (this.checked) { checkBoxes[i].checked = true; }
+                        else { checkBoxes[i].checked = false; }
+                    }
+                }
+            });
+
+
+
+
+
+        });
+
 
     </script>
+
 
 }

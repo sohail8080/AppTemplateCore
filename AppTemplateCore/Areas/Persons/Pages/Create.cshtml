@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form id="personform" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
@@ -58,6 +58,43 @@
             </div>
 
 
+            @* list in Hard Coded Collection *@
+            <div class="form-group">
+                <label asp-for="Person.CountryID" class="control-label"></label>
+                <select asp-for="Person.CountryID" class="form-control"
+                        asp-items="Model.Person.Countries">
+                    <option value="">Select Country</option>
+                </select>
+                <span asp-validation-for="Person.CountryID" class="text-danger"></span>
+            </div>
+
+
+            @* list in Hard Coded Hierarical Collection *@
+            @*The HTML <optgroup> element is generated when the view model contains one or more
+                SelectListGroup objects.*@
+            <div class="form-group">
+                <label asp-for="Person.CountryID" class="control-label"></label>
+                <select asp-for="Person.CountryID" class="form-control"
+                        asp-items="Model.Person.HieraricalCountriesList">
+                    <option value="">Select Country</option>
+                </select>
+                <span asp-validation-for="Person.CountryID" class="text-danger"></span>
+            </div>
+
+
+
+            @* list in Hard Coded Hierarical Collection *@
+            @*The Select Tag Helper will automatically generate the multiple = "multiple" attribute if the property
+                specified in the asp-for attribute is an IEnumerable.*@
+            <div class="form-group">
+                <label asp-for="Person.CountryCodes" class="control-label"></label>
+                <select asp-for="Person.CountryCodes" class="form-control"
+                        asp-items="Model.Person.CountriesCodeList">
+                    <option value="">None</option>
+                </select>
+                <span asp-validation-for="Person.CountryCodes" class="text-danger"></span>
+            </div>
+
 
 
             @*one to many, not nullable, database, checkbox list *@
@@ -91,6 +128,145 @@
                     <option value="">Select Hobby</option>
                 </select>
                 <span asp-validation-for="Person.HobbyID" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group">
+
+                <table id="hobbytable" class="table table-bordered table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Select Person's Hobbies</th>
+                        </tr>
+                    </thead>
+
+                    @if (!Model.Person.AllHobbiesList.Any())
+                    {
+                        <tr>
+                            <td>
+                                No hobbies defined in system.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Model.Person.AllHobbiesList.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input hidden asp-for="@Model.Person.AllHobbiesList[i].HobbyID" />
+                                    <input hidden asp-for="@Model.Person.AllHobbiesList[i].Name" />
+
+                                    <span class="checkbox">
+                                        <label>
+                                            <input asp-for="@Model.Person.AllHobbiesList[i].IsSelected" />
+                                            @Model.Person.AllHobbiesList[i].Name
+                                        </label>
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+
+                    }
+
+                </table>
+
+                <span id="person_hobby_error" style="display:none" class="text-danger field-validation-error" data-valmsg-replace="true">
+                    Please select at least one hobby.
+                </span>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <div class="card">
+
+                    <div class="card-header">
+                        <b>Select Person's Hobbies</b>
+                    </div>
+
+                    <div class="card-body">
+                        @if (!Model.Person.AllHobbiesList.Any())
+                        {
+                            <span class="card-title">  No hobbies defined in system.  </span>
+                        }
+                        else
+                        {
+
+                            for (int i = 0; i < Model.Person.AllHobbiesList.Count; i++)
+                            {
+                                <div>
+                                    <input hidden asp-for="@Model.Person.AllHobbiesList[i].HobbyID" />
+                                    <input hidden asp-for="@Model.Person.AllHobbiesList[i].Name" />
+
+                                    <span class="checkbox">
+                                        <label>
+                                            <input asp-for="@Model.Person.AllHobbiesList[i].IsSelected" />
+                                            @Model.Person.AllHobbiesList[i].Name
+                                        </label>
+                                    </span>
+                                </div>
+                            }
+
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="form-group">
+                <label> Select Person's Hobbies  </label>
+                @if (Model.Person.AllHobbiesList.Count() > 0)
+                {
+                    @foreach (var hobby in Model.Person.AllHobbiesList)
+                    {
+                        <div>
+                            <span class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="SelectedRoles" value="@hobby.Name" checked="@hobby.IsSelected" />
+                                    @hobby.Name
+                                </label>
+                            </span>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <label> No hobbies defined in system.  </label>
+                }
+            </div>
+
+
+
+            <div class="form-group">
+                <label> Select Person's Hobbies  </label>
+                @if (Model.Person.AllHobbiesList.Count() > 0)
+                {
+                    <div>
+                        @foreach (var hobby in Model.Person.AllHobbiesList)
+                        {
+
+                            <span class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="SelectedHobby" value="@hobby.Name" checked="@hobby.IsSelected" />
+                                    @hobby.Name
+                                </label>
+                            </span>
+
+                        }
+                    </div>
+                }
+                else
+                {
+                    <label> No hobbies defined in system.  </label>
+                }
             </div>
 
 
@@ -147,7 +323,7 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Person.Gender" /> @Html.DisplayNameFor(model => model.Person.Gender))
+                    <input class="form-check-input" asp-for="Person.IsRegistered" /> @Html.DisplayNameFor(model => model.Person.IsRegistered)
                 </label>
             </div>
             <div class="form-group">
@@ -210,8 +386,8 @@
                 <input asp-for="Person.HiddenField" class="form-control" />
                 <span asp-validation-for="Person.HiddenField" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div id="submitdiv" class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary js-submit" />               
             </div>
         </form>
     </div>
@@ -222,5 +398,57 @@
 </div>
 
 @section Scripts {
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        $(document).ready(function () {
+
+            // $("#submitdiv").on("click", ".js-submit", function (e) {
+
+            $(".js-submit").on("click", function (e) {
+                
+                var isAnyCheckBoxChecked = false;
+
+                // all input elements within root tag
+                //var checkBoxes = document.getElementById("hobbytable").getElementsByTagName("input");
+                //var checkBoxes = $("#hobbytable input"); // all input elements within root tag
+                //var checkBoxes = $("#hobbytable").find("input"); // all input elements within root tag
+                var checkBoxes = $("#hobbytable input[type='checkbox']");
+
+                //alert(checkBoxes.length);
+                      
+                for (var i = 0; i < checkBoxes.length; i++) {
+                    if (checkBoxes[i].type == "checkbox") {
+                        if (checkBoxes[i].checked) {
+                            isAnyCheckBoxChecked = true;
+                            break;
+                        }
+                    }
+                }
+
+
+                if (!isAnyCheckBoxChecked) {
+                    $('#person_hobby_error').show();
+                }
+                else {
+                    $('#person_hobby_error').hide();
+                }
+
+                //e.preventDefault();
+                // $("p").hide();
+                // $("p").show();
+                //document.getElementById("userinfo").style.display="block";
+                //document.getElementById("userinfo").style.display="none";
+                //$('#danceforme').hide();
+                // $('#danceforme').show();
+
+
+            });
+        });
+
+
+    </script>
+
 }
