@@ -1,0 +1,144 @@
+ASP.NET Web API using SQL Server
+
+ASP.NET Web API using SQL Server
+
+In this article, I am going to discuss ASP.NET Web API using SQL Server database. 
+So here we will create the Web API Service 
+which will perform the CRUD operation on the SQL Server database. 
+
+We are going to use this service as the base for understanding 
+many of the ASP.NET Web API concepts 
+that we are going to discuss in our upcoming articles. 
+
+The Web API EmployeeService that we are going to build 
+will retrieve the data from the Employees database table. 
+
+We will be using Entity Framework to retrieve data from the SQL server database. 
+You can use any technology of your choice to retrieve data from the database. 
+For example, you can even use raw ADO.NET. 
+
+Creating the Required Database: 
+We are going to use the following Employees table in this demo 
+to understand how to create Web API service using SQL Server database.
+
+Please use the following SQL Script to create and populate the Employees table 
+with some test data. The below SQL script
+
+Create a database called WEBAPI_DB
+Then creates the Employees table and populate it with some test data
+
+CREATE DATABASE WEBAPI_DB
+GO
+
+USE WEBAPI_DB
+GO
+
+CREATE TABLE Employees
+(
+     ID int primary key identity,
+     FirstName nvarchar(50),
+     LastName nvarchar(50),
+     Gender nvarchar(50),
+     Salary int
+)
+GO
+
+INSERT INTO Employees VALUES ('Pranaya', 'Rout', 'Male', 60000)
+INSERT INTO Employees VALUES ('Anurag', 'Mohanty', 'Male', 45000)
+INSERT INTO Employees VALUES ('Preety', 'Tiwari', 'Female', 45000)
+INSERT INTO Employees VALUES ('Sambit', 'Mohanty', 'Male', 70000)
+INSERT INTO Employees VALUES ('Shushanta', 'Jena', 'Male', 45000)
+INSERT INTO Employees VALUES ('Priyanka', 'Dewangan', 'Female', 30000)
+INSERT INTO Employees VALUES ('Sandeep', 'Kiran', 'Male', 45000)
+INSERT INTO Employees VALUES('Shudhansshu', 'Nayak', 'Male', 30000)
+INSERT INTO Employees VALUES ('Hina', 'Sharma', 'Female', 35000)
+INSERT INTO Employees VALUES ('Preetiranjan', 'Sahoo', 'Male', 80000)
+GO
+
+Creating a new ASP.NET Web API Project
+Open Visual Studio and select File – New – Project as shown below
+
+From the “New Project” window, 
+Select “Visual C#” 
+under the “Installed – Templates” section. 
+
+Again from the middle pane, 
+you need to select the “ASP.NET Web Application” and 
+name the project as “EmployeeService“. 
+
+Finally, click on the “OK” button as shown in the below image.
+
+Once you click on the OK button.
+
+A new dialog window will open with Name “New ASP.NET Project” 
+for selecting project Templates as per your requirement.
+
+choose WEB API project template and 
+click on the OK Button. 
+
+At this point, you should have the Web API project created with the following structure.
+
+Adding ADO.NET Entity Data Model to retrieve data from the database
+
+Right-click on the Models folder and then select 
+Add – New Item and from the “Add New Item” window 
+select “Data” from the left pane and 
+then select ADO.NET Entity Data Model from the middle pane
+
+In the Name text box, 
+type EmployeeDataModel and c
+lick on the Add button as shown in the below image.
+
+Adding Web API Controller
+1. Right click on the Controllers folder in 
+EmployeeService project and select Add – Controller
+
+2. Then you need to select the 
+“Web API 2 Controller – Empty” and 
+then click on the “Add” button as shown in the below
+
+On the next screen set, 
+the Controller Name as EmployeesController and 
+click on the Add button as shown in the below image.
+
+Copy and paste the following code in EmployeesController.cs
+
+namespace EmployeeService.Controllers
+{
+    public class EmployeesController : ApiController
+    {
+        public IEnumerable<Employee> Get()
+        {
+            using (EmployeeDBContext dbContext = new EmployeeDBContext())
+            {
+                return dbContext.Employees.ToList();
+            }
+        }
+        public Employee Get(int id)
+        {
+            using (EmployeeDBContext dbContext = new EmployeeDBContext())
+            {
+                return dbContext.Employees.FirstOrDefault(e => e.ID == id);
+            }
+        }
+    }
+}
+
+Please import the below namespace.
+
+using EmployeeService.Models;
+
+At this point when we navigate to /api/employees 
+we should see all employees and 
+when we navigate to /api/employees/1 
+we should see all the details of the employee whose Id=1
+
+In the next article, I am going to discuss 
+Content Negotiation in Web API with an example. 
+
+Here, in this article, 
+I try to explain ASP.NET Web API using SQL Server step by step with one example. 
+
+I hope this article will help you with your need. 
+I would like to have your feedback. 
+Please post your feedback, question, or comments about this article.

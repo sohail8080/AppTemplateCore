@@ -1,0 +1,386 @@
+﻿@page
+@model AppTemplateCore.Areas.Bootstrap.Pages.Utility_Margin_PaddingModel
+@{
+}
+
+Bootstrap 4 has a wide range of responsive margin and padding utility classes.
+
+They work for all breakpoints:
+xs (<=576px),
+sm (>=576px),
+md (>=768px),
+lg (>=992px) or
+xl (>=1200px)):
+
+The classes are used in the format:
+
+{property}{sides}-{size} for xs and above devices
+
+{property}{sides}-{screensize}-{size} for sm, md, lg, and xl.
+
+Where property is one of:==============================
+
+m - sets margin
+p - sets padding
+
+
+Where sides is one of:===================================
+
+t - TOP                 sets margin-top or padding-top
+b - BOTTOM              sets margin-bottom or padding-bottom
+l - LEFT                sets margin-left or padding-left
+r - RIGHT               sets margin-right or padding-right
+x - LEFT N RIGHT        sets both padding-left and padding-right or margin-left and margin-right
+y - TOP N BOTTOM        sets both padding-top and padding-bottom or margin-top and margin-bottom
+blank - ALL FOUR SIDES  sets a margin or padding on all 4 sides of the element
+
+mt, mb, ml, mr, mx, my, m
+pt, pb, pl, pr, px, py, p
+
+
+Where size is one of:================================
+
+0 - sets margin or padding to 0
+1 - sets margin or padding to .25rem (4px if font-size is 16px)
+2 - sets margin or padding to .5rem (8px if font-size is 16px)
+3 - sets margin or padding to 1rem (16px if font-size is 16px)
+4 - sets margin or padding to 1.5rem (24px if font-size is 16px)
+5 - sets margin or padding to 3rem (48px if font-size is 16px)
+auto - sets margin to auto
+
+mt-5, mb-5, ml-5, mr-5, mx-5, my-5, m-5
+pt-5, pb-5, pl-5, pr-5, px-5, py-5, p-5
+
+
+=========================================
+
+Note: margins can also be negative, by adding an "n" in front of size:
+
+n1 - sets margin to -.25rem (-4px if font-size is 16px)
+n2 - sets margin to -.5rem (-8px if font-size is 16px)
+n3 - sets margin to -1rem (-16px if font-size is 16px)
+n4 - sets margin to -1.5rem (-24px if font-size is 16px)
+n5 - sets margin to -3rem (-48px if font-size is 16px)
+
+
+<div class="container">
+
+    <h1>Spacing Utilities</h1>
+
+    <p>Set the spacing of an element with the {property}{sides}-{screensize}-{size} classes. Omit breakpoint if you want the padding or margin to work on all screen sizes.</p>
+
+    <div class="pt-4 bg-warning">I only have a top padding (1.5rem = 24px)</div>
+
+    <div class="p-5 bg-success">I have a padding on all sides (3rem = 48px)</div>
+
+    <div class="m-5 pb-5 bg-info">I have a margin on all sides (3rem = 48px) and a bottom padding (3rem = 48px)</div>
+
+</div>
+
+
+
+
+<div class="container">
+
+    <h1>Margin Top Utilities</h1>
+
+    <p>Margin Top utilities:</p>
+
+    <div class="mt-0 bg-warning">Margin Top 0</div>
+    <div class="mt-1 bg-warning">Margin Top 1</div>
+    <div class="mt-2 bg-warning">Margin Top 2</div>
+    <div class="mt-3 bg-warning">Margin Top 3</div>
+    <div class="mt-4 bg-warning">Margin Top 4</div>
+    <div class="mt-5 bg-warning">Margin Top 5</div>
+    <div class="mt-auto bg-warning" style="width:150px">Margin Top Auto</div>
+
+    <br>
+
+    <p>Responsive margin top utilities. Resize the browser window to see the effect:</p>
+
+    <div class="mt-sm-5 bg-warning">Margin Top 5 on SM screens</div>
+    <div class="mt-md-5 bg-warning">Margin Top 5 on MD screens</div>
+    <div class="mt-lg-5 bg-warning">Margin Top 5 on LG screens</div>
+    <div class="mt-xl-5 bg-warning">Margin Top 5 on XL screens</div>
+
+</div>
+
+
+
+
+<div class="container">
+
+    <h1>Margin Bottom Utilities</h1>
+
+    <p>Margin Bottom utilities:</p>
+
+    <div class="mb-0 bg-warning">Margin Bottom 0</div>
+    <div class="mb-1 bg-warning">Margin Bottom 1</div>
+    <div class="mb-2 bg-warning">Margin Bottom 2</div>
+    <div class="mb-3 bg-warning">Margin Bottom 3</div>
+    <div class="mb-4 bg-warning">Margin Bottom 4</div>
+    <div class="mb-5 bg-warning">Margin Bottom 5</div>
+    <div class="mb-auto bg-warning" style="width:150px">Margin Bottom Auto</div>
+
+    <br>
+
+    <p>Responsive margin bottom utilities. Resize the browser window to see the effect:</p>
+
+    <div class="mb-sm-5 bg-warning">Margin Bottom 5 on SM screens</div>
+    <div class="mb-md-5 bg-warning">Margin Bottom 5 on MD screens</div>
+    <div class="mb-lg-5 bg-warning">Margin Bottom 5 on LG screens</div>
+    <div class="mb-xl-5 bg-warning">Margin Bottom 5 on XL screens</div>
+
+</div>
+
+
+
+<div class="container">
+
+    <h1>Margin Left Utilities</h1>
+
+    <p>Margin Left utilities:</p>
+
+    <div class="ml-0 bg-warning">Margin Left 0</div>
+    <div class="ml-1 bg-warning">Margin Left 1</div>
+    <div class="ml-2 bg-warning">Margin Left 2</div>
+    <div class="ml-3 bg-warning">Margin Left 3</div>
+    <div class="ml-4 bg-warning">Margin Left 4</div>
+    <div class="ml-5 bg-warning">Margin Left 5</div>
+    <div class="ml-auto bg-warning" style="width:150px">Margin Left Auto</div>
+
+    <p>Responsive margin left utilities. Resize the browser window to see the effect:</p>
+
+    <div class="ml-sm-5 bg-warning">Margin Left 5 on SM screens</div>
+    <div class="ml-md-5 bg-warning">Margin Left 5 on MD screens</div>
+    <div class="ml-lg-5 bg-warning">Margin Left 5 on LG screens</div>
+    <div class="ml-xl-5 bg-warning">Margin Left 5 on XL screens</div>
+
+</div>
+
+
+
+<div class="container">
+
+    <h1>Margin Right Utilities</h1>
+
+    <p>Margin Right utilities:</p>
+
+    <div class="mr-0 bg-warning">Margin Right 0</div>
+    <div class="mr-1 bg-warning">Margin Right 1</div>
+    <div class="mr-2 bg-warning">Margin Right 2</div>
+    <div class="mr-3 bg-warning">Margin Right 3</div>
+    <div class="mr-4 bg-warning">Margin Right 4</div>
+    <div class="mr-5 bg-warning">Margin Right 5</div>
+    <div class="mr-auto bg-warning" style="width:150px">Margin Right Auto</div>
+
+    <br>
+
+    <p>Responsive margin left utilities. Resize the browser window to see the effect:</p>
+
+    <div class="mr-sm-5 bg-warning">Margin Right on SM screens</div>
+    <div class="mr-md-5 bg-warning">Margin Right on MD screens</div>
+    <div class="mr-lg-5 bg-warning">Margin Right on LG screens</div>
+    <div class="mr-xl-5 bg-warning">Margin Right on XL screens</div>
+</div>
+
+
+
+<div class="container">
+
+    <h1>Margin Left and Right Utilities</h1>
+
+    <p>Margin X utilities:</p>
+
+    <div class="mx-0 bg-warning">Margin X 0</div>
+    <div class="mx-1 bg-warning">Margin X 1</div>
+    <div class="mx-2 bg-warning">Margin X 2</div>
+    <div class="mx-3 bg-warning">Margin X 3</div>
+    <div class="mx-4 bg-warning">Margin X 4</div>
+    <div class="mx-5 bg-warning">Margin X 5</div>
+    <div class="mx-auto bg-warning" style="width:150px">Margin X Auto</div>
+
+    <br>
+
+    <p>Responsive margin x utilities. Resize the browser window to see the effect:</p>
+
+    <div class="mx-sm-5 bg-warning">Margin X 5 on SM screens</div>
+    <div class="mx-md-5 bg-warning">Margin X 5 on MD screens</div>
+    <div class="mx-lg-5 bg-warning">Margin X 5 on LG screens</div>
+    <div class="mx-xl-5 bg-warning">Margin X 5 on XL screens</div>
+
+</div>
+
+
+
+<div class="container">
+
+    <h1>Margin Top and Bottom Utilities</h1>
+
+    <p>Margin Y utilities:</p>
+
+    <div class="my-0 bg-warning">Margin Y 0</div>
+    <div class="my-1 bg-warning">Margin Y 1</div>
+    <div class="my-2 bg-warning">Margin Y 2</div>
+    <div class="my-3 bg-warning">Margin Y 3</div>
+    <div class="my-4 bg-warning">Margin Y 4</div>
+    <div class="my-5 bg-warning">Margin Y 5</div>
+    <div class="my-auto bg-warning">Margin Y Auto</div>
+
+    <br>
+
+    <p>Responsive margin y utilities. Resize the browser window to see the effect:</p>
+
+    <div class="my-sm-5 bg-warning">Margin Y 5 on SM screens</div>
+    <div class="my-md-5 bg-warning">Margin Y 5 on MD screens</div>
+    <div class="my-lg-5 bg-warning">Margin Y 5 on LG screens</div>
+    <div class="my-xl-5 bg-warning">Margin Y 5 on XL screens</div>
+
+</div>
+
+
+
+
+<div class="container">
+
+    <h1>Padding Utilities</h1>
+
+    <p>Padding utilities:</p>
+
+    <div class="p-0 bg-warning">Padding 0</div>
+    <div class="p-1 bg-success">Padding 1</div>
+    <div class="p-2 bg-danger">Padding 2</div>
+    <div class="p-3 bg-primary">Padding 3</div>
+    <div class="p-4 bg-light">Padding 4</div>
+    <div class="p-5 bg-info">Padding 5</div>
+
+    <br>
+
+    <p>Responsive padding utilities. Resize the browser window to see the effect:</p>
+
+    <div class="p-sm-5 bg-warning">Padding 5 on SM screens</div>
+    <div class="p-md-5 bg-success">Padding 5 on MD screens</div>
+    <div class="p-lg-5 bg-danger">Padding 5 on LG screens</div>
+    <div class="p-xl-5 bg-primary">Padding 5 on XL screens</div>
+
+</div>
+
+
+
+<div class="container">
+    <h1>Padding Top Utilities</h1>
+    <p>Padding top utilities:</p>
+    <div class="pt-0 bg-warning">Padding Top 0</div>
+    <div class="pt-1 bg-success">Padding Top 1</div>
+    <div class="pt-2 bg-danger">Padding Top 2</div>
+    <div class="pt-3 bg-primary">Padding Top 3</div>
+    <div class="pt-4 bg-light">Padding Top 4</div>
+    <div class="pt-5 bg-info">Padding Top 5</div>
+    <br>
+
+    <p>Responsive padding top utilities. Resize the browser window to see the effect:</p>
+    <div class="pt-sm-5 bg-warning">Padding Top 5 on SM screens</div>
+    <div class="pt-md-5 bg-success">Padding Top 5 on MD screens</div>
+    <div class="pt-lg-5 bg-danger">Padding Top 5 on LG screens</div>
+    <div class="pt-xl-5 bg-primary">Padding Top 5 on XL screens</div>
+</div>
+
+
+<div class="container">
+    <h1>Padding Bottom Utilities</h1>
+    <p>Padding bottom utilities:</p>
+    <div class="pb-0 bg-warning">Padding Bottom 0</div>
+    <div class="pb-1 bg-success">Padding Bottom 1</div>
+    <div class="pb-2 bg-danger">Padding Bottom 2</div>
+    <div class="pb-3 bg-primary">Padding Bottom 3</div>
+    <div class="pb-4 bg-light">Padding Bottom 4</div>
+    <div class="pb-5 bg-info">Padding Bottom 5</div>
+    <br>
+
+    <p>Responsive padding bottom utilities. Resize the browser window to see the effect:</p>
+    <div class="pb-sm-5 bg-warning">Padding Bottom 5 on SM screens</div>
+    <div class="pb-md-5 bg-success">Padding Bottom 5 on MD screens</div>
+    <div class="pb-lg-5 bg-danger">Padding Bottom 5 on LG screens</div>
+    <div class="pb-xl-5 bg-primary">Padding Bottom 5 on XL screens</div>
+</div>
+
+
+
+<div class="container">
+    <h1>Padding Left Utilities</h1>
+    <p>Padding left utilities:</p>
+    <div class="pl-0 bg-warning">Padding Left 0</div>
+    <div class="pl-1 bg-success">Padding Left 1</div>
+    <div class="pl-2 bg-danger">Padding Left 2</div>
+    <div class="pl-3 bg-primary">Padding Left 3</div>
+    <div class="pl-4 bg-light">Padding Left 4</div>
+    <div class="pl-5 bg-info">Padding Left 5</div>
+    <br>
+
+    <p>Responsive padding left utilities. Resize the browser window to see the effect:</p>
+    <div class="pl-sm-5 bg-warning">Padding Left 5 on SM screens</div>
+    <div class="pl-md-5 bg-success">Padding Left 5 on MD screens</div>
+    <div class="pl-lg-5 bg-danger">Padding Left 5 on LG screens</div>
+    <div class="pl-xl-5 bg-primary">Padding Left 5 on XL screens</div>
+</div>
+
+
+
+<div class="container">
+    <h1>Padding Right Utilities</h1>
+    <p>Padding right utilities:</p>
+    <div class="pr-0 bg-warning text-right">Padding Right 0</div>
+    <div class="pr-1 bg-success text-right">Padding Right 1</div>
+    <div class="pr-2 bg-danger text-right">Padding Right 2</div>
+    <div class="pr-3 bg-primary text-right">Padding Right 3</div>
+    <div class="pr-4 bg-light text-right">Padding Right 4</div>
+    <div class="pr-5 bg-info text-right">Padding Right 5</div>
+    <br>
+
+    <p>Responsive padding right utilities. Resize the browser window to see the effect:</p>
+    <div class="pr-sm-5 bg-warning text-right">Padding Right 5 on SM screens</div>
+    <div class="pr-md-5 bg-success text-right">Padding Right 5 on MD screens</div>
+    <div class="pr-lg-5 bg-danger text-right">Padding Right 5 on LG screens</div>
+    <div class="pr-xl-5 bg-primary text-right">Padding Right 5 on XL screens</div>
+</div>
+
+
+
+<div class="container">
+    <h1>Padding Top and Bottom Utilities</h1>
+    <p>Padding y utilities:</p>
+    <div class="py-0 bg-warning">Padding Y 0</div>
+    <div class="py-1 bg-success">Padding Y 1</div>
+    <div class="py-2 bg-danger">Padding Y 2</div>
+    <div class="py-3 bg-primary">Padding Y 3</div>
+    <div class="py-4 bg-light">Padding Y 4</div>
+    <div class="py-5 bg-info">Padding Y 5</div>
+    <br>
+
+    <p>Responsive padding y utilities. Resize the browser window to see the effect:</p>
+    <div class="py-sm-5 bg-warning">Padding Y 5 on SM screens</div>
+    <div class="py-md-5 bg-success">Padding Y 5 on MD screens</div>
+    <div class="py-lg-5 bg-danger">Padding Y 5 on LG screens</div>
+    <div class="py-xl-5 bg-primary">Padding Y 5 on XL screens</div>
+</div>
+
+
+
+
+<div class="container">
+    <h1>Padding Left and Right Utilities</h1>
+    <p>Padding x utilities:</p>
+    <div class="px-0 bg-warning">Padding X 0</div>
+    <div class="px-1 bg-success">Padding X 1</div>
+    <div class="px-2 bg-danger">Padding X 2</div>
+    <div class="px-3 bg-primary">Padding X 3</div>
+    <div class="px-4 bg-light">Padding X 4</div>
+    <div class="px-5 bg-info">Padding X 5</div>
+    <br>
+
+    <p>Responsive padding x utilities. Resize the browser window to see the effect:</p>
+    <div class="px-sm-5 bg-warning">Padding X 5 on SM screens</div>
+    <div class="px-md-5 bg-success">Padding X 5 on MD screens</div>
+    <div class="px-lg-5 bg-danger">Padding X 5 on LG screens</div>
+    <div class="px-xl-5 bg-primary">Padding X 5 on XL screens</div>
+</div>

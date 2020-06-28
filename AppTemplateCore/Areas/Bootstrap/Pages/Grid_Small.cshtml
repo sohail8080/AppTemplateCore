@@ -1,0 +1,134 @@
+﻿@page
+@model AppTemplateCore.Areas.Bootstrap.Pages.Grid_SmallModel
+@{
+}
+
+@*
+    25%/75% means col 3 and col 9
+    50%/50% means col6 and col 6
+    33%/66% means  col 4 and col 8
+    20%/80% means  col 2, col 10
+
+    Following Sequacen matters
+    Extra Small     ==> Small   ==> Medium      ==> Large       ==> Extra Large
+    xx                   sm           md             lg                 xl
+    <576px	        >=576px	       >=768px	      >=992px	         >=1200px
+
+    Class is applied to that category and all above categories
+    Class is not applied to all below categories
+    All below categories are vertically stacked with Width 100%
+    If Class is not specified, then it is for Extra Small and above, means all devices
+    If Column Size is not specified, then all columns are given equal size
+    More than one Classes can be specified.
+
+    Class prefix	.col-sm-
+    Screen width	 >=576px
+    Small devices are defined as having a screen width from 576 pixels to 767 pixels.
+    Applied to Small Devices and above, medium, large and xlarge)
+    On extra small devices, it will vertically stack  with width 100%
+    if the screen size is less than 576px, the columns will stack vertically:
+*@
+
+
+One
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-sm-3 bg-success">
+            <p>Lorem ipsum...</p>
+        </div>
+
+        <div class="col-sm-9 bg-warning">
+            <p>Sed ut perspiciatis...</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<br />
+Two
+<!-- 33.3/66.6% split: -->
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-sm-4 bg-success">
+            <p>Lorem ipsum...</p>
+        </div>
+
+        <div class="col-sm-8 bg-warning">
+            <p>Sed ut perspiciatis...</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<br />
+Three
+<!-- 50%/50% split: -->
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-sm-6 bg-success">
+            <p>Lorem ipsum...</p>
+        </div>
+
+        <div class="col-sm-6 bg-warning">
+            <p>Sed ut perspiciatis...</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<br />
+Four
+
+@*
+    equal width columns for all devices all screen sizes,  having width greater or eq than 576px
+    except for extra small devices/screen size
+    for extra small devices,
+    the columns will be stacked vertically with width 100%:
+
+    the columns will remain stack horizontally for all
+    small n greater than small devices
+
+     remove number from .col-sm-* and
+     each column will get the same width in row
+
+    if the screen size is less than 576px,
+    the columns will be stacked vertically with width 100%:
+
+*@
+
+
+<!-- Two columns: 50% width on all screens, except for extra small (100% width) -->
+
+<div class="row">
+
+    <div class="col-sm bg-success">1 of 2</div>
+
+    <div class="col-sm bg-warning">2 of 2</div>
+
+</div>
+
+<!-- Four columns: 25% width on all screens, except for extra small (100% width)-->
+
+<div class="row">
+
+    <div class="col-sm bg-success">1 of 4</div>
+
+    <div class="col-sm bg-warning">2 of 4</div>
+
+    <div class="col-sm bg-success">3 of 4</div>
+
+    <div class="col-sm bg-warning">4 of 4</div>
+
+</div>  

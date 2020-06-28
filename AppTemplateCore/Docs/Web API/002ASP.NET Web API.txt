@@ -1,0 +1,533 @@
+Introduction to ASP.NET Web API:
+
+introduction to ASP.NET WEB API Framework. 
+
+What is ASP.NET Web API?
+
+FRAMEWORK FOR BUILDING HTTP BASED WEB SERVICE
+FRAMEWORK FOR BUILDING HTTP BASED RESTFULL SERVICE
+
+ASP.NET Web API is a framework, provided by Microsoft, 
+which makes it easy to build Web APIs, i.e. HTTP based Web Services. 
+
+The ASP.NET Web API is an ideal platform/FRAMEWORK for building Restful services 
+on the top of the .NET Framework. 
+
+WEB API CONSUMPTION
+================================
+These Web API services can be consumed by a variety of clients such as
+
+Browser CLIENT
+Mobile applications CLIENT
+Desktop applications CLIENT
+IOTs CLIENT
+
+we can develop both 
+1-Restful WEB SERVICES and 
+Non-Restful Web Services 
+using the ASP.NET Web API framework. 
+
+mostly framework is used to create RESTful services.
+
+RESTFULL SERVICES ARE SET OF CONVENTIONS WE HAVE TO FOLLOW
+WHILE DEVELOPING SERVICES
+
+RESTFULL SERVICES IS AN ARCHITECTURE STYLE
+framework does not IMPOSE any specific architectural style for creating the services. 
+
+creating RESTful services using the Web API framework.
+
+What are the IOTs?
+
+ALL THINGS CONNECTED BY INTERNET PROTOCOL
+ALL THINGS CONNECTED BY HTTP PROCOL
+ALL THINGS CONNECTED BY HTTP SERVICES
+
+IOTs stands for Internet Of Things and it is actually a network of 
+physical devices, 
+buildings, 
+vehicles, and 
+other items that are embedded with 
+electronics, 
+sensors, 
+software, 
+actuators, and 
+network connectivity 
+
+that enable these objects to collect and exchange the information or you can say data.
+
+WEB OF THINGS HAVING IP THAT THOSE COULD COMMUNICATE 
+WITH EACH OTHER USING HTTP SERVICES
+
+Internet Of Things (IoT) are the objects or devices 
+which should have an IP address and they can communicate with other 
+Internet-enabled devices and objects over the Internet. 
+
+Examples of IoT include
+==========================
+security systems, 
+thermostats, 
+electronic appliances, 
+cars, 
+laptops, 
+desktops, and 
+smartphones.
+
+What are the RESTful services?
+
+The term REST stands for Representational State Transfer. 
+REST was first introduced in the year 2000. 
+
+HTTP BASED WEB APIS/WEB SERVICES
+SOAP BASED WEB SERVICES
+REST IS AN ARCHITECTURAL PATTERN OR SET OF CONVENTIONS
+REST IS A SET OF DESING PATTERN AND PRINCIPLES TO BUILD WEB SERVICES
+
+The REST is actually an architectural pattern that is basically used for 
+creating Web API’s which uses HTTP as the communication method.
+SET OF CONVENTSION AND CONSTRAINTS TO FOLLOW 
+
+This REST architectural pattern THAT specifies a 
+set of constraints and those constraints a system should follow 
+to be considered as a Restful Service. 
+
+The following are the REST constraints.
+
+Client-Server Constraint:==================
+REST API WILL BE HOSTED ON SERVER AND CLIENTS WILL CALL THEM
+first constraint of Rest Architectural Pattern. 
+Client sends a request to the server and 
+server sends a response back to the client. 
+This separation of concerns supports the independent development of both 
+client-side logic and server-side logic.
+
+Stateless Constraint: ===============================
+STATELSS COMMUNICATION
+
+The next constraint is the Stateless Constraint. 
+
+Communication between the client and server should be stateless between the requests. 
+
+Do not store any information about the client on the server. 
+
+Client request contain all the necessary information 
+required for the server to process
+
+each request coming from the client will be treated independently by the server.
+
+Cacheable Constraint:==============================
+The next Constraint is Cacheable Constraint. 
+
+Some of the REFERENCE data provided by the server like a 
+list of countries, 
+list of cities
+list of the department in a company 
+does not change that often. 
+
+CLIENT SIDE CACHGING, DATA WILL BE CACHED ON THE CLIENT
+CLIENT WILL GET DATA FROM LOCAL BROSWER. REQUEST WILL BE 
+NOT SEND TO THE SERVER. OPTMIZATION TEHCNIQUE.
+
+let the client decide how long this data is good for so that the client 
+does not need to come back to the server again and again for the same data.
+
+Uniform Interface Constraint==================================
+The Uniform Interface constraint defines an 
+interface between the client and the server. 
+
+what a resource is???? and 
+the HTTP verbs – GET, PUT, POST and DELETE. ?????
+
+RESOUCE IS DATA ENTITY.
+WE EXPOSE DATA BASE IN THE FORM OF URLS THOSE RETURN JSON DATA
+SECURE ACCESS TO THE DATABASE
+AUTHENTCIATTION & AUTHORIZAITON ON THE DB
+
+From the REST API Point of view, 
+the resources typically represent the data entities such as 
+Product, Student, Customer, etc. 
+
+URL TELLS WHAT TO DO WITH THE RESOURCE
+=================================================
+HTTP verb such as GET, POST, PUT, and DELETE 
+which is sent with each request from the client tells the API 
+what to do with the resource. 
+
+Each resource in a REST API is identified by a unique URI (Uniform Resource Identifier). 
+The following table shows some typical requests that you see in an API
+
+/Students GET LIST OF ALL STUDENTS
+/Students if the verb is GET here it is going to get the list of students
+
+GET ONE STUDENT
+/Students/1 if the verb is GET going to fetch student where the student id is 1
+
+CREATE NEW STUDENT
+/Students if the verb is POST, it going to create a new student
+
+UPDATE STUDENT
+/Students/1 if the verb is PUT it is going to update the student whose id is 1
+
+DELETE STUDENT
+/Students/1 if the verb is DELETE, then it is going to delete a record where the id is 1.
+
+Hypermedia as the Engine of Application State. 
+===========================================
+Another concept that is related to Uniform Interface is HATEOAS. 
+The HATEOAS stands for Hypermedia as the Engine of Application State. 
+
+REQUEST ==> SET OF HYPER LINKS ==> SET OF OPERATIONS PERFORMED ON RESOURCE
+
+This states that in each request there may be a set of hyperlinks that 
+will let you know what other actions or operations you can perform on the resource. 
+
+There are 2 other constraints as well
+
+Layered System:================================
+The REST allows us to use a layered/TIERED system architecture where we 
+deploy the APIs in server A, 
+and store data on server B and 
+authenticate requests in server C
+
+
+The code on Demand (optional):=============================
+The code on Demand constraint is an optional constraint. 
+We will discuss this constraint in a later article.
+
+What is the difference between REST and SOAP service?
+======================================================
+Let us discuss the difference between the REST and SOAP service:
+
+Simple Object Access Protocol 
+Representational State Transfer.
+
+PROTOCOL
+=======================================
+MESSAGE DATA STRUCTURE
+REQUEST DATA STRUCTURE
+
+WE ALSO DEFINE WHAT VALUES COULD BE INCLUDED IN THE DATA STRUCTURE
+WHAT WILL BE MEANSING OF DIFF VALUES
+HOW TO INTERPRET THE VALUES OF THAT DATA STRUCTURE.
+
+SOAP MESSAGES IS XML MESSAGE
+PROTOCOL MEANS DATA STRUCTURES TAHT IS USED FOR MESSAGE COMMUNICATION
+STANDANRD DATA STRUCTURES IS KNOW ON BOTH SIDES.
+
+SOAP DATA STRUCTURE IS BUILT ON THE TOP OF HTTP DATA STURCTURE
+
+HTTP IS ALSO A DATA STRUCTURE FOR HOLDING REQUEST DATA
+
+SOAP is based on XML protocol which is built on top of the HTTP or sometimes TCP/IP or SMTP 
+whereas the REST is actually not a protocol rather it is an architectural pattern 
+i.e. resource-based architecture.
+REST is actually not a protocol
+REST is an architectural pattern 
+
+The SOAP provides specifications for the implementation of both 
+stateless SERVICES and 
+state-full SERVICEDS 
+
+REST is completely based on stateless SERVICES implementation.
+
+SOAP enforces the message format to be XML whereas 
+REST does not enforce the message format as XML or JSON.
+
+SOAP MSG, SOAP HEADER, SOAP BODY
+HTTP HEADERS
+The SOAP message contains an envelope which includes the SOAP headers and SOAP body 
+where we actually store the information or data that we want to send 
+
+REST uses the built-in HTTP headers (with a variety of media-types) 
+to store the data that we want to send and 
+
+then uses the HTTP Verb such as GET, POST, PUT and DELETE methods 
+to perform the CRUD operations.
+
+SOAP uses the interfaces and named operations to expose the service for the client to consume
+WE USE A PROXY SERVICE CLASS TO CALL THE OPERATION ON THE SERVICES
+
+REST uses URI to expose the resources and methods such as 
+GET, POST, PUT, and DELETE.
+
+The SOAP Performance is slow when it compared to REST.
+
+What are the Differences between the 
+WCF Service and 
+Web API Service? 
+
+When to choose one over the other?
+
+WCF FOR ....................................CREATING WCF SERVICES
+WCF FOR ....................................CREATING RESFULL SERVICES
+WEB API FRAMEWORK FOR ...............CREATING RESTFULL SERVICES 
+
+The term WCF stands for Windows Communication Foundation and 
+it is one of the most popular choices available in .NET Framework for 
+creating the REST services. 
+
+LOT OF CONFIGURATION NEEDED FOR REST SERVICES IN WCF
+The problem with WCF is that we need to do a lot of configuration 
+to turn a WCF service into a REST service. 
+
+preferable choice is ASP.NET Web API,
+
+So, if you want to develop a REST service nowadays, 
+then the first and most preferable choice is ASP.NET Web API, 
+which is specifically designed for this purpose i.e. to build REST Services.
+
+Then the question that comes to our mind when should we use WCF? let discuss that.
+
+when should we use WCF?
+
+TRANSPORT INDEPENDENT SERVICES
+PROTOCOL INDEPENDENT SERVICES
+The WCF is basically used to develop the services which are transport/protocol independent.
+
+For example, you want to build a single service which can be consumed by 2 different clients – 
+Let’s say, a Java client and .NET client. 
+
+The Java client wants the protocol (transport protocol) to be HTTP and 
+he also wants the message to be in XML format for interoperability.
+
+NET client wants the protocol (transport protocol) to be TCP and 
+he wants the message to be in the binary format for performance.
+
+MESSAGE DATA STRUCTURE
+TRANSPORT PROTOCOL
+
+HTTP IS A TRANSPORT PORTOCOL
+TCP IS ALSO A TRANSPORT PROTOCOL
+THIS PROTOCOL IS USED TO SEND MESSAGE ON THE WIRE.
+
+MESSAGE DATA STRUCTURE IS THE WHEN THE MESSAGE ARRIVES AT THE 
+APPLICAIOTN. IN WHAT FORMAT THAT MESSAGE IS.
+
+If this is the scenario, then WCF is the right choice. 
+
+develop a single WCF service, 
+expose 2 endpoints one for each client
+one endpoint for the Java client and the 
+other endpoint for the .NET client
+
+you can use the WCF to create the REST services. 
+
+The problem is it’s bit more configuration to turn a WCF Service to WCF Rest Service. 
+
+1-ASP.NET WEB API FRAMEWORK IS NOT AVIABNLE IN .NET FRMWORK 3.5 OR BELOW
+
+2-ALREADY USING WCF SERVICE AND WANT TO MAKE IT REST SERVICES TO REACH 
+MORE CLIENT. 
+
+So, if you are stuck with the .NET Framework 3.5 or 
+you have an existing SOAP service and you want to add REST to reach more clients, 
+then use WCF. 
+
+YOU HAVE ASP.NET WEB API IN THE .NET FORMWORK
+AND YOU ARE BUILDING BRAND NEW REST SERVIICE THEN 
+GO FOR WEB API FRAMEWORK 
+
+If you don’t have the limitation of .NET Framework 3.5 or 
+if you want to develop a brand new restful service 
+then go for ASP.NET Web API.
+
+Why Do I need to choose ASP.NET WEB API?
+
+OUR APPLICATION IS GOING TO RUN ON MULITPLE DEVICES
+FOR EVERY DEVICE, WE NEED TO HAVE DIFF UI TECHNOLOGY.
+WE MAY WANT OT USE ADROID NATIVE APP AND ASP.NET MVC WEB APPLICATION
+BOTH APPLICATION HAVE SHARED BUSINESS/DOMAIN LOGIC
+BOTH APPLICAIOTN HAVE SHARED DATABASE
+BUT BOTH APPLICATIONO HAVE DIFF UI TECHNOLGOY
+SOME TIME WE EXPOSE FUNCTIONALITY FOR THIRED PARTY DEVELOPERS 
+TO WRILE APPLICAOTN ON TOP OF IT. WEATHER APPS.
+
+Nowadays, a web application is not sufficient or enough to reach all its customers. 
+Peoples are becoming very smart; they are using different types of devices 
+such as mobile, iPhone, tablets, etc. in their daily life. 
+
+These devices are having a lot of apps which makes their life easy. 
+In simple words, we can say that we are moving towards the apps world from the web.
+
+EXPOSE DATA WITH BUSINESS LOGIC TO BROWSER 
+EXPOSE DATA WITH BUSINESS LOGIC TO THE SMART DEVICES
+
+So, if we want to expose our data (business data) to the browsers 
+as well as to all these modern devices apps in a fast, secure and simple way, 
+then we should have an API that should be compatible with browsers 
+as well as all these modern devices.
+
+The ASP.NET WEB API is a great framework for building HTTP services 
+that can be consumed by a broad range of clients 
+including 
+browsers, 
+mobiles, 
+iPhones, and 
+tablets. 
+
+What is the difference between 
+WCF SERVICES and 
+WEB API SERVICES and 
+WCF REST SERVICES and 
+Web Service?
+
+The .NET framework has a number of technologies that allow us to 
+create HTTP services such as Web Service, WCF, WCF Rest and now WEB API. 
+
+Following are the differences between these four:
+
+TRADITIONAL Web Service:=============
+The Web Service is based on SOAP and it returns the data in XML format.
+It supports only the HTTP protocol. 
+ONLY HTML PROTOCOL IS SUPPORTED.
+Web Service is not an open source but it can be consumed by any client who understands XML.
+It can only be hosted on IIS.
+CONSUMED BY ANY PROGRAMMING PLATFORM THAT UNDERSTANDE XML
+
+WCF SERVICE:==================
+WCF is also based on SOAP and it also returns the data in the form of XML.
+Unlike Web service, WCF supports different types of protocols (transport protocol) 
+such as 
+TCP, 
+Named Pipes, 
+HTTP, 
+HTTPS, and 
+MSMQ.
+
+LOT OF CONFIGURAITONS
+The main problem with WCF service it required lots of configuration which is a headache 
+for a developer.
+
+Like Web Service, WCF SERVICE is also not open source 
+but it can be consumed by any client who understands XML.
+
+WCF SERVICE IS HOSTED WITHIN IIS
+WCF SERVICE IS HOSTED WITHIN APPLICATION
+
+WCF SERVICE can be host within in the application or on IIS or using window service.
+
+WCF Rest SERVICE :==============================
+
+AGAIN MORE CONFIGURAIOTN IS NEEDED FOR 
+WCF SERVICE ------> REST WCF SERVICE
+To use a WCF service as WCF Rest service we have to enable webHttpBindings.
+
+WCF Rest SERVICE supports the HTTP verbs such as 
+GET and POST by using the [WebGet] and [WebInvoke] attributes respectively.
+
+CONFIGURATOIN AT THE LEVEL OF ISS NEEDED FOR WCF REST SERVICES
+
+To use other HTTP verbs you have to do some configuration in the IIS 
+so that it will accept the request of that particular verb on .svc file
+
+WCF Rest SERVICE supports different data formats such as 
+XML, 
+JSON, and 
+Atom format.
+
+
+Web Service:=====================================
+
+The Web Service is based on SOAP and it returns the data in XML format.
+
+It supports only the HTTP protocol. ONLY HTTP
+
+Web Service is not an open source but it can be consumed by any client who understands XML.
+
+It can only be hosted on IIS.
+
+WCF:======================================
+
+WCF is also based on SOAP and it also returns the data in the form of XML.
+
+Unlike Web service, WCF supports different types of protocols (transport protocol) such as
+ TCP, Named Pipes, HTTP, HTTPS, and MSMQ.
+
+LOT OF CONFIGURATION
+The main problem with WCF service it required lots of configuration 
+which is a headache for a developer.
+
+Like Web Service, WCF is also not open source 
+but it can be consumed by any client who understands XML.
+
+WCF can be host within in the application or on IIS or using window service.
+
+WCF Rest SERVICE :=============================================
+
+FULL HTTP FEATURES ARE NOT USED. SOME OF THEM ARE USED.
+
+To use a WCF service as WCF Rest service we have to enable webHttpBindings.
+
+WCF Rest SERVICE supports the HTTP verbs such as GET and POST 
+by using the [WebGet] and [WebInvoke] attributes respectively.
+
+To use other HTTP verbs you have to do some configuration in the IIS 
+so that it will accept the request of that particular verb on .svc file
+
+It supports different data formats such as XML, JSON, and Atom format.
+
+WEB API:==============================================
+
+The Web API Framework is a new framework that is basically used for 
+developing HTTP based services in easy and simple way.
+
+Unlike WCF Rest Service, it uses the full HTTP features such as URIs, 
+request/response headers, caching, versioning, and various data formats.
+
+The ASP.NET Web API also supports most of the MVC features such as 
+routing, controllers, actions, filter, model binders, IOC container, 
+dependency injection, unit testing 
+which makes it more simple and robust.
+
+WEB API Services can be hosted on IIS or within the application
+
+The Responses in Web API Services are formatted by MediaTypeFormatter 
+into JSON, XML or any custom format you want.
+
+What is the difference between ASP.NET MVC and ASP.NET Web API?
+
+The differences between the ASP.NET MVC and ASP.NET Web API are as follows
+
+ASP.NET MVC is used to create web applications that 
+return both views and data but 
+
+ASP.NET WEB API is used to create rest full HTTP services 
+that returns only data, not view.
+
+WEB API also supports content-negotiation
+CONTENT NEGOTIATION IS about deciding the best response format data 
+that could be acceptable by the client. 
+
+CN: DECIDING WHAT DATA SHOULD BE RETURNTED TO THE CLIENT.
+WHAT IS BEST SUITABLE DATA THAT SHOULD BE RETURNED TO THE CLIENT
+INTELLIGENT RESPONSE SENDING.
+SENDING RESPONSE THAT IS EXPECTED BY CLIENT.
+
+It's data format may be JSON, XML, ATOM or any other custom formatted data
+which are not in MVC.
+
+WEB API also takes care of returning data in a particular format like 
+JSON, XML or any other based upon the Accept header in the request. 
+
+The ASP.NET MVC Framework can return data only in JSON format 
+using the JsonResult return type.
+
+REQUEST IS MAPPED BY HTTP VERBS
+In WEB API the request is mapped to the actions based on HTTP verbs 
+but in MVC it is mapped to the action name. ACTION NAME
+
+We can mix WEB API and MVC controller in a single project 
+to handle advanced AJAX requests which may return data in JSON, XML or 
+any others format and build a full-blown HTTP service. 
+
+Typically, this will be called WEB API self-hosting.
+
+Moreover, WEB API is lightweight architecture and 
+except for the web application, it can also be used with smartphone apps.
+
+In the next article, I am going to discuss the step by step procedure 
+to create ASP.NET Web API application from scratch. 
+
+Here, in this article, I gave a brief introduction to ASP.NET Web API. 
+I hope this article will help you with your needs. 
+

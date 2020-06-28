@@ -1,0 +1,126 @@
+How to use Fiddler to test Web API
+
+In this article, I am going to discuss how to use Fiddler to test Web API services. 
+
+What is Fiddler?
+How to download and Install Fiddler?
+How to test Web API Services using Fiddler?
+Understanding the Request and Response of Fidder.
+How to use Fiddler to test Get, Post, Put and Delete Request?
+
+
+What is Fiddler?
+The Fiddler is a free debugging proxy tool 
+which is used for testing restful web services. 
+TESTING RESTFULL SERVICE 
+
+COMPOSE MULTIPEL HTTP REQUEST
+EXECUTE MULTIPLE HTTP REQUESTS
+
+We can use Fiddler 
+to compose and execute different HTTP requests to our Web API and 
+check the HTTP response.
+
+use Fiddler to send an HTTP request to our local ASP.NET Web API Services and 
+check the response.
+
+Step1: Download and install Fiddler from here.
+
+Step2: Once the Fiddler is successfully installed, 
+click on the Fiddler.exe to open Fiddler. 
+It will look like the image shown below.
+
+Fiddler by default captures all processes. 
+But here we are not interested in all the processeS
+we are only interested in capturing our local processes 
+i.e. capturing the WEB API HTTP Resources. 
+
+FIDDLER IS NOT A BROSWER PLUGIN, BUT IS IS SEPERATE DESKTOP SOFTWRAE
+POSTMAN IS BROWSER PLUGIN FOR TESTING WEB API
+FIDDLER IS DEKTOP APP FOR TESTING WEB API
+
+So, click on the All Processes button which is at the bottom left corner and 
+select Hide All as shown in the below image. 
+Keep the focus on the Highlighted section.
+
+
+In the next step, we need to click on the Composer tab. 
+The first tab in the Composer tab is Parsed tab 
+
+where we can configure the HTTP requests and execute it. 
+CONFIGURE HTTP REQUEST AND EXECUTE IT
+
+The first drop-down includes all HTTP Methods. 
+Select a particular HTTP method for the request you want to execute. 
+
+select the GET HTTP verb to execute HTTP GET request as shown below.
+
+Please keep Focus on the selected section which is in Red Rectangle.
+
+Now run the web API application and figure out the URL.
+
+Enter URL and Execute: 
+Now, we need to enter the URL of a request in the adjacent text box. 
+Here, we will execute the HTTP request 
+http://localhost:xxxx/api/values 
+
+
+Response in Fiddler:
+Once you enter the URL, 
+click on the Execute button to send this HTTP request and 
+it will immediately display the response in the left pane as shown in the below image.
+
+Understanding Fiddler Request and Response:
+Double click on the result row above 
+(which is highlighted with the red rectangle) 
+to open the Inspector tab for the request as shown below.
+
+As you can see in the above image, 
+the top panel shows the Request header and 
+the bottom panel shows the response body.
+
+Fiddler Request & Response in Raw Format:
+
+You can also see the raw request header and response body 
+by clicking on the Raw tab of request and 
+response as shown in the image below.
+
+This is the most preferable way in Fiddler to execute an HTTP request and 
+checking the response. Let’s see how to make a post request using Fiddler.
+
+Testing POST Request using Fiddler:
+
+Select the Compose Tab,
+
+Then choose the HTTP verb as POST: HTTP VERB
+
+Set the Content-Type as application/JSON. CONTENT TYPE
+
+In the request body, provide the string value that you want to add into the string array.
+Click on the Execute button as shown below.
+
+Testing PUT Request using Fiddler:
+
+Select the Compose Tab,
+
+Then choose the HTTP verb as PUT: HTTP VERB
+
+In the URL provide the index of the array element whose value you want to update.
+
+Set the Content-Type as application/json.
+
+In the Request body, provide the updated string value 
+that you want to update into the string array.
+
+Finally, click on the Execute button as shown below.
+
+Testing DELETE Request using Fiddler:
+
+Select the Compose Tab,
+Then choose the HTTP verb as DELETE
+In the URL provide the index of the array element whose value you want to update.
+Finally, click on the Execute button as shown below.
+
+In the next article, 
+I am going to How to use Postman to test WEB API services with examples. 
+Here, in this article, I try to explain how to use Fiddler to test web API services. 

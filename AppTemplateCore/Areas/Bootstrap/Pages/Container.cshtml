@@ -1,0 +1,135 @@
+﻿@page
+@model AppTemplateCore.Areas.Bootstrap.Pages.ContainerModel
+@{
+    Layout = "_Layout2";
+}
+
+
+@*Containers
+    Bootstrap requires a containing element to wrap site contents.
+
+    CONTAINERS ARE USED TO PAD CONTENTS INSIDE THEM
+
+    Containers are used to pad the content inside of them,
+    and there are two container classes available
+
+    The .container class provides a responsive FIXED WIDTH CONTAINER
+    there is a variable padding on the left and right side of container
+
+    The .container-fluid class provides a FULL WIDTH CONTAINER,
+    spanning the entire width of the viewport, 100% width
+    CONTAINER FLUID ADD fixed 15px PADDING on left right side,
+    rest of the space is taken by the content
+
+    CONTAINER ADD PADDING, RESTRICT THE CONTENT AREA
+
+    .container ==> fixed width of content and variable padding on left n right side
+    .container-fludi ==> variable width of contents and fixed padding on left and right side
+
+    ==================================================
+
+    Fixed width Container OR CONTAINER CLASS
+    ===========================================
+
+    Use the .container class to create a responsive, fixed-width container.
+
+    Note that its width (max-width) will change on different screen sizes:
+
+    Extra small screen size having length less than 576px
+    screen width will be 100%
+    screen takes all available width of the container
+    there is not padding on the left right sides.
+
+
+    Small screen size having length in range 576px - 768px
+    screen is of fixed width of 540px
+    all extra space above 540px becomes the equal padding on both left right sides
+
+    Medium screen size having length in range 768px - 992px
+    screen is of fixed width of 720px
+    all extra space above 720px becomes the equal padding on both left right sides
+
+    Large screen size having length in range 992px - 1200px
+    screen is of fixed width of 960px
+    all extra space above 960px becomes the equal padding on both left right sides
+
+    Extra Large screen size having length in range ≥1200px
+    screen is of fixed width of 1140px
+    all extra space above 1140px becomes the equal padding on both left right sides
+
+
+    Open the example below and resize the browser window to see that the
+    container width will change at different breakpoints:*@
+
+<br />container 
+<div class="container">
+
+    <h1>My First Bootstrap Page</h1>
+    <p>This part is inside a .container class.</p>
+    <p>The .container class provides a responsive fixed width container.</p>
+    <p>Resize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpoints.</p>
+
+</div>
+
+
+@*Fluid Container
+    Use the .container-fluid class to create a full width container,
+    that will always span the entire width of the screen (width is always 100%):
+    By default, containers have 15px left and right padding, with no top or bottom padding.*@
+
+<br />fluid container
+<div class="container-fluid">
+
+    <h1>My First Bootstrap Page</h1>
+    <p>This part is inside a .container class.</p>
+    <p>The .container class provides a responsive fixed width container.</p>
+    <p>Resize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpoints.</p>
+
+</div>
+
+
+
+@*Container Padding
+    By default, containers have 15px left and right padding, with no top or bottom padding.
+    Therefore, we often use spacing utilities,
+    such as extra padding and margins to make them look even better.
+
+    For example, .pt-3 means "add a top padding of 16px":*@
+
+<br />container with top padding
+<div class="container pt-3">
+
+    <h1>My First Bootstrap Page</h1>
+    <p>This part is inside a .container class.</p>
+    <p>The .container class provides a responsive fixed width container.</p>
+    <p>Resize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpoints.</p>
+
+</div>
+
+
+<br />container-fluid with top padding
+<div class="container-fluid pt-3">
+
+    <h1>My First Bootstrap Page</h1>
+    <p>This part is inside a .container class.</p>
+    <p>The .container class provides a responsive fixed width container.</p>
+    <p>Resize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpointsResize the browser window to see that its width (max-width) will change at different breakpoints.</p>
+
+</div>
+
+
+<div class="container p-3 my-3 border">
+    <h1>My First Bootstrap Page</h1>
+    <p>This container has a border and some extra padding and margins.This container has a border and some extra padding and margins.This container has a border and some extra padding and margins.This container has a border and some extra padding and margins.This container has a border and some extra padding and margins.This container has a border and some extra padding and margins.This container has a border and some extra padding and margins.</p>
+</div>
+
+
+<div class="container p-3 my-3 bg-dark text-white">
+    <h1>My First Bootstrap Page</h1>
+    <p>This container has a dark background color and a white text, and some extra padding and margins.This container has a dark background color and a white text, and some extra padding and margins.This container has a dark background color and a white text, and some extra padding and margins.This container has a dark background color and a white text, and some extra padding and margins.This container has a dark background color and a white text, and some extra padding and margins.This container has a dark background color and a white text, and some extra padding and margins.</p>
+</div>
+
+<div class="container p-3 my-3 bg-primary text-white">
+    <h1>My First Bootstrap Page</h1>
+    <p>This container has a blue background color and a white text, and some extra padding and margins.This container has a blue background color and a white text, and some extra padding and margins.This container has a blue background color and a white text, and some extra padding and margins.This container has a blue background color and a white text, and some extra padding and margins.This container has a blue background color and a white text, and some extra padding and margins.This container has a blue background color and a white text, and some extra padding and margins.This container has a blue background color and a white text, and some extra padding and margins.</p>
+</div>

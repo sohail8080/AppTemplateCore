@@ -1,0 +1,231 @@
+﻿@page
+@model AppTemplateCore.Areas.Bootstrap.Pages.TypographyModel
+@{
+}
+
+
+@*Bootstrap 4 Default Settings
+    Bootstrap 4 uses a default
+    --font-size of 16px, and its
+    --line-height is 1.5.
+
+    The default font-family is
+
+    1-"Helvetica Neue",
+    2-Helvetica,
+    3-Arial,
+    4-sans-serif.
+
+    In addition, all <p> elements have
+        margin-top: 0 and
+        margin-bottom: 1rem (16px by default).
+
+        <h1> - <h6>
+                Bootstrap 4 styles HTML headings (<h1> to <h6>
+        )
+        with a bolder font-weight and an increased font-size:*@
+
+<div class="container">
+    <h1>h1 Bootstrap heading (2.5rem = 40px)</h1>
+    <h2>h2 Bootstrap heading (2rem = 32px)</h2>
+    <h3>h3 Bootstrap heading (1.75rem = 28px)</h3>
+    <h4>h4 Bootstrap heading (1.5rem = 24px)</h4>
+    <h5>h5 Bootstrap heading (1.25rem = 20px)</h5>
+    <h6>h6 Bootstrap heading (1rem = 16px)</h6>
+</div>
+
+
+@*
+    Display Headings
+    Display headings are used to stand out more than normal headings
+    (larger font-size and lighter font-weight),
+    and there are four classes to choose from:
+        .display-1,
+        .display-2,
+        .display-3,
+        .display-4
+*@
+
+<div class="container">
+    <h1>Display Headings</h1>
+    <p>Display headings are used to stand out more than normal headings (larger font-size and lighter font-weight):</p>
+    <h1 class="display-1">Display 1</h1>
+    <h1 class="display-2">Display 2</h1>
+    <h1 class="display-3">Display 3</h1>
+    <h1 class="display-4">Display 4</h1>
+</div>
+
+
+@*
+    <small>
+    In Bootstrap 4 the HTML <small>
+    element is used to create a lighter, secondary text in any heading:
+*@
+
+<div class="container">
+    <h1>Lighter, Secondary Text</h1>
+    <p>The small element is used to create a lighter, secondary text in any heading:</p>
+    <h1>h1 heading <small>secondary text</small></h1>
+    <h2>h2 heading <small>secondary text</small></h2>
+    <h3>h3 heading <small>secondary text</small></h3>
+    <h4>h4 heading <small>secondary text</small></h4>
+    <h5>h5 heading <small>secondary text</small></h5>
+    <h6>h6 heading <small>secondary text</small></h6>
+</div>
+
+@*<mark>
+    Bootstrap 4 will style the HTML <mark>
+        element with a yellow background color and some padding:*@
+
+
+<div class="container">
+    <h1>Highlight Text</h1>
+    <p>Use the mark element to <mark>highlight</mark> text.</p>
+</div>
+
+@*<abbr>
+    Bootstrap 4 will style the HTML <abbr> element with a dotted border bottom:*@
+
+
+<div class="container">
+    <h1>Abbreviations</h1>
+    <p>The abbr element is used to mark up an abbreviation or acronym:</p>
+    <p>The <abbr title="World Health Organization">WHO</abbr> was founded in 1948.</p>
+</div>
+
+@*<blockquote>
+    Add the .blockquote class to a <blockquote> when quoting blocks of content from another source:*@
+
+
+
+<div class="container">
+
+    <h1>Blockquotes</h1>
+    <p>The blockquote element is used to present content from another source:</p>
+
+    <blockquote class="blockquote">
+        <p>
+            For 50 years, WWF has been protecting the future of nature.
+            The world's leading conservation organization, WWF works in 100 countries and is supported by
+            1.2 million members in the United States and close to 5 million globally.
+        </p>
+        <footer class="blockquote-footer">From WWF's website</footer>
+    </blockquote>
+
+</div>
+
+@*<dl>
+    Bootstrap 4 will style the HTML
+    <dl>
+        element in the following way:*@
+
+
+<div class="container">
+
+    <h1>Description Lists</h1>
+    <p>The dl element indicates a description list:</p>
+
+    <dl>
+        <dt>Coffee</dt>
+        <dd>- black hot drink</dd>
+        <dt>Milk</dt>
+        <dd>- white cold drink</dd>
+    </dl>
+
+</div>
+
+@*<code>
+    Bootstrap 4 will style the HTML <code> element in the following way:*@
+
+<div class="container">
+    <h1>Code Snippets</h1>
+    <p>Inline snippets of code should be embedded in the code element:</p>
+    <p>The following HTML elements: <code>span</code>, <code>section</code>, and <code>div</code> defines a section in a document.</p>
+</div>
+
+@*<kbd>
+    Bootstrap 4 will style the HTML <kbd> element in the following way:*@
+
+<div class="container">
+    <h1>Keyboard Inputs</h1>
+    <p>To indicate input that is typically entered via the keyboard, use the kbd element:</p>
+    <p>Use <kbd>ctrl + p</kbd> to open the Print dialog box.</p>
+</div>
+
+@*<pre>
+    Bootstrap 4 will style the HTML <pre> element in the following way:*@
+
+<div class="container">
+    <h1>Multiple Code Lines</h1>
+    <p>For multiple lines of code, use the pre element:</p>
+<pre>
+Text in a pre element
+is displayed in a fixed-width
+font, and it preserves
+both      spaces and
+line breaks.
+</pre>
+</div>
+
+
+
+
+Class	Description	
+
+.font-weight-bold	        Bold text
+
+.font-weight-bolder	        Bolder text
+
+.font-italic	            Italic text
+
+.font-weight-light	        Light weight text
+
+.font-weight-lighter	    Lighter weight text
+
+.font-weight-normal	        Normal text
+
+.lead	                    Makes a paragraph stand out
+
+.small	                    Indicates smaller text (set to 80% of the size of the parent)
+
+.text-left	                Indicates left-aligned text
+
+.text-*-left	            Indicates left-aligned text on small, medium, large or xlarge screens
+
+.text-break	                Prevents long text from breaking layout
+
+.text-center	            Indicates center-aligned text
+
+.text-*-center	            Indicates center-aligned text on small, medium, large or xlarge screens
+
+.text-decoration-none	    Removes the underline from a link
+
+.text-right	                Indicates right-aligned text
+
+.text-*-right	            Indicates right-aligned text on small, medium, large or xlarge screens
+
+.text-justify	            Indicates justified text
+
+.text-monospace	            Monospaced text
+
+.text-nowrap	            Indicates no wrap text
+
+.text-lowercase	            Indicates lowercased text
+
+.text-reset	                Resets the color of a text or a link (inherits the color from its parent)
+
+.text-uppercase	            Indicates uppercased text
+
+.text-capitalize	        Indicates capitalized text
+
+.initialism	                Displays the text inside an <abbr>
+
+    element in a slightly smaller font size
+    .list-unstyled	Removes the default list-style and left margin on list items (works on both <ul>
+        and
+        <ol>
+            ). This class only applies to immediate children list items (to remove the default list-style from any nested lists, apply this class to any nested lists as well)
+            .list-inline	Places all list items on a single line (used together with .list-inline-item on each
+            <li>
+                elements)
+                .pre-scrollable	Makes a <pre> element scrollable

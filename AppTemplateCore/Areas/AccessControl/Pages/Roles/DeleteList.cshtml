@@ -25,7 +25,7 @@
         <button type="submit" class="btn btn-danger js-submit">Delete Roles</button>
     </p>
 
-    <table id="rolestable" class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover">
 
         <thead>
             <tr>
@@ -36,7 +36,7 @@
             </tr>
         </thead>
 
-        <tbody>
+        <tbody id="rolestable">
 
             @for (int i = 0; i < Model.Input.Count(); i++)
             {
@@ -77,6 +77,10 @@
     <script>
 
         $(document).ready(function () {
+
+
+
+
 
             $(".js-submit").on("click", function (e) {
 
@@ -134,12 +138,13 @@
 
             });
 
-       
+
             $("#selectall").click(function () {
 
                 //this is a reference to the html DOM element that is the source of the event.
                 //$(this) is a jQuery wrapper around that element that enables usage of jQuery methods.
 
+                 /////////////// solution one //////////////////////
                 var checkBoxes = $("#rolestable input[type='checkbox']");
 
                 for (var i = 0; i < checkBoxes.length; i++) {
@@ -148,13 +153,105 @@
                         else { checkBoxes[i].checked = false; }
                     }
                 }
+                /////////////// solution one //////////////////////
+
+
+                /////////////// solution two //////////////////////
+                //if (this.checked) {
+                //    $("#rolestable input[type='checkbox']").each(function () {
+                //        this.checked = true;
+                //    });
+                //}
+                //else {
+                //    $("#rolestable input[type='checkbox']").each(function () {
+                //        this.checked = false;
+                //    });
+                //}
+                /////////////// solution two //////////////////////
+
+
             });
 
 
+            $("#rolestable input[type='checkbox']").click(function () {
 
+                var checkBoxes = $("#rolestable input[type='checkbox']");
+                var selectallcheckbox = $("#selectall");
+                var checkedcounter = 0;
 
+                for (var i = 0; i < checkBoxes.length; i++) {
+                    if (checkBoxes[i].type == "checkbox") {
+                        if (checkBoxes[i].checked) { checkedcounter++; }
+                    }
+                }
+
+                if (checkedcounter == checkBoxes.length) {
+                    selectallcheckbox.prop("checked", true);
+                }
+                else {
+
+                    selectallcheckbox.prop("checked", false);
+
+                    //Javascript:====================================
+                    //document.getElementById("checkbox").checked = true;//// Check
+                    //document.getElementById("checkbox").checked = false;//// Uncheck
+
+                    //jQuery(1.6 +): ================================
+                    //$("#checkbox").prop("checked", true);//// Check
+                    //$("#checkbox").prop("checked", false);//// Uncheck
+                    //$(this).prop("checked", checked);
+                    //$('#your-checkbox').prop('checked', value == 1);
+
+                    //jQuery(1.5 -):=================================
+                    //$("#checkbox").attr("checked", true);//// Check
+                    //$("#checkbox").attr("checked", false); //// Uncheck
+                    //selectallcheckbox.removeAttr("checked");
+                    //selectallcheckbox.attr("checked", "checked");
+                }
+
+            });
 
         });
+
+
+
+        //($('input:checkbox[name=checkme]').is(':checked'));
+        //$('input:checkbox[name=checkme]').attr('checked',true);
+        //$('input:checkbox[name=checkme]').attr('checked',false);
+
+
+        //$('#chkSelectAll').click(function () {
+        //    if ($(this).is(':checked')) {
+        //        $('.grpCheck> input[type=checkbox]').each(function () {
+        //            $(this).prop("checked", true); $('#sel').text('Un-Select All');
+        //        });
+        //    }
+        //    else {
+        //        $('.grpCheck input[type=checkbox]').each(function () {
+        //            $(this).prop("checked", false); $('#sel').text('Select All');
+        //        });
+        //    }
+        //});
+
+
+
+     //Check if the checkbox is checked
+     //There are several ways to get to work out if a checkbox is checked or not with jQuery,
+     //and here a couple of alternatives.Each will return true if it’s checked or false if it’s not.
+
+     //$('input[name=foo]').is(':checked')
+     //$('input[name=foo]').attr('checked')
+     //if ($(this).is(':checked'))
+
+    //$(document).ready(function () {
+    //    $("button").click(function () {
+    //        var favorite = [];
+    //        $.each($("input[name='sport']:checked"), function () {
+    //            favorite.push($(this).val());
+    //        });
+    //        alert("My favourite sports are: " + favorite.join(", "));
+    //    });
+    //});
 
 
     </script>

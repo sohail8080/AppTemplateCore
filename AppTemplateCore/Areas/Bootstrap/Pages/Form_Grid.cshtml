@@ -1,0 +1,77 @@
+﻿@page
+@model AppTemplateCore.Areas.Bootstrap.Pages.Form_GridModel
+@{
+}
+
+
+@*
+    Form Row/Grid
+    You can also use columns (.col) to control the width and alignment of form inputs
+    without using spacing utilities. Just remember to put them inside a .row container.
+    In the example below, we use two columns that will appear side by side.
+    You will learn much more about columns and rows in the Bootstrap Grids Chapter.
+
+     ROW COL CLASSES
+*@
+
+=======================================================================================
+
+<form>
+
+    <div class="row">
+
+        <div class="col">
+            <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
+        </div>
+
+        <div class="col">
+            <input type="password" class="form-control" placeholder="Enter password" name="pswd">
+        </div>
+
+    </div>
+
+</form>
+
+=======================================================================================
+
+<form>
+
+    <div class="row">
+
+        <div class="col">
+            <label for="email">Email address:</label>
+            <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
+        </div>
+
+        <div class="col">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" placeholder="Enter password" name="pswd">
+        </div>
+
+    </div>
+
+</form>
+
+=======================================================================================
+
+@*If you want less grid margins (override default column gutters),
+    use .form-row instead of .row:
+*@
+
+<form>
+
+    <div class="form-row">
+
+        <div class="col">
+            <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
+        </div>
+
+        <div class="col">
+            <input type="password" class="form-control" placeholder="Enter password" name="pswd">
+        </div>
+
+    </div>
+
+</form>
+
+=======================================================================================

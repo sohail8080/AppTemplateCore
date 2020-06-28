@@ -1,0 +1,91 @@
+﻿@page
+@model AppTemplateCore.Areas.Bootstrap.Pages.Grid_Extra_SmallModel
+@{
+}
+
+
+@*
+    25%/75% means col 3 and col 9
+    50%/50% means col6 and col 6
+    33%/66% means  col 4 and col 8
+    20%/80% means  col 2, col 10
+
+    Following Sequacen matters
+    Extra Small     ==> Small   ==> Medium      ==> Large       ==> Extra Large
+    xx                   sm           md             lg                 xl
+    <576px	        >=576px	       >=768px	      >=992px	         >=1200px
+
+    Class is applied to that category and all above categories
+    Class is not applied to all below categories
+    All below categories are vertically stacked with Width 100%
+    If Class is not specified, then it is for Extra Small and above, means all devices
+    If Column Size is not specified, then all columns are given equal size
+    More than one Classes can be specified.
+
+    Bootstrap 4 Grid Extra Small
+    Class prefix	.col-
+    no column prefix for extra small is used
+    Screen width	<576px are considered extra small
+
+    columns to split 25%/75% for ALL devices.
+    25%/75% split on all devices (extra small, small, medium, large and xlarge).
+*@
+
+One
+<div class="container">
+
+
+    <div class="row">
+
+        <div class="col-3 bg-success">
+            <p>Lorem ipsum...</p>
+        </div>
+
+        <div class="col-9 bg-warning">
+            <p>Sed ut perspiciatis...</p>
+        </div>
+
+    </div>
+
+
+
+    <br />
+    Two
+    <!-- 33.3%/66.6% split  for all devices and all screen sizes-->
+
+
+    <div class="row">
+
+        <div class="col-4 bg-success">
+            <p>Lorem ipsum...</p>
+        </div>
+
+        <div class="col-8 bg-warning">
+            <p>Sed ut perspiciatis...</p>
+        </div>
+
+    </div>
+
+
+
+
+    <br />
+    Three
+    <!-- 50%/50% split  for all devices and all screen sizes-->
+
+
+    <div class="row">
+
+        <div class="col-6 bg-success">
+            <p>Lorem ipsum...</p>
+        </div>
+
+        <div class="col-6 bg-warning">
+            <p>Sed ut perspiciatis...</p>
+        </div>
+
+    </div>
+
+
+
+</div>

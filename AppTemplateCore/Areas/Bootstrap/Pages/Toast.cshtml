@@ -1,0 +1,298 @@
+﻿@page
+@model AppTemplateCore.Areas.Bootstrap.Pages.ToastModel
+@{
+}
+
+ALERT BOX THAT IS SHOWN FOR SOME SECONDS, WHEN SOMETHING IS HAPPENED
+
+Toast CSS Classes
+The Toast component is like an alert box that is only shown for a couple of seconds
+when something happens (i.e. when the user clicks on a button, submits a form, etc.).
+
+<div class="container">
+
+    <h3>Toast Example</h3>
+    <p>A toast is like an alert box that is only shown for a couple of seconds when something happens (i.e. when a user clicks on a button, submits a form, etc.).</p>
+    <p>In this example, we use a button to show the toast message.</p>
+
+    <button type="button" class="btn btn-primary" id="myBtn">Show Toast</button>
+
+    <div class="toast">
+
+        <div class="toast-header">
+            Toast Header
+        </div>
+
+        <div class="toast-body">
+            Some text inside the toast body
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<div class="container">
+
+    <h3>Toast Example</h3>
+
+    <p>
+        In this example, we use data-autohide="false" to show the toast by default.
+        You can close it by clicking on the close (x) icon inside the toast header.
+    </p>
+
+    <div class="toast" data-autohide="false">
+
+        <div class="toast-header">
+            <strong class="mr-auto text-primary">Toast Header</strong>
+            <small class="text-muted">5 mins ago</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+        </div>
+
+        <div class="toast-body">
+            Some text inside the toast body
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="container mt-3">
+
+    <h3>Toast Example</h3>
+
+    <p>
+        A toast is like an alert box that is only shown for a couple of seconds
+        when something happens (i.e. when a user clicks on a button, submits a form, etc.).
+    </p>
+
+    <p>In this example, we use a button to show the toast message.</p>
+
+    <button type="button" class="btn btn-primary" id="myBtn">Show Toast</button>
+
+    <div class="toast mt-3">
+
+        <div class="toast-header">
+            Toast Header
+        </div>
+
+        <div class="toast-body">
+            Some text inside the toast body
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#myBtn").click(function () {
+            $('.toast').toast('show');
+        });
+    });
+</script>
+
+
+
+<div class="container mt-3">
+    <h3>Tooltip Options</h3>
+    <p>
+        The <strong>animation</strong> option specifies whether to add a CSS fading
+        transition effect to the toast.
+    </p>
+    <p>In this example, we remove the fading effect. Click on the "Show Toast" button to understand it.</p>
+    <button type="button" class="btn btn-primary" id="myBtn">Show Toast</button>
+
+    <div class="toast mt-3">
+        <div class="toast-header">
+            Toast Header
+        </div>
+        <div class="toast-body">
+            Some text inside the toast body
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#myBtn').click(function () {
+            $('.toast').toast({ animation: false });
+            $('.toast').toast('show');
+        });
+    });
+</script>
+
+
+
+
+<div class="container mt-3">
+    <h3>Tooltip Options</h3>
+    <p>The <strong>autohide</strong> option hides the toast by default.</p>
+    <p>In this example, we use data-autohide="false" to show the toast by default. You can close it by clicking on the close (x) icon inside the toast header.</p>
+
+    <div class="toast">
+        <div class="toast-header">
+            <strong class="mr-auto text-primary">Toast Header</strong>
+            <small class="text-muted">5 mins ago</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">×</button>
+        </div>
+        <div class="toast-body">
+            Some text inside the toast body
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.toast').toast({ autohide: false });
+        $('.toast').toast('show');
+    });
+</script>
+
+
+
+
+<div class="container mt-3">
+    <h3>Tooltip Options</h3>
+    <p>The <strong>delay</strong> option specifies the number of milliseconds it will take to hide the toast.</p>
+    <p>In this example, it will take 2000 milliseconds to hide the toast, once it is shown. Click on the "Show Toast" button to see the effect.</p>
+    <button type="button" class="btn btn-primary" id="myBtn">Show Toast</button>
+
+    <div class="toast mt-3">
+        <div class="toast-header">
+            Toast Header
+        </div>
+        <div class="toast-body">
+            Some text inside the toast body
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#myBtn').click(function () {
+            $('.toast').toast({ delay: 2000 });
+            $('.toast').toast('show');
+        });
+    });
+</script>
+
+
+
+<div class="container mt-3">
+    <h3>Tooltip Options</h3>
+    <p>In this example, we have removed the fading transition effect from the toast, and we have delayed the hiding of the toast to 2000 milliseconds (once it is shown).</p>
+    <button type="button" class="btn btn-primary" id="myBtn">Show Toast</button>
+
+    <div class="toast mt-3">
+        <div class="toast-header">
+            Toast Header
+        </div>
+        <div class="toast-body">
+            Some text inside the toast body
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#myBtn').click(function () {
+            $('.toast').toast({ animation: false, delay: 2000 });
+            $('.toast').toast('show');
+        });
+    });
+</script>
+
+
+<div class="container mt-3">
+    <h3>Toast Methods</h3>
+    <p>Click on the buttons to manually control the toast.</p>
+
+    <button type="button" class="btn btn-primary" id="myShowBtn">Show Toast</button>
+    <button type="button" class="btn btn-danger" id="myHideBtn">Hide Toast</button>
+    <button type="button" class="btn btn-warning" id="myDisposeBtn">Dispose Toast</button>
+
+    <div class="toast mt-3">
+        <div class="toast-header">
+            Toast Header
+        </div>
+        <div class="toast-body">
+            Some text inside the toast body
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#myShowBtn").click(function () {
+            $('.toast').toast('show');
+        });
+        $("#myHideBtn").click(function () {
+            $('.toast').toast('hide');
+        });
+        $("#myDisposeBtn").click(function () {
+            $('.toast').toast('dispose');
+        });
+    });
+</script>
+
+
+
+
+<div class="container mt-3">
+    <h3>Toast Events</h3>
+    <p>Click on the button to show the toast.</p>
+    <p>The <strong>show.bs.toast</strong> event occurs when the toast is about to be shown.</p>
+    <p>The <strong>shown.bs.toast</strong> event occurs when the toast is fully shown.</p>
+    <p>The <strong>hide.bs.toast</strong> event occurs when the toast is about to be hidden.</p>
+    <p>The <strong>hidden.bs.toast</strong> event occurs when the toast is fully hidden.</p>
+    <button type="button" class="btn btn-primary" id="myShowBtn">Show Toast</button>
+
+    <div class="toast mt-3">
+        <div class="toast-header">
+            Toast Header
+        </div>
+        <div class="toast-body">
+            Some text inside the toast body
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#myShowBtn").click(function () {
+            $('.toast').toast('show');
+        });
+
+        $('.toast').on('show.bs.toast', function () {
+            alert('The toast is about to be shown.');
+        });
+        $('.toast').on('shown.bs.toast', function () {
+            alert('The toast is now fully shown.');
+        });
+        $('.toast').on('hide.bs.toast', function () {
+            alert('The toast is about to be hidden.');
+        });
+        $('.toast').on('hidden.bs.toast', function () {
+            alert('The toast is now hidden.');
+        });
+    });
+</script>

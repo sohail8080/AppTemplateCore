@@ -1,0 +1,175 @@
+﻿@page
+@model AppTemplateCore.Areas.Bootstrap.Pages.Grid_ExampleModel
+@{
+}
+
+@*Grid Classes
+    The Bootstrap 4 grid system has five classes:
+
+    .col- (extra small devices & above - screen width less than 576px)
+    .col-sm- (small devices & above - screen width equal to or greater than 576px)
+    .col-md- (medium devices & above - screen width equal to or greater than 768px)
+    .col-lg- (large devices & above - screen width equal to or greater than 992px)
+    .col-xl- (xlarge devices & above - screen width equal to or greater than 1200px)
+
+    extra small => small => medium => large => extra large
+
+    On small devices & above, following columns will always remain two
+    Below small devices, they will be vertically stacked.
+
+    Tip: Each class scales up, so if you wish to set the same widths for sm and md,
+    you only need to specify sm.*@
+
+<br />
+
+@*
+        Some Bootstrap 4 grid system rules:
+
+        Rows must be placed within a .container (fixed-width) or .container-fluid (full-width)
+        for proper alignment and padding
+
+        .container ==>                  fixed width of rows
+                                        This class put left right paddings or margins to the row
+
+        .container-fluid ==>            full-width of rows
+                                        This class does not put left right paddings or margins to the row
+
+        Use rows to create horizontal groups of columns
+
+        Content should be placed within columns, and only columns may be immediate children of rows
+
+        Predefined classes like .row and .col-sm-4 are available for quickly making grid layouts
+
+        Columns create gutters (gaps between column content) via padding.
+        That padding is offset in rows for the first and last column via negative margin on .rows
+
+        Grid columns are created by specifying the number of 12 available columns you wish to span.
+        For example, three equal columns would use three .col-sm-4
+
+        Column widths are in percentage, so they are always fluid and sized relative to their parent element
+        The biggest difference between Bootstrap 3 and Bootstrap 4 is that
+        Bootstrap 4 now uses flexbox, instead of floats.
+        One big advantage with flexbox is that
+        grid columns without a specified width will automatically layout as "equal width columns"
+        (and equal height).
+
+        Example: Three elements with .col-sm will each automatically be 33.33% wide
+        from the small breakpoint and up.
+
+        Tip: If you want to learn more about Flexbox, you can read our CSS Flexbox Tutorial.
+
+
+        ======================================================================
+
+        Some Bootstrap grid system rules:
+
+        Rows must be placed within a .container (fixed-width) or .container-fluid (full-width) 
+        for proper alignment and padding
+
+        Use rows to create horizontal groups of columns
+
+        Content should be placed within columns, and only columns may be immediate children of rows
+
+        Predefined classes like .row and .col-sm-4 are available for quickly making grid layouts
+
+        Columns create gutters (gaps between column content) via padding. 
+    
+        That padding is offset in rows for the first and last column via negative margin on .rows
+
+        Grid columns are created by specifying the number of 12 available columns you wish to span. 
+        For example, three equal columns would use three .col-sm-4
+
+        Column widths are in percentage, 
+        so they are always fluid and sized relative to their parent element
+
+
+*@
+
+
+<div class="container">
+
+    <br />
+    On small devices & above, following columns will always remain two
+    Below small devices, they will be vertically stacked.
+    <div class="row">
+        <div class="col-sm-6" style="background-color:yellow;">50%</div>
+        <div class="col-sm-6" style="background-color:orange;">50%</div>
+    </div>
+
+    <br />
+    On small devices & above, following columns will always remain three
+    Below small devices, they will be vertically stacked.
+    <div class="row">
+        <div class="col-sm-4" style="background-color:yellow;">33.33%</div>
+        <div class="col-sm-4" style="background-color:orange;">33.33%</div>
+        <div class="col-sm-4" style="background-color:yellow;">33.33%</div>
+    </div>
+    <br>
+
+    <br />
+    On small devices & above, following columns will always remain four
+    Below small devices, they will be vertically stacked.
+
+
+    <div class="row">
+        <div class="col-sm" style="background-color:yellow;">25%</div>
+        <div class="col-sm" style="background-color:orange;">25%</div>
+        <div class="col-sm" style="background-color:yellow;">25%</div>
+        <div class="col-sm" style="background-color:orange;">25%</div>
+    </div>
+    <br>
+
+    <br />
+    On all devices, following columns will always remain four
+
+    <div class="row">
+        <div class="col" style="background-color:yellow;">25%</div>
+        <div class="col" style="background-color:orange;">25%</div>
+        <div class="col" style="background-color:yellow;">25%</div>
+        <div class="col" style="background-color:orange;">25%</div>
+    </div>
+
+
+</div>
+
+<br />
+
+
+
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-sm-6 bg-success">
+            <p>Lorem ipsum...</p>
+        </div>
+
+        <div class="col-sm-6 bg-warning">
+            <p>Sed ut perspiciatis...</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+@*As following page fit in the _Layout.cshtml therefore the effect
+    of fluid is not visible*@
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-sm-6 bg-success">
+            <p>Lorem ipsum...</p>
+        </div>
+
+        <div class="col-sm-6 bg-warning">
+            <p>Sed ut perspiciatis...</p>
+        </div>
+
+    </div>
+
+</div>

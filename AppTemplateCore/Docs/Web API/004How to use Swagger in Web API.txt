@@ -1,0 +1,174 @@
+How to use Swagger in Web API
+
+AT THE TIME OF WRITING. WEB API DO NOT HAVE CLIENT UI
+SO WE USE TOOLS TO TEST THE WEB API
+WE NEED TOOLS THAT TEST ALL THE ASPECT, ALL THE INPUT AND 
+ALL POSSIBLE OUTPUTS NEEDED  TO TEST THE APPLICATION
+IT IS ALSO A DOCUMENTATION TOOL 
+WEB SERVICE ALSO NEED SUCH TOOLS TO MAKE EXPICITY THEIR INTERFACE
+
+WE NEED DOCUMENTATION TOOLS TO DOCUMENT HE WEB API SO THAT 
+REMOTE CLIENT APPLICATION DEVELOPER CAN KNOW WHAT IS BEING EXPOSED
+WHAT ARE INPUT REQIRED OT METHOD, WHAT RAE OUTPTUS ETC
+DEVELOPER SHOULD KNOW ABOUT THE INTERFACE OR RESTFULL SERVICE
+OLD CONCEPT USED FOR NEW TECHNOLGOY
+
+WE ALSO NEED TESTING TO TEST THOSE APIS. 
+WE NEED TO TEST ALL POSSIBLE INPUT COMBINATIONS
+WE NEED TO TEST ALL POSSIBLE OUTPUT COMBINATIONS
+
+How to use Swagger in Web API Application?
+
+how to use Swagger in WEB API Application 
+to document and test restful Web API services. 
+
+IT SEEMS A COMPREHENSIVE TOOL LIKE FIDDLER ?????
+
+What is Swagger?
+How to Add Swagger to Web API Application? ADDING SWAGGER TO WEB APP
+How to Configuring Swagger in ASP.NET Web API ?  CONFIG SWAGGER TO WEB APP
+Understanding the Swagger UI. UI DOC & TEST RESTFULL SERVICES
+How to enable Swagger to use XML comments? SWAGGER USE XML COMMENTS
+
+What is Swagger?=====================================
+SWAGGER IS REPRESENTATION OF RESTFULL API??????
+The Swagger is a simple but powerful representation of the RESTful API. 
+Nowadays most of the developers are using Swagger 
+in almost every modern programming language and 
+deployment environment to document. 
+
+With a Swagger-enabled Web API, 
+you will get interactive documentation, 
+client SDK generation as well as discoverability.
+
+How to Add Swagger to Web API Project?
+
+To add Swagger to your ASP.NET Web API project, 
+you need to install an open-source project called Swashbuckle via NuGet as shown below.
+
+Once the package is installed successfully, 
+navigate to the App_Start folder in the Solution Explorer. 
+You will find a new file called SwaggerConfig.cs. 
+This is the file where Swagger is enabled and 
+any configuration options should be set here.
+
+How to Configure Swagger in ASP.NET Web API Application?
+
+To enable Swagger and Swagger UI, 
+modify the SwaggerConfig class as shown below
+
+namespace FirstWebAPIDemo
+{
+    public class SwaggerConfig
+    {
+        public static void Register()
+        {
+            var thisAssembly = typeof(SwaggerConfig).Assembly;
+            GlobalConfiguration.Configuration
+              .EnableSwagger(c => c.SingleApiVersion("v1", "First WEB API Demo"))
+              .EnableSwaggerUi(); 
+        }
+    }
+}
+
+Start a new debugging session by pressing the F5 key and 
+navigate to http://localhost:[PORT_NUM]/swagger and 
+then you should see the help pages for your APIs.
+
+ click on the “Try it out!” button which will make a call to that specific API and return results as shown in the below image.
+click on the Try it out Button which will display the result as shown below.
+you can test all other methods.
+
+In the same way, you can test all other methods.
+
+How to enable Swagger to use XML Comments in ASP.NET Web API Application?
+
+As of now, we use the minimum configuration to get started. 
+
+But now we are going to add more customization. 
+
+We can tell the Swashbuckle to use our custom XML comments 
+to add more details about our APIs to the Swagger metadata.
+
+XML COMMENTS ARE USED FOR DOCUMENTATION AND MORE ROBUST TESTING 
+OF WEB API
+
+XML COMMENTS ARE META DATA ABOUT HE SERVICE
+
+THESE COMMENTS MAKE THE UI OF SWAGGER MORE MEANING FULL WHILE
+TESTING AND ANALYZING THE APPLICATION
+
+XML DOC FILE CREATION
+First, we need to enable XML documentation file creation during the build. 
+
+In the Solution Explorer right-click on the Web API project and click on the Properties. 
+
+Click the Build tab and navigate to Output. 
+
+Make sure the XML documentation file is checked. 
+
+You can leave the default file path. 
+
+In our case its bin\FirstWebAPIDemo.XML as shown below
+
+Next, we need to tell the Swashbuckle to 
+include our XML comments in the Swagger metadata. 
+
+INCLUDE XML COMMNETS IN THE META DATA
+Include Xml Comments
+
+To do this we need to add the following line to SwaggerConfig.cs. 
+
+Make sure to change the file path to the path of your XML documentation file.
+
+c.IncludeXmlComments(string.Format(@”{0}\bin\FirstWebAPIDemo.XML”, System.AppDomain.CurrentDomain.BaseDirectory));
+
+namespace FirstWebAPIDemo
+{
+    public class SwaggerConfig
+    {
+        public static void Register()
+        {
+            var thisAssembly = typeof(SwaggerConfig).Assembly;
+
+            GlobalConfiguration.Configuration
+              .EnableSwagger(c =>
+              {
+                  c.SingleApiVersion("v1", "First WEB API Demo");
+                  c.IncludeXmlComments(string.Format(@"{0}\bin\FirstWebAPIDemo.XML",
+                                       System.AppDomain.CurrentDomain.BaseDirectory));
+              })
+              .EnableSwaggerUi();
+        }
+    }
+}
+Configuration, so far
+
+Let’s add some XML TAGS to our API methods as shown below. 
+Here we are adding XML TAGS to the get method. 
+Modify the Get method as shown below.
+
+/// <summary>
+/// Get All the Values
+/// </summary>
+/// <remarks>
+/// Get All the String Values
+/// </remarks>
+/// <returns></returns>
+public IEnumerable<string> Get()
+{
+    return new string[] { "value1", "value2" };
+}
+
+Run the application and navigate back to /swagger. 
+You should see more details added to your API documentation as shown below.
+
+
+In the next article, I am going to discuss 
+how to use Fiddler to test ASP.NET WEB API Services. 
+
+Here, in this article, I try to explain how to use Swagger in Web API Application 
+to document and test ASP.NET Web API Services. 
+
+I hope now you got a good understanding of 
+how to use Swagger in ASP.NET Web API Application.

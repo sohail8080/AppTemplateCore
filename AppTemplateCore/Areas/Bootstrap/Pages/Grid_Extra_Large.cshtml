@@ -1,0 +1,116 @@
+﻿@page
+@model AppTemplateCore.Areas.Bootstrap.Pages.Grid__Extra_LargeModel
+@{
+}
+
+
+@*
+    25%/75% means col 3 and col 9
+    50%/50% means col6 and col 6
+    33%/66% means  col 4 and col 8
+    20%/80% means  col 2, col 10
+
+    Following Sequacen matters
+    Extra Small     ==> Small   ==> Medium      ==> Large       ==> Extra Large
+    xx                   sm           md             lg                 xl
+    <576px	        >=576px	       >=768px	      >=992px	         >=1200px
+
+    Class is applied to that category and all above categories
+    Class is not applied to all below categories
+    All below categories are vertically stacked with Width 100%
+    If Class is not specified, then it is for Extra Small and above, means all devices
+    If Column Size is not specified, then all columns are given equal size
+    More than one Classes can be specified.
+
+    Class prefix	.col-xl-
+    Screen width	>=1200px
+
+    Extra large devices are defined as having a screen width from 1200 pixels and above.
+    On extra small devices, it will vertically stacked with width 100%
+*@
+
+
+One
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-sm-3 col-md-6 col-lg-4 col-xl-2 bg-success">
+            <p>Lorem ipsum...</p>
+        </div>
+
+        <div class="col-sm-9 col-md-6 col-lg-8 col-xl-10 bg-warning">
+            <p>Sed ut perspiciatis...</p>
+        </div>
+
+    </div>
+
+
+
+
+    @*Using Only XLarge
+         we only specify the .col-xl-6 class
+        This means that xlarge devices will split 50%/50%.
+        However, for large, medium, small AND extra small devices,
+        it will stack vertically (100% width):*@
+
+    <br />
+    Two
+
+    <div class="row">
+
+        <div class="col-xl-6 bg-success">
+            <p>Lorem ipsum...</p>
+        </div>
+
+        <div class="col-xl-6 bg-warning">
+            <p>Sed ut perspiciatis...</p>
+        </div>
+
+    </div>
+
+
+    @*
+        equal width horizontal columns for extra large devices having width greater than 1200px
+         except for extra small, small, medium n large devices/screen size
+         for above devices,
+         the columns will be stacked vertically with width 100%:
+
+         the columns will remain stack horizontally for all
+         extra large devices
+
+          remove number from .col-xl-* and
+          each column will get the same width in row
+
+         if the screen size is less than 1200 px,
+         the columns will be stacked vertically with width 100%:
+    *@
+
+    <br />
+    Three
+    <div class="row">
+
+        <div class="col-xl bg-success">1 of 2</div>
+
+        <div class="col-xl bg-warning">2 of 2</div>
+
+    </div>
+
+
+    <br />
+    Four
+    <div class="row">
+
+        <div class="col-xl bg-success">1 of 4</div>
+
+        <div class="col-xl bg-warning">2 of 4</div>
+
+        <div class="col-xl bg-success">3 of 4</div>
+
+        <div class="col-xl bg-warning">4 of 4</div>
+
+    </div>
+
+
+</div>

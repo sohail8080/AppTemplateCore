@@ -1,0 +1,220 @@
+Creating Web API Application
+
+Creating Web API Application using Visual Studio
+step by step procedure for Creating Web API Application. 
+
+How to Create an ASP.NET Web API application using Visual Studio?
+Understanding the Folder structure and Auto-Generated Code in Web API Application.
+Understanding the Web API Controller.
+What is GET, POST, PUT and DELETE Http Verbs in Web API?
+Understanding the WebApiConfig in ASP.NET Web API Application.
+Understanding the Request Verbs, Request Header, Request Body and Response Body.
+
+Creating Web API Application using Visual Studio:
+
+Use ASP.NET Web Application Option
+Use Web API project template 
+Project name “FirstWebAPIDemo”
+
+separate folders for Models, Views, and Controllers 
+within the Controllers folder, we have both MVC as well as Web API Controller as
+Web API Controllers are different from MVC Controllers.
+ValuesController is WebAPI Controller.
+webapi controller inherits from the ApiController class
+mvc controller inherited from the Controller class
+
+ValuesController we have methods such as 
+Get, Put, Post and Delete that map to the HTTP verbs
+
+We have 2 overloaded versions of the Get() method – 
+One method without any parameters and the 
+other one with the id parameter. 
+
+Both of these methods respond to the GET HTTP verb 
+depending on whether the id parameter is passed or not in the URL.
+
+Application_Start() method within the Global.asax
+ method is executed when the application starts for the first time.
+
+In the Application_Start() method we have the configuration for 
+Filters, 
+Bundles, 
+
+we are interested in here is the configuration for our Web API project, 
+which is in WebApiConfig.Register()
+
+default route is configured within the Register() method for our Web API project.
+
+Web API routes are different from the MVC routes. 
+
+You can find the MVC routes in RouteConfig.cs file which is present in the App_Start folder
+
+Register() method of the WebApiConfig class
+
+default route in Web API starts with the word API followed by a / and 
+then the name of the controller and then another / and 
+an optional id parameter as shown below.
+
+API/CONTROLLER/ID
+“api/{controller}/{id}”
+
+use the following URI in the browser
+you will get an error stating – 
+Authorization has been denied for this request.
+
+http://localhost:xxxxx/api/values
+
+To get rid of this error, comment Authorize attribute on the ValuesController class
+
+Now if you issue the URI http://localhost:xxxxx/api/values in the browser, 
+then you should see the following XML as the result
+
+ Values + the word controller i.e. ValuesController i
+if you specify Products, then it is going to look for ProductsController. 
+
+eal-world application, this might be the domain name, 
+for example, http://dotnettutorials.net/api/values 
+
+ browser is issuing a GET request which maps to the 
+Get() method in the ValuesController class
+
+if you specified the id parameter in the URI, then, 
+the Get() method with the id parameter in values controller is going to be called
+
+If a controller with the specified name is not found by the Web API Framework, 
+then the Framework will an error. 
+
+we can perform the following 4 actions, CRUD
+
+HTTP VERS MAPPPED TO THE DB OPERATIONS
+ 4 actions correspond to GET, POST, PUT and DELETE verb a
+
+READ --> GET
+CREATE --> POST
+UPDATE ---> PUT
+DELTE --> DETLE
+
+Let us discuss some terms and concepts which are related to 
+HTTP request and 
+HTTP response.
+
+Request Verbs: =====================================
+PART OF THE RQUEST
+The HTTP verbs such as GET, POST, PUT and DELETE describe 
+what should be done with the Web API resource. 
+do you need to read, create, update or delete an entity IN THE DB? 
+The HTTP Verbs GET, PUT, POST and DELETE are the 
+most commonly used verbs in real-time applications. 
+For the list of the complete  HTTP verbs, please check the following URL
+http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
+
+Request Header: META DATA / DATA ABOUT DATA=========================
+META DATA ABUOUT REQUEST
+META DATA ABOUT RESPONSE
+When a client sends the request to the server, 
+the request DATA contains a REQUEST header and a REQUEST body. 
+
+The REQUEST HEADERS of the request contains some additional information such as 
+what type of response the client required. 
+
+REQUST HEADER TELLS THAT client wants the response to be in XML or JSON format.
+
+Request Body: CONTAINS THE REQUEST DATA =============================
+DATA THAT YOU WANT TO SEND TO THE SERVER
+The Request Body contains the data that you want to send to the server. 
+For example, a POST request contains the data in the Request Body 
+for the new item that you want to create. 
+The data may be in the form XML or JSON.
+
+Response Body:==========================================
+RESPONSE DATA SEND BY THE SERVER
+The Response Body contains the data that is sent as a response from the server. 
+For example, if you request a specific employee, 
+then the response body includes the employee details either in the form of XML or JSON.
+
+THERE ARE NOT REPONSE HEADER BUT ONLY RESPONSE CODE
+Response Status codes: ================================
+META DATA ABOUT THE RESPONSE
+The Response Status Codes are the HTTP status codes 
+that will specify the status of the request. 
+The most common status codes are 
+
+200/OK, 
+204/No Content, 
+500/Internal Server Error, 
+404/Not Found. 
+If you want to see the complete list of HTTP status codes then please follow the below
+http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
+
+BROWSER CAN BE USED TO MAKE REQUEST
+BUT IT IS GOOD TO HAVE SPECAIL REQUEST MAKEING SOFTWARE
+BROWSER ONLY SHOW THE RESPONSE DATA.
+
+BY USING THESE SPECIAL REQUET MAKING TOOLS WE CAN 
+SEE AND MANIPULATE ALL THE THE ASPECTS OF THE REQUEST AND RESPONSE.
+
+To perform the GET, POST, PUT & DELETE actions, 
+we will use a tool called Fiddler. 
+You can download fiddler from the following link
+
+FIDDLER OR POST MAN
+
+https://www.telerik.com/download/fiddler
+
+public class ValuesController : ApiController
+{
+    static List<string> strings = new List<string>()
+    {
+        "value0", "value1", "value2"
+    };
+
+    // GET api/values
+    public IEnumerable<string> Get()
+    {
+        return strings;// ALL VALUES OF ARRAY
+    }
+
+    // GET api/values/5
+    public string Get(int id)
+    {
+        return strings[id];//ONE VALUE OF ARRAY
+    }
+
+    // POST api/values
+    public void Post([FromBody]string value)
+    {
+        strings.Add(value);// CREATE NEW VALUE
+    }
+
+    // PUT api/values/5
+    public void Put(int id, [FromBody]string value)
+    {
+        strings[id] = value;// UPDATGE VALUE
+    }
+
+    // DELETE api/values/5
+    public void Delete(int id)
+    {
+        strings.RemoveAt(id);// DELTE VALUE 
+    }
+}
+
+At the moment the Post(), Put() and Delete() methods in the ValuesController are returning void. 
+
+That is the reason why we are getting the status code 204 No Content. 
+
+In ASP.NET Web API, an action method that returns void 
+will send the status code 204 No Content by default, 
+but we can control this behavior which we will discuss in a later article. 
+
+In the next article, 
+I am going to discuss how to use Swagger in WEB API to 
+document and test ASP.NET Web API services. 
+
+SWAGGER ==> TO DOCUMENT AND TEST THE ASP.NET WEB API SERVICES
+
+Here, in this article, 
+I try to explain creating Web API Application step by step with an example. 
+
+I hope you enjoy this article.
+

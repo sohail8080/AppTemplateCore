@@ -1,0 +1,134 @@
+Don’t Forget About jQuery
+
+In the midst of looking into JavaScript and JS frameworks 
+you’ll also see mention of something called jQuery. 
+
+jQuery might sound like another framework, 
+but it’s actually considered a code library. 
+
+Balachandran says that when she started working in development,
+frameworks hadn’t yet come into their own 
+and jQuery was considered the Swiss Army knife of JavaScript. 
+
+Even today, that utility still stands. 
+Where frameworks like Vue and React provide 
+extensive templates to organize a website’s JavaScript code, 
+
+they can be overkill if all you need is a quick solution to a specific JS coding problem. 
+And that’s where jQuery comes in. 
+
+The jQuery library is made up of JavaScript functions 
+that can be accessed through a single line jQuery command 
+(as opposed to the multiple lines of code it would take to perform the same functions by hand). 
+
+jQuery can also be used to simplify JavaScript tasks like AJAX calls—
+using JavaScript to communicate with a server and 
+update parts of a website without users having to reload the entire page.
+
+Unlike a framework, jQuery doesn’t provide a structured environment for your code 
+(it simply provides shortcuts for individual functions), 
+but—with a jQuery search bringing up over 13,000 job listings on Indeed 
+at the time of this writing—
+it’s still a critical skill to add to your JavaScript development toolkit.
+
+The takeaway? Whether it’s a framework like 
+Vue or 
+React, or a library like 
+jQuery, 
+
+go ahead and start getting your hands on JS tools and 
+seeing what you can do—
+just as soon as you’ve established some foundational JavaScript knowledge. 
+
+If you’re looking for places to start learning both JavaScript and JS frameworks, 
+try dipping your toe into online tutorials from resources like 
+Coursera and Udemy. 
+
+And if you’re ready to take your JavaScript skills to the next level, 
+consider paid, instructor-led classes from an online coding school like 
+Skillcrush. 
+Either way, getting started is your first key step.
+
+=============================================
+
+
+React.js
+Ask a developer which JS framework to learn first and 
+you’re likely to hear React.js mentioned in the same breath as 
+Vue (even though React is technically a JavaScript library). 
+
+In fact, it’s almost a toss up between the two—
+while Vue may have surged in popularity recently, 
+React has been at the top of the JS framework popularity charts for years now—
+which means it comes with the benefits of industry-wide adoption, big company backing, 
+and a large job market. 
+
+According to programming Q&A forum Stack Overflow, 
+jobs targeting developers with React skills rose over 150 percent 
+on their job boards between 2015 and 2016. 
+
+So, if you’re looking to work in front-end development with a speciality in JavaScript, 
+you can see how you could do worse than starting off learning React.
+
+Similar to Vue, React is designed for gradual implementation, 
+meaning you can use as little or as much React on your website as your particular needs require. 
+React can be added directly to HTML pages, 
+after which it can be expanded throughout the page or limited to specific interactive widgets. 
+
+Balachandran says that—like Vue—React has a relatively even learning curve 
+and a supportive developer community. 
+Vue may be edging out React as the framework darling of the moment in some quarters, 
+but its strength in the job market makes it 
+another worthy choice for a first framework to learn.
+
+==============================
+
+Vue.js
+When I posed the question of which JS framework to learn first—
+both internally to Skillcrush developers and externally to other JS pros—
+Vue.js was consistently mentioned as a solid option. 
+
+Although Vue was first released in 2014, 
+its popularity has skyrocketed over the past couple of years. 
+
+In 2017, Vue was “starred” by users 40,000 times (up from 26,000 in 2016) 
+on the code hosting site GitHub, 
+making it the site’s most popular JavaScript project category. 
+
+With the second place framework on that list (React.js) coming in at 28,000 stars, 
+you can get a sense of just how hot Vue is right now with developers. 
+
+But what exactly is all the hubbub about?
+
+According to Balachandran, Vue’s relative simplicity and gradual learning curve 
+makes it a perfect starting framework for new JavaScript developers. 
+
+Vue’s syntax 
+(the set of rules defining which combinations of symbols 
+make up properly structured code in a programming language) 
+is HTML-based, allowing users to call upon their HTML knowledge 
+to write pages 
+(versus having to learn framework-specific languages 
+when working with some framework options). 
+
+A framework like Angular, for instance, 
+requires learning a JavaScript variant called TypeScript, 
+making it more of an unwieldy choice for beginners.
+
+Still, Vue’s ease of use doesn’t mean it’s sitting at the kids table of JS frameworks. 
+Balachandran says that—in addition to its beginner-friendly perks—
+Vue is versatile enough to play as big or small a part in a website’s user interface layer 
+(the parts of a site that a user interacts with through their browser) as you see fit. 
+
+Vue templates can be written as HTML files or as JavaScript files, 
+giving programmers options when it comes to how much of their site 
+they want controlled by the framework—
+
+Vue can produce a template for an entire website, 
+part of one webpage, 
+or all points in-between 
+depending on how much of a site requires your own unique code. 
+
+Finally, as an open source project with an enthusiastic user base, 
+Balachandran says that Vue has a thriving peer community, 
+making it a snap to find answers to your questions.
